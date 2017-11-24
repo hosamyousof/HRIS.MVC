@@ -1,6 +1,4 @@
-using System;
 using Repository;
-
 using System;
 
 namespace HRIS.Data
