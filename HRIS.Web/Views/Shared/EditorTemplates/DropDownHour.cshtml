@@ -1,0 +1,7 @@
+﻿@using HRIS.Service.Sys;
+@using HRIS.Model.Sys;
+@model ReferenceModel
+@{
+    var data = this.GetReferenceList(ReferenceList.HOUR);
+}
+@Html.Kendo().DropDownListFor(model => model).OptionLabel("select").SetReferenceSettings().BindTo(data)

@@ -1,0 +1,204 @@
+﻿@using HRIS.Service.Configuration;
+@{
+    ViewBag.Title = "Application Request Approver";
+    var departmentService = DependencyResolver.Current.GetService<IDepartmentService>();
+    var departmentList = departmentService.GetQuery().Select(x => new ValueText() { Value = x.id.Value.ToString(), Text = x.code + " - " + x.description }).ToList();
+
+    var applicationRequestTypeService = DependencyResolver.Current.GetService<IApplicationRequestTypeService>();
+
+}
+
+@section bottom{
+    <script type="text/javascript">
+
+        $(function () {
+          
+        })
+
+        function refreshGrid() {
+            var grd = $("#grdApprover").data("kendoGrid");
+            grd.dataSource.read(grdParameter);
+        }
+
+        function refreshSection() {
+            $("#section").data("kendoDropDownList").dataSource.read(getParamSection);
+            refreshGrid();
+        }
+
+        function grdParameter() {
+            return {
+                sectionId: $("#section").data("kendoDropDownList").value(),
+                departmentId: $("#department").data("kendoDropDownList").value(),
+                requestTypeId: $("#requestType").data("kendoDropDownList").value()
+            }
+        }
+
+        function getParamSection() {
+            return {
+                departmentId: $("#department").data("kendoDropDownList").value()
+            }
+        }
+
+        function addApprover() {
+            var approver = $("#approver").data("kendoDropDownList").value();
+            var section = $("#section").data("kendoDropDownList").value();
+            var requestType = $("#requestType").data("kendoDropDownList").value();
+            var messageError = "";
+
+            if (approver == "") {
+                messageError = messageError + "Select approver<br>";
+            }
+
+            if (section == "") {
+                messageError = messageError + "Select Section<br>";
+            }
+
+            if (requestType == "") {
+                messageError = messageError + "Select Request Type<br>";
+            }
+
+            if (messageError!= "") {
+                swal({
+                    type: "warning",
+                    title: "Please check inputs",
+                    text: messageError,
+                    html: true
+                });
+                return;
+            }
+
+            $.ajax({
+                url: "@Url.Action("DepartmentSectionApproverAdd")/",
+                type: "POST", dataType: "json",
+                data: {
+                    approverId: approver,
+                    sectionId: section,
+                    requestTypeId: requestType,
+                },
+                success: function (result) {
+                    HRIS.showAjaxResult(result);
+                    if (result.success) {
+                        var grd = $("#grdApprover").data("kendoGrid");
+                        grd.dataSource.read(grdParameter);
+                    }
+                }
+            })
+        }
+    </script>
+}
+
+@Html.AdminHeader("Application Request Approver")
+
+<div class="col-md-12">
+    <div class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="department">Department</label>
+            <div class="col-md-4">
+                @{
+                    Html.Kendo().DropDownList().Name("department")
+                        .OptionLabel("select")
+                        .SetValueTextSettings().BindTo(departmentList)
+                        .Events(events => events.Change("refreshSection"))
+                        .Render();
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="department">Section</label>
+            <div class="col-md-4">
+                @{
+                    Html.Kendo().DropDownList().Name("section")
+                        .SetValueTextDataSourceCustom("SectionReferenceModelList", "Department", null, "getParamSection")
+                        .SetReferenceSettings()
+                        .Events(events => events.Change("refreshGrid"))
+                        .Render();
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="requestType">Application Request Type</label>
+            <div class="col-md-4">
+                @{
+                    Html.Kendo().DropDownList().Name("requestType")
+                        .OptionLabel("select")
+                        .Events(events => events.Change("refreshGrid"))
+                        .SetValueTextSettings().BindTo(applicationRequestTypeService.GetValueTextList())
+                        .Render();
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <button class="k-button" type="button" id="btnRefresh">Refresh List</button>
+            </div>
+        </div>
+        @Html.AdminHeader("Select Approver to Add")
+        <div class="form-group">
+            <label class="col-md-2 control-label" for="approver">Application Request Type</label>
+            <div class="col-md-4">
+                @{
+                    Html.Kendo().DropDownList().Name("approver")
+                        .OptionLabel("select")
+                        .Filter(FilterType.StartsWith)
+                        .DataValueField("id")
+                        .DataTextField("username")
+                        .DataSource(source =>
+                        {
+                            source.Custom().Type("aspnetmvc-ajax")
+                                .ServerFiltering(true)
+                                .Transport(transport =>
+                                {
+                                    transport.Read(read =>
+                                    {
+                                        read.Action("UserList", "Account");
+                                    });
+                                })
+                                .Schema(schema =>
+                                {
+                                    schema.Data("Data").Total("Total");
+                                });
+                        })
+                        .Render();
+                }
+            </div>
+            <div class="col-md-6">
+                <button class="k-button" type="button" onclick="addApprover()">Add Approver</button>
+            </div>
+        </div>
+        <div class="form-group">
+            @{
+
+                Html.Kendo().Grid<HRIS.Model.Configuration.DepartmentSectionRequestApproverModel>()
+                    .Name("grdApprover")
+                    .Columns(col =>
+                    {
+                        col.Bound(f => f.username);
+                        col.Bound(f => f.orderNo).Width(200);
+                        col.Command(cmd => cmd.Destroy()).Width(80);
+                    })
+                    .SetDefaultSettings()
+                    .Editable(editable => editable.Mode(GridEditMode.InCell))
+                    .ToolBar(tb =>
+                    {
+                        tb.Save();
+                    })
+                    .DataSource(dataSource =>
+                    {
+                        dataSource.Ajax()
+                            .Model(m =>
+                            {
+                                m.Id(x => x.id);
+                                m.Field(x => x.username).Editable(false);
+                            })
+                            .Batch(true)
+                            .Read(read => read.Action("DepartmentSectionApproverList", "ApplicationRequest").Data("grdParameter"))
+                            .Update(update => update.Action("DepartmentSectionApproverListUpdate", "ApplicationRequest").Data("grdParameter"))
+                            .Destroy(destroy => destroy.Action("DepartmentSectionApproverListDelete", "ApplicationRequest").Data("grdParameter"));
+                    })
+                    .Render();
+            }
+            <div class="clearfix">
+            </div>
+        </div>
+    </div>
+</div>

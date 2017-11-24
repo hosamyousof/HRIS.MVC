@@ -1,0 +1,59 @@
+﻿@model HRIS.Model.Sys.AccountProfileModel
+@{
+    ViewBag.Title = "My Profile";
+}
+
+
+
+<div class="col-md-12">
+    @using (Html.BeginForm())
+    {
+        <div class="form-horizontal" role="form">
+            @Html.AdminHeader("My Profile")
+            @Html.ValidationSummary(true)
+            @if (ViewData.ModelState.IsValid && this.IsPagePost())
+            {
+                <div class="alert alert-success">
+                    Your profile successfully update.
+                </div>
+            }
+            <div class="form-group ">
+                @Html.LabelFor(model => model.username, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.username).HtmlAttributes(new { @readonly = "readonly", disabled= "disabled" })
+                </div>
+            </div>
+            <div class="form-group ">
+                @Html.LabelFor(model => model.company, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.company).HtmlAttributes(new { @readonly = "readonly", disabled = "disabled" })
+                </div>
+            </div>
+            @Html.AdminHeader("Contact")
+            <div class="form-group ">
+                @Html.LabelFor(model => model.email, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.email)
+                </div>
+            </div>
+            @Html.AdminHeader("Change Password")
+            <div class="form-group ">
+                @Html.LabelFor(model => model.password, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.password).HtmlAttributes(new { @type = "password" })
+                </div>
+            </div>
+            <div class="form-group ">
+                @Html.LabelFor(model => model.newPassword, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.newPassword).HtmlAttributes(new { @type = "password" })
+                </div>
+            </div>
+            <div class="form-group ">
+                <div class="col-md-offset-2 col-md-4">
+                    <button class="k-button" type="submit">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>

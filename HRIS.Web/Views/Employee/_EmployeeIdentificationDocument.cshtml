@@ -1,0 +1,55 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@using HRIS.Service.Sys;
+@model int?
+
+@{
+
+    Html.Kendo().Grid<EmployeeIdentificationDocumentModel>()
+        .Name("grdIdentificationDocument")
+        .Columns(col =>
+        {
+            col.Bound(x => x.idNumber).Width(150);
+            col.Bound(x => x.IdentificationDocument).ClientTemplate("#= IdentificationDocument.description #").EditorTemplateName("DropDownIdentificationDocument");
+            col.Bound(x => x.updatedBy).Width(90);
+            col.Bound(x => x.updatedDate).Width(120);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(50);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+
+                    var data = DependencyResolver.Current.GetService<IIdentificationDocumentService>().GetQuery().ToList()
+                      .Select(x => new ReferenceModel()
+                      {
+                          value = x.id.Value,
+                          description = x.code + ": " + x.description,
+                      }).FirstOrDefault();
+
+                    m.Field(f => f.IdentificationDocument).DefaultValue(data);
+                    m.Field(f => f.updatedBy).Editable(false);
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Read(read => read.Action("GetEmployeeIdentificationDocumentList", "Employee", new { employeeId = Model }))
+                .Create(crud => crud.Action("IdentificationDocumentCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("IdentificationDocumentCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("IdentificationDocumentCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Destroy }))
+                ;
+        })
+    .Render();
+
+}

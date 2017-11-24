@@ -1,0 +1,163 @@
+﻿.center {
+    text-align: center !important;
+}
+
+.hris-margin-left-5 {
+    margin-left: 5px !important;
+}
+
+.hris-margin-left-10 {
+    margin-left: 10px !important;
+}
+
+.hris-margin-top-5 {
+    margin-top: 5px !important;
+}
+
+.hris-margin-top-10 {
+    margin-top: 10px !important;
+}
+
+.hris-margin-right-5 {
+    margin-right: 5px !important;
+}
+
+.hris-margin-right-10 {
+    margin-right: 10px !important;
+}
+
+.hris-margin-bottom-5 {
+    margin-bottom: 5px !important;
+}
+
+.hris-margin-bottom-10 {
+    margin-bottom: 10px !important;
+}
+
+.hris-text-align-left {
+    text-align: left !important;
+}
+
+.hris-text-align-right {
+    text-align: right !important;
+}
+
+.hris-text-align-center {
+    text-align: center !important;
+}
+
+.errorlist {
+}
+
+    .errorlist li {
+        text-align: left;
+    }
+
+.employeeImage {
+}
+
+    .employeeImage img {
+        width: 150px;
+        height: 150px;
+    }
+
+.logo {
+
+    width: 60%;
+    float: left;
+    padding-top: 5px;
+    padding-left: 10px;
+}
+
+    .logo a {
+        font-size: 30px;
+        text-decoration: none;
+    }
+
+    .logo .logo-img {
+        width: 80px;
+    }
+
+
+.hris-login {
+    border: 1px solid gray;
+}
+
+
+
+/* kendo button color */
+
+
+.kb-red, .kb-yellow, .kb-aqua, .kb-blue, .kb-light-blue, .kb-green, .kb-navy, .kb-teal, .kb-olive, .kb-lime, .kb-orange, .kb-fuchsia, .kb-purple, .kb-maroon, .kb-black, .kb-red-active, .kb-yellow-active, .kb-aqua-active, .kb-blue-active, .kb-light-blue-active, .kb-green-active, .kb-navy-active, .kb-teal-active, .kb-olive-active, .kb-lime-active, .kb-orange-active, .kb-fuchsia-active, .kb-purple-active, .kb-maroon-active, .kb-black-active, .callout.callout-danger, .callout.callout-warning, .callout.callout-info, .callout.callout-success, .alert-success, .alert-danger, .alert-error, .alert-warning, .alert-info, .label-danger, .label-info, .label-warning, .label-primary, .label-success, .modal-primary .modal-body, .modal-primary .modal-header, .modal-primary .modal-footer, .modal-warning .modal-body, .modal-warning .modal-header, .modal-warning .modal-footer, .modal-info .modal-body, .modal-info .modal-header, .modal-info .modal-footer, .modal-success .modal-body, .modal-success .modal-header, .modal-success .modal-footer, .modal-danger .modal-body, .modal-danger .modal-header, .modal-danger .modal-footer {
+    color: #fff !important;
+}
+
+.kb-gray {
+    color: #000;
+    background-color: #d2d6de !important;
+}
+
+.kb-gray-light {
+    background-color: #f7f7f7;
+}
+
+.kb-black {
+    background-color: #111 !important;
+}
+
+.kb-red, .callout.callout-danger, .alert-danger, .alert-error, .label-danger, .modal-danger .modal-body {
+    background-color: #dd4b39 !important;
+}
+
+.kb-yellow, .callout.callout-warning, .alert-warning, .label-warning, .modal-warning .modal-body {
+    background-color: #f39c12 !important;
+}
+
+.kb-aqua, .callout.callout-info, .alert-info, .label-info, .modal-info .modal-body {
+    background-color: #00c0ef !important;
+}
+
+.kb-blue {
+    background-color: #0073b7 !important;
+}
+
+.kb-light-blue, .label-primary, .modal-primary .modal-body {
+    background-color: #3c8dbc !important;
+}
+
+.kb-green, .callout.callout-success, .alert-success, .label-success, .modal-success .modal-body {
+    background-color: #00a65a !important;
+}
+
+.kb-navy {
+    background-color: #001f3f !important;
+}
+
+.kb-teal {
+    background-color: #39cccc !important;
+}
+
+.kb-olive {
+    background-color: #3d9970 !important;
+}
+
+.kb-lime {
+    background-color: #01ff70 !important;
+}
+
+.kb-orange {
+    background-color: #ff851b !important;
+}
+
+.kb-fuchsia {
+    background-color: #f012be !important;
+}
+
+.kb-purple {
+    background-color: #605ca8 !important;
+}
+
+.kb-maroon {
+    background-color: #d81b60 !important;
+}
+

@@ -1,0 +1,30 @@
+﻿@using HRIS.Model.Sys;
+@{
+    Html.Kendo().Grid<RolePermissionModel>()
+        .Name("grdRolePermission")
+        .Columns(col =>
+        {
+            col.Bound(x => x.description).Title("Permission Name");
+            col.Bound(x => x.viewAccess).TemplateCheckBox().Width(80);
+            col.Bound(x => x.createAccess).TemplateCheckBox().Width(80);
+            col.Bound(x => x.updateAccess).TemplateCheckBox().Width(80);
+            col.Bound(x => x.deleteAccess).TemplateCheckBox().Width(80);
+            col.Bound(x => x.printAccess).TemplateCheckBox().Width(80);
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .ToolBar(tb => tb.Save())
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source.Ajax().Batch(true)
+            .Model(m =>
+            {
+                m.Id(f => f.permissionId);
+                m.Field(f => f.description).Editable(false);
+            })
+            .Read(read => read.Action("RolePermissionGetList", "Role").Data("getParamRoleId"))
+            .Update(crud => crud.Action("RolePermissionUpdate", "Role").Data("getParamRoleId"))
+            ;
+        })
+        .Render();
+}

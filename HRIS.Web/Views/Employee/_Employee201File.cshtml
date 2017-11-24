@@ -1,0 +1,143 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@model Employee201Model
+
+<script type="text/javascript">
+    function departmentSectionIdParam() {
+        return {
+            departmentId: $("#@Html.IdFor(model=> model.departmentId)").data("kendoDropDownList").value()
+        }
+    }
+
+    function departmentOnChange(e) {
+        var index = this.selectedIndex;
+        if (this.options.optionLabel && index > 0) {
+            index = index - 1;
+        }
+        var dataItem = this.dataItem(e.item);
+
+
+        $("#@Html.IdFor(model=> model.departmentSectionId)").data("kendoDropDownList").dataSource.read({ departmentId: dataItem.value })
+
+    }
+
+</script>
+
+<div class="col-md-12">
+    @using (Html.BeginForm("AjaxUpdateEmployee201", "Employee", new { employeeId = Model.employeeId }, FormMethod.Post, new { id = "form_employee_201" }))
+    {
+        @Html.ValidationSummary(false)
+        <div class="form-horizontal" role="form">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4">
+                    @Html.Kendo().CheckBoxFor(model => model.confidential)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.employeeCode, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.employeeCode)
+                </div>
+                @Html.LabelFor(model => model.email, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.email)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.dateHired, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DatePickerFor(model => model.dateHired)
+                </div>
+                @Html.LabelFor(model => model.resignedDate, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DatePickerFor(model => model.resignedDate)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.positionId, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DropDownListFor(model => model.positionId).OptionLabel("select").SetValueTextDataSourceCustom("ValueTextList", "Position")
+                </div>
+                @Html.LabelFor(model => model.positionLevel, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DropDownListFor(model => model.positionLevel).SetReferenceSettings().BindTo(Model.PositionLevelList).OptionLabel("select")
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.departmentId, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DropDownListFor(model => model.departmentId).OptionLabel("select").SetValueTextDataSourceCustom("ValueTextList", "Department").Events(events => events.Change("departmentOnChange"))
+                </div>
+                @Html.LabelFor(model => model.departmentSectionId, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DropDownListFor(model => model.departmentSectionId).OptionLabel("select").SetValueTextDataSourceCustom("SectionReferenceModelList", "Department", null, "departmentSectionIdParam").SetReferenceSettings()
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.employmentTypeId, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DropDownListFor(model => model.employmentTypeId).SetReferenceSettings().BindTo(Model.EmploymentTypeList).OptionLabel("select")
+                </div>
+                @Html.LabelFor(model => model.employmentStatusId, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DropDownListFor(model => model.employmentStatusId).SetReferenceSettings().BindTo(Model.EmploymentStatusList).OptionLabel("select")
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.agencyId, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DropDownListFor(model => model.agencyId).OptionLabel("select").SetValueTextDataSourceCustom("AgencyList", "Agency").DataValueField("id").DataTextField("description")
+                </div>
+            </div>
+            @Html.AdminHeader("Earning Information")
+            <div class="form-group">
+                @Html.LabelFor(model => model.taxStatus, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DropDownListFor(model => model.taxStatus).SetReferenceSettings().BindTo(Model.TaxStatusList).OptionLabel("select")
+                </div>
+                @Html.LabelFor(model => model.payrollGroupId, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DropDownListFor(model => model.payrollGroupId).OptionLabel("select").SetValueTextDataSourceCustom("ValueTextList", "PayrollGroup")
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4">
+                    @Html.Kendo().CheckBoxFor(model => model.timeSheetRequired)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4">
+                    @Html.Kendo().CheckBoxFor(model => model.entitledUnworkRegularHoliday)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4">
+                    @Html.Kendo().CheckBoxFor(model => model.entitledUnworkSpecialHoliday)
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4">
+                    @Html.Kendo().CheckBoxFor(model => model.entitledOvertime)
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-4">
+                    @Html.Kendo().CheckBoxFor(model => model.entitledHolidayPay)
+                </div>
+            </div>
+
+            <hr />
+
+            @if (this.HasPermission(RoleAccessType.Update, PermissionList.EMPLOYEE_MAINTENANCE))
+                {
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <button type="button" class="k-button" onclick="Employee.employee201SaveChanges()">Save Changes</button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

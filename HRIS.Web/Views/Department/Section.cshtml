@@ -1,0 +1,65 @@
+﻿@using HRIS.Model.Configuration;
+@{
+    ViewBag.Title = "Department Maintenance";
+}
+@Html.AdminHeader("Department Maintenance")
+
+@{
+
+    Html.Kendo().Grid<DepartmentSectionModel>()
+        .Name("grd")
+        .Columns(col =>
+        {
+            col.Bound(x => x.department).ClientTemplate("#= department.description #").Width(200).Filterable(filterable=> filterable.UI("departmentFilter"));
+            col.Bound(x => x.code).Width(150);
+            col.Bound(x => x.description);
+            col.Bound(x => x.updatedBy).Width(90);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(50);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+                    m.Field(f => f.department).DefaultValue(new ReferenceModel());
+                    m.Field(f => f.updatedBy).Editable(false);
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Read(read => read.Action("DepartmentSectionList", "Department"))
+                .Create(crud => crud.Action("DepartmentSectionCRUD", "Department", new { updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("DepartmentSectionCRUD", "Department", new { updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("DepartmentSectionCRUD", "Department", new { updateType = UpdateType.Destroy }))
+                ;
+        })
+        .Render();
+
+}
+
+<script type="text/javascript">
+      function departmentFilter(element) {
+        element.kendoDropDownList({
+            "dataSource": {
+                "type": "aspnetmvc-ajax",
+                "transport": {
+                    "read": { "url": "@Url.Action("ReferenceModelList")" }
+                },
+                "serverFiltering": true,
+                "filterable": true,
+                "filter": [],
+                "schema": { "data": "Data", "total": "Total" }
+            }, "dataTextField": "description", "filter": "contains", "dataValueField": "value"
+        });
+    }
+</script>

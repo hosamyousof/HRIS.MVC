@@ -1,0 +1,11 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Service.Sys;
+@model ReferenceModel
+@{
+    var data = DependencyResolver.Current.GetService<IEnumReferenceService>().GetQuery(ReferenceList.PAY_RATE_TYPE).ToList();
+    Html.Kendo().DropDownListFor(model => model)
+        .BindTo(data)
+        .OptionLabel("select")
+        .DataValueField("value").DataTextField("description")
+        .Render();
+}

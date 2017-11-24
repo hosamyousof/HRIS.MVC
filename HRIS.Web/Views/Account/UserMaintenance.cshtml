@@ -1,0 +1,67 @@
+﻿@using HRIS.Model.Sys;
+@{
+    ViewBag.Title = "User Maintenance";
+
+    var enumReferenceService = DependencyResolver.Current.GetService<HRIS.Service.Sys.IEnumReferenceService>();
+    var status = enumReferenceService.GetQuery(ReferenceList.USER_STATUS).ToList();
+
+}
+@Html.AdminHeader("User Maintenance")
+
+<script type="text/javascript">
+    function statusFilter(element) {
+        element.kendoDropDownList({
+            dataValueField: "value",
+            dataTextField: "description",
+            dataSource: { data: @Html.Raw(Json.Encode(status)) },
+            optionLabel: "--Select Value--"
+        });
+    }
+</script>
+
+@{
+
+    Html.Kendo().Grid<UserModel>()
+        .Name("grd")
+        .Columns(col =>
+        {
+            col.Bound(x => x.username).Title("Username");
+            col.Bound(x => x.email).Title("Email").Width(150);
+            col.Bound(x => x.UserStatus).ClientTemplate("#= UserStatus.description #")
+                .Width(150).Title("Status")
+                .Filterable(filter =>filter.UI("statusFilter"))
+                .EditorTemplateName("DropDownUserStatus");
+            col.Bound(x => x.updatedBy).Width(90).Title("Updated By");
+            col.Bound(x => x.updatedDate).Width(120).Filterable(filter => filter.UI(GridFilterUIRole.DateTimePicker));
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(50);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+                    m.Field(f => f.updatedBy).Editable(false);
+                    m.Field(f => f.updatedDate).Editable(false);
+                    m.Field(f => f.UserStatus).DefaultValue(new ReferenceModel() { value = 1, description = "Active" });
+                })
+                .Read(read => read.Action("UserList", "Account"))
+                .Create(crud => crud.Action("UserCRUD", "Account", new { updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("UserCRUD", "Account", new { updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("UserCRUD", "Account", new { updateType = UpdateType.Destroy }))
+                ;
+        })
+        .Render();
+
+}

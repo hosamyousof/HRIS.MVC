@@ -1,0 +1,10 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Service.Configuration;
+@model ReferenceModel
+@{
+    var data = DependencyResolver.Current.GetService<IWorkDayService>().GetQuery().ToList();
+    Html.Kendo().DropDownListFor(model => model)
+        .SetValueTextDataSourceCustom("ReferenceModelList", "WorkDay")
+        .SetReferenceSettings()
+        .Render();
+}

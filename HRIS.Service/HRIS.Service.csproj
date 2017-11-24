@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{70A73976-4B15-4D17-9FB4-6D3340E432F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HRIS.Service</RootNamespace>
+    <AssemblyName>HRIS.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AcerHouseDev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\AcerHouseDev\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DelegateDecompiler, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
+      <HintPath>..\packages\DelegateDecompiler.0.18.1\lib\net40-Client\DelegateDecompiler.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="DelegateDecompiler.EntityFramework, Version=1.0.0.0, Culture=neutral, PublicKeyToken=93b26a10a04705bd, processorArchitecture=MSIL">
+      <HintPath>..\packages\DelegateDecompiler.EntityFramework.0.18.1\lib\net45\DelegateDecompiler.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Mono.Reflection, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mono.Reflection.1.0.0.0\lib\Mono.Reflection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attendance\IAttendanceService.cs" />
+    <Compile Include="BaseService.cs" />
+    <Compile Include="Configuration\DeductionService.cs" />
+    <Compile Include="Configuration\ApplicationRequestTypeService.cs" />
+    <Compile Include="Configuration\AllowanceService.cs" />
+    <Compile Include="Configuration\IAllowanceService.cs" />
+    <Compile Include="Configuration\IDeductionService.cs" />
+    <Compile Include="Configuration\IPayrollGroupService.cs" />
+    <Compile Include="Configuration\IPenaltyTypeService.cs" />
+    <Compile Include="Configuration\PenaltyTypeService.cs" />
+    <Compile Include="Configuration\PayrollGroupService.cs" />
+    <Compile Include="Configuration\OffenseService.cs" />
+    <Compile Include="Configuration\HolidayService.cs" />
+    <Compile Include="Configuration\IApplicationRequestTypeService.cs" />
+    <Compile Include="Configuration\IHolidayService.cs" />
+    <Compile Include="Configuration\IHolidayTypeService.cs" />
+    <Compile Include="Configuration\IOffenseService.cs" />
+    <Compile Include="Configuration\IWorkDayService.cs" />
+    <Compile Include="Configuration\HolidayTypeService.cs" />
+    <Compile Include="Configuration\WorkDayService.cs" />
+    <Compile Include="Configuration\CountryService.cs" />
+    <Compile Include="Attendance\AttendanceService.cs" />
+    <Compile Include="ExtensionService.cs" />
+    <Compile Include="LeaveMgmt\ApplicationRequestService.cs" />
+    <Compile Include="LeaveMgmt\IApplicationRequestService.cs" />
+    <Compile Include="MasterFile\AgencyService.cs" />
+    <Compile Include="MasterFile\EmploymentTypeService.cs" />
+    <Compile Include="MasterFile\EmploymentStatusService.cs" />
+    <Compile Include="MasterFile\EmployeeService.cs" />
+    <Compile Include="Configuration\ICountryService.cs" />
+    <Compile Include="Configuration\IDepartmentService.cs" />
+    <Compile Include="MasterFile\IAgencyService.cs" />
+    <Compile Include="MasterFile\IEmployeeService.cs" />
+    <Compile Include="Configuration\IPositionService.cs" />
+    <Compile Include="Configuration\DepartmentService.cs" />
+    <Compile Include="Configuration\PositionService.cs" />
+    <Compile Include="MasterFile\IEmploymentStatusService.cs" />
+    <Compile Include="MasterFile\IEmploymentTypeService.cs" />
+    <Compile Include="Payroll\PayrollService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sys\IMenuService.cs" />
+    <Compile Include="Sys\MenuService.cs" />
+    <Compile Include="Sys\CompanyService.cs" />
+    <Compile Include="Sys\IdentificationDocumentService.cs" />
+    <Compile Include="Sys\IIdentificationDocumentService.cs" />
+    <Compile Include="Sys\IPermissionService.cs" />
+    <Compile Include="Sys\IRoleService.cs" />
+    <Compile Include="Sys\LocationService.cs" />
+    <Compile Include="Sys\EnumReferenceService.cs" />
+    <Compile Include="Sys\ICompanyService.cs" />
+    <Compile Include="Sys\IEnumReferenceService.cs" />
+    <Compile Include="Sys\ILocationService.cs" />
+    <Compile Include="Sys\ISettingService.cs" />
+    <Compile Include="Sys\IUserService.cs" />
+    <Compile Include="Sys\PermissionService.cs" />
+    <Compile Include="Sys\RoleService.cs" />
+    <Compile Include="Sys\SettingService.cs" />
+    <Compile Include="Sys\UserService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{dcd77e63-5f3a-454a-97bd-87519c7e3701}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HRIS.Data\HRIS.Data.csproj">
+      <Project>{f24f7b13-ad50-428f-a0c9-7851fb4b0392}</Project>
+      <Name>HRIS.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\HRIS.Model\HRIS.Model.csproj">
+      <Project>{0a976f62-62c0-4c9d-a1e5-5b25254ca4f5}</Project>
+      <Name>HRIS.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{87cb7be2-7203-421a-a4f4-991343c5cc68}</Project>
+      <Name>Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

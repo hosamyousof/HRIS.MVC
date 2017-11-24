@@ -1,0 +1,452 @@
+﻿body {
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    font-size: 85% !important;
+    min-width: 320px;
+}
+
+#splitter-vertical,
+#splitter-horizontal {
+    height: 100%;
+}
+
+#splitter-vertical {
+    border-width: 0;
+}
+
+header {
+    padding: 10px;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.content-header .title {
+    font-size: 120%;
+    font-weight: bold;
+}
+
+.content-header hr {
+    margin-top: 5px !important;
+}
+
+.hris-container {
+    margin: 0;
+    min-height: 300px;
+    padding-right: 15px;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    /*height: 100%;*/
+}
+
+.editor-field input[type=text] {
+}
+
+/* reset everything to the default box model */
+
+*, :before, :after {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.form-control,
+.container,
+.container-fluid,
+.row,
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1,
+.col-xs-2, .col-sm-2, .col-md-2, .col-lg-2,
+.col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
+.col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
+.col-xs-5, .col-sm-5, .col-md-5, .col-lg-5,
+.col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
+.col-xs-7, .col-sm-7, .col-md-7, .col-lg-7,
+.col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
+.col-xs-9, .col-sm-9, .col-md-9, .col-lg-9,
+.col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
+.col-xs-11, .col-sm-11, .col-md-11, .col-lg-11,
+.col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.form-group {
+    margin-bottom: 5px !important;
+}
+
+@font-face {
+    font-family: "Kendo UI";
+    src: url("../kendo/web/kendoui.woff") format("woff"), url("../kendo/web/kendoui.ttf") format("truetype");
+}
+
+body:before {
+    font-family: "Kendo UI";
+    content: "\a0";
+    font-size: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+header {
+    margin: 0;
+    font-size: 20px;
+    /*color: #fff;*/
+    /*background-color: #272727;*/
+}
+
+    header h1,
+    header button {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    header .container h1 {
+        margin: 0;
+        font-size: 21px;
+        line-height: 65px;
+        padding-top: 20px;
+        padding-left: 0;
+    }
+
+    #configure,
+    header label {
+        border-style: solid;
+        border-color: #636363;
+        border-width: 0 0 0 1px;
+        margin-bottom: 0;
+        font-weight: normal;
+    }
+
+    header .container {
+        position: relative;
+    }
+
+    header .description {
+        text-transform: uppercase;
+        color: #ccc;
+        font-size: 10px;
+        line-height: 29px;
+    }
+
+    header .k-dropdown,
+    header #font-size-value {
+        font-size: 18px;
+        line-height: 45px;
+        margin-bottom: 9px;
+    }
+
+    header .k-dropdown {
+        width: 100%;
+    }
+
+    header .k-dropdown-wrap {
+        background-image: none !important;
+    }
+
+        header .k-dropdown,
+        header .k-dropdown-wrap.k-state-default {
+            background-color: transparent;
+            border-color: #5c5c5c;
+            border-radius: 0;
+        }
+
+        header .k-dropdown-wrap.k-state-hover,
+        header .k-dropdown-wrap.k-state-active,
+        header .k-dropdown-wrap.k-state-focused {
+            background-color: #030303;
+        }
+
+        header .k-dropdown-wrap.k-state-focused {
+            box-shadow: none;
+        }
+
+    header .k-dropdown .k-input {
+        padding-top: 0;
+        padding-bottom: 0;
+        height: auto;
+        text-indent: 14px;
+    }
+
+    header .k-dropdown .k-input,
+    header .k-dropdown-wrap .k-select {
+        line-height: 45px;
+    }
+
+    header .k-dropdown .k-i-arrow-s {
+        background-image: url("https://kendo.cdn.telerik.com/2013.2.918/styles/Bootstrap/sprite.png");
+        background-position: -16px -32px;
+    }
+
+    header .k-dropdown-wrap.k-state-default .k-input {
+        color: #fff;
+    }
+
+.k-popup.ra-list {
+    background-color: #010101;
+    border-color: #5c5c5c;
+    color: #fff;
+    padding: 0;
+    border-radius: 0;
+}
+
+    .k-popup.ra-list .k-state-hover,
+    .k-popup.ra-list .k-state-selected,
+    .k-popup.ra-list .k-state-focused {
+        background-image: none;
+        background-color: #555;
+        box-shadow: none;
+        color: #fff;
+        border-color: #555;
+    }
+
+    .k-popup.ra-list .k-item {
+        border-radius: 0;
+        text-indent: 7px;
+    }
+
+.well {
+    padding: 12px !important;
+}
+
+.ra-well-title .k-button {
+    margin-top: -4px;
+    margin-right: -14px;
+}
+
+.ra-well-title {
+    font-size: 1.2857em;
+    line-height: 1.2857em;
+    border-bottom: 1px solid #e7e7e7;
+    margin: -5px -14px 0.8333em;
+    padding: 0 19px 0.7222em;
+}
+
+.ra-well-footer {
+    font-size: 1.2857em;
+    border-top: 1px solid #e7e7e7;
+    margin: -5px -14px -5px;
+    padding: 10px 10px 0 10px;
+}
+
+.ra-avatar {
+    border: 1px solid #e7e7e7;
+    border-radius: 2px;
+}
+
+.ra-first-name {
+    display: block;
+    margin-top: 0.8571em;
+}
+
+.ra-last-name {
+    display: block;
+    font-size: 1.7143em;
+    line-height: 1.3em;
+}
+
+.ra-position {
+    font-size: 0.8571em;
+    color: #999;
+    padding-bottom: 2em;
+}
+
+.form-group .k-dropdown,
+.form-group .k-textbox {
+    width: 100%;
+}
+
+.k-pager-sizes .k-dropdown {
+    width: auto !important;
+}
+
+.buttons-wrap {
+    border-top: 1px solid #e7e7e7;
+    padding-top: .5em;
+    text-align: right;
+}
+
+.ra-section {
+    margin-bottom: 20px;
+}
+
+.ra-well-overlay {
+    margin: -16px -20px -19px;
+}
+
+figure h4 {
+    font-size: 1.15em;
+}
+
+figure p.hidden-sm {
+    min-height: 80px;
+}
+
+footer {
+    text-align: right;
+    font-size: 0.8571em;
+    padding: 2em 0;
+}
+
+header .container h1.visible-sm {
+    padding-top: 10px;
+    line-height: 33px;
+    padding-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+    .k-menu.k-menu-horizontal .k-item {
+        float: none;
+    }
+
+    header .container {
+        padding: 0;
+    }
+
+        header .container h1 {
+            padding-top: 0;
+            padding-left: 15px;
+            line-height: 50px;
+        }
+
+        header .container label {
+            border-width: 0;
+            display: block;
+        }
+
+    #configurator-wrap {
+        border-top: 1px solid #636363;
+        padding: 0;
+    }
+
+    #configurator {
+        background-color: #272727;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+}
+
+.k-black body,
+.k-metroblack body,
+.k-black .well,
+.k-metroblack .well,
+.k-black .ra-well-title,
+.k-metroblack .ra-well-title,
+.k-black .buttons-wrap,
+.k-metroblack .buttons-wrap {
+    border-color: #444;
+    background-color: #1e1e1e;
+    color: #fff;
+}
+
+.k-highcontrast body,
+.k-highcontrast .well .k-highcontrast .ra-well-title,
+.k-highcontrast .buttons-wrap {
+    border-color: #664e62;
+    background-color: #2c232b;
+    color: #fff;
+}
+
+.k-moonlight body,
+.k-moonlight .well,
+.k-moonlight .ra-well-title,
+.k-moonlight .buttons-wrap {
+    border-color: #171e28;
+    background-color: #212a33;
+    color: #fff;
+}
+
+.k-edit-form-container {
+    width: 100% !important;
+    overflow: hidden;
+}
+
+    .k-edit-form-container .form-group {
+        padding-right: 10px;
+    }
+
+    .k-edit-form-container .k-edit-buttons {
+        height: 30px !important;
+    }
+
+.remove-min-width {
+    min-width: inherit !important;
+}
+
+.k-grid-edit-row .k-textbox, .k-grid-edit-row .text-box {
+    color: black !important;
+}
+
+.main-container {
+    min-width: 800px;
+    width: 1200px;
+    margin: auto auto;
+    background-color: white;
+    margin-top: 20px;
+}
+
+.main-container-vertical {
+    background-color: white;
+    min-height: 400px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+    .main-container-vertical div.render-body {
+        padding-top: 10px;
+        overflow: auto;
+        height: 100%;
+    }
+
+div.panelBarMenuVertical-container {
+    height: 100%;
+    position: absolute;
+}
+
+    div.panelBarMenuVertical-container div.row {
+        height: 100%;
+    }
+
+#panelBarMenuVertical {
+    height: 100%;
+}
+
+.hris-footer {
+    background-color: #2a2730;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+
+.hris-header {
+    background-color: #2a2730;
+    color: white;
+}
+
+    .hris-header a {
+        color: white !important;
+    }
+
+.form-group span.k-datepicker span.k-picker-wrap {
+    padding-bottom: 1px !important;
+}
+
+.form-group span.k-numerictextbox span.k-numeric-wrap {
+    padding-bottom: 1px !important;
+}

@@ -1,0 +1,143 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@model EmployeeBasicInfoModel
+
+<div class="col-md-12">
+    @using (Html.BeginForm("AjaxUpdateEmployeeBasicInfo", "Employee", new { employeeId = Model.id }, FormMethod.Post, new { enctype = "multipart/form-data", id = "form_employee_basic_info" }))
+    {
+        @Html.HiddenFor(model=> model.id)
+        <div class="form-horizontal" role="form">
+            @Html.ValidationSummary(true)
+            <br />
+            @Html.HiddenFor(model=> model.clearImage)
+            @Html.AdminHeader("Employee Name",@<text>
+                @if (this.HasPermission(RoleAccessType.Update, PermissionList.EMPLOYEE_MAINTENANCE))
+                {
+                    <button type="button" class="k-button pull-right" onclick="Employee.employeeBasicInfoSaveChanges()">Update Personal Details</button>
+                }
+            </text>)
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.firstName, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.Kendo().TextBoxFor(model => model.firstName).HtmlAttributes(new { placeholder = "Given Name" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.middleName, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.Kendo().TextBoxFor(model => model.middleName).HtmlAttributes(new { placeholder = "Middle Name" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.lastName, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.Kendo().TextBoxFor(model => model.lastName).HtmlAttributes(new { placeholder = "Last Name" })
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.birthDate, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.Kendo().DatePickerFor(model => model.birthDate)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.email, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.Kendo().TextBoxFor(model => model.email)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.gender, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.Kendo().DropDownListFor(model => model.gender).BindTo(Model.GenderList).SetReferenceSettings()
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.maritalStatus, new { @class = "control-label col-md-4" })
+                        <div class="col-md-8">
+                            @Html.Kendo().DropDownListFor(model => model.maritalStatus).BindTo(Model.MaritalStatusList).SetReferenceSettings()
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-8 employeeImage">
+                            <img id="empImage" src="@Html.GetFileUrl( "~/ProfilePicture/" + Model.id + Model.pictureExtension, "~/assets/images/no-images-available.png")" />
+                            <div class="clearfix">
+                            </div>
+                            <div class="hris-margin-top-10">
+                                <input type="file" name="image" class="k-button" />
+                            </div>
+                            <div class="hris-margin-top-10">
+                                <button class="k-button" type="button" onclick="removePicture()">Clear Image</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            @Html.AdminHeader("Address Information")
+            <div class="form-group">
+                @Html.LabelFor(model => model.address1, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Kendo().TextBoxFor(model => model.address1)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.address2, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Kendo().TextBoxFor(model => model.address2)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.address3, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.Kendo().TextBoxFor(model => model.address3)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.countryId, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().DropDownListFor(model => model.countryId).DataValueField("id").DataTextField("description").BindTo(Model.CountryList)
+                </div>
+                @Html.LabelFor(model => model.city, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.city)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.postalCode, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.postalCode)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.contact1, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.contact1)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.contact2, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.contact2)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.contact3, new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.Kendo().TextBoxFor(model => model.contact3)
+                </div>
+            </div>
+        </div>
+    }
+    @Html.Action("_EmployeeDetails", new { employeeId = Model.id })
+</div>

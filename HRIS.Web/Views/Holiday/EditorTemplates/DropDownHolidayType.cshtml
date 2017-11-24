@@ -1,0 +1,11 @@
+﻿@using HRIS.Service.Configuration
+@using HRIS.Model.Sys;
+@model ReferenceModel
+@{
+
+    var data = DependencyResolver.Current.GetService<HRIS.Service.Configuration.IHolidayTypeService>().GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description }).ToList();
+    Html.Kendo().DropDownListFor(model => model)
+        .BindTo(data)
+        .DataValueField("value").DataTextField("description")
+        .Render();
+}

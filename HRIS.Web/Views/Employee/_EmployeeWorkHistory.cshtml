@@ -1,0 +1,55 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@model int?
+
+@{
+
+    Html.Kendo().Grid<EmployeeWorkHistoryModel>()
+        .Name("grdWorkHistory")
+        .Columns(col =>
+        {
+            col.Bound(x => x.companyName);
+            col.Bound(x => x.position);
+            col.Bound(x => x.joined).Width(100);
+            col.Bound(x => x.until).Width(100);
+            col.Bound(x => x.updatedBy).Width(90);
+            col.Bound(x => x.updatedDate).Width(120);
+            col.Command(x =>
+            {
+                x.Edit();
+                x.Destroy();
+            }).Width(150);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.PopUp).TemplateName("_EmployeeworkHistoryForm").Window(win =>
+        {
+            win.Width(800).Title("Work History");
+        }))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+                    m.Field(f => f.updatedBy).Editable(false);
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Sort(s =>
+                {
+                    s.Add(x => x.joinedYear);
+                    s.Add(x => x.joinedMonth);
+                })
+                .Read(read => read.Action("GetEmployeeWorkHistoryList", "Employee", new { employeeId = Model }))
+                .Create(crud => crud.Action("WorkHistoryCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("WorkHistoryCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("WorkHistoryCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Destroy }))
+                ;
+        })
+    .Render();
+
+}

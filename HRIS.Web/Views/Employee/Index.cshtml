@@ -1,0 +1,138 @@
+﻿@using HRIS.Model.MasterFile;
+@using HRIS.Model.Sys;
+@{
+    ViewBag.Title = "Employee Maintenance";
+    bool confidential = (bool)ViewBag.confidential;
+}
+@Html.AdminHeader("Employee Maintenance", @<text>
+        @if (this.HasPermission(RoleAccessType.Create, PermissionList.EMPLOYEE_MAINTENANCE))
+        {
+            <a href="@Url.Action("Create", "Employee", new { confidential=confidential })" class="k-button pull-right">
+                @if (confidential)
+                {
+                    <span>New Confidential Employee</span>
+                }
+                else
+                {
+                    <span>New Employee</span>
+                }
+            </a>
+        }
+</text>)
+
+@section script_plugins{
+    <script src="@Url.Content("~/assets/kendo/js/jszip.min.js")"></script>
+    <style>
+        /*
+            Use the DejaVu Sans font for display and embedding in the PDF file.
+            The standard PDF fonts have no support for Unicode characters.
+        */
+        .k-grid {
+            font-family: "DejaVu Sans", "Arial", sans-serif;
+        }
+
+        /* Hide the Grid header and pager during export */
+        .k-pdf-export .k-grid-toolbar,
+        .k-pdf-export .k-pager-wrap {
+            display: none;
+        }
+    </style>
+
+    <script type="text/javascript">
+        function editEmployee(e) {
+            e.preventDefault();
+            var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+            top.location = "@Url.Action("Edit")/" + dataItem.id;
+        }
+    </script>
+}
+
+<script type="x/kendo-template" id="page-template">
+    <div class="page-template">
+        <div class="header">
+            <div style="float: right">Page #: pageNum # of #: totalPages #</div>
+            Employee Master File
+        </div>
+        <div class="footer">
+            Page #: pageNum # of #: totalPages #
+        </div>
+    </div>
+</script>
+
+@{
+    Html.Kendo().Grid<EmployeeListModel>().Name("grd")
+        .ToolBar(tb =>
+        {
+            tb.Excel();
+            tb.Pdf();
+        })
+        .Pdf(pdf => pdf
+            .AllPages()
+            .FileName("EmployeeMasterFile.pdf")
+            .ProxyURL(Url.Action("Pdf_Export_Save", "Employee"))
+        )
+        .Excel(excel =>
+        {
+            excel.AllPages(true)
+                .FileName("EmployeeMasterFile.xlsx");
+        })
+        .Columns(col =>
+        {
+            col.Bound(x => x.employeeCode).Width(100);
+            col.Bound(x => x.name);
+            col.Bound(x => x.department).Width(200);
+            col.Bound(x => x.position).Width(200);
+            col.Bound(x => x.updatedBy).Width(90);
+            col.Command(cmd => cmd.Custom("edit").Text("Edit").Click("editEmployee").HtmlAttributes(new { @class="col-md-12" })).Width(100);
+        })
+        .SetDefaultSettings()
+        .Groupable()
+        .ColumnMenu()
+        .DataSource(dataSource =>
+        {
+            dataSource
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(x => x.id);
+                })
+                .Read(read =>
+                {
+
+                    read.Action(confidential ? "GetEmployeeConfidentialGetQuery" : "EmployeeNonConfidentialGetQuery", "Employee");
+                })
+            ;
+        })
+        .Render();
+}
+
+<style>
+    /* Page Template for the exported PDF */
+    .page-template {
+        font-family: "DejaVu Sans", "Arial", sans-serif;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+        .page-template .header {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            border-bottom: 1px solid #888;
+            color: #888;
+        }
+
+        .page-template .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            border-top: 1px solid #888;
+            text-align: center;
+            color: #888;
+        }
+</style>

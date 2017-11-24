@@ -1,0 +1,169 @@
+﻿@using HRIS.Model.Attendance;
+@model HRIS.Model.Attendance.CutOffAttendanceModel
+<div class="col-md-12">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-2">Generated Date</label>
+            <div class="col-md-4">
+                @Html.Kendo().DatePickerFor(model => model.generatedDate).Enable(false)
+            </div>
+            <label class="control-label col-md-2">Status</label>
+            <div class="col-md-4">
+                @Html.Kendo().TextBoxFor(model => model.status).Enable(false)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Payroll Group</label>
+            <div class="col-md-4">
+                @Html.Kendo().TextBoxFor(model => model.payrollGroup).Enable(false)
+            </div>
+            <label class="control-label col-md-2">Date Range</label>
+            <div class="col-md-4">
+                @Html.Kendo().TextBox().Name("dates").Value(Model.startDate.ToShortDateString() + " - " + Model.endDate.ToShortDateString()).Enable(false)
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2">Remarks</label>
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.remarks, new { rows = 3, @class = "k-textbox" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-lg-offset-2 col-md-10">
+                @if (Model.statusEnum == CUT_OFF_ATTENDANCE.Draft)
+                {
+                    <button class="k-button k-primary" type="button" onclick="submitCutOff('@Model.id')">Submit</button>
+                    @*<script type="text/javascript">
+                            function submitCutOff() {
+
+                            }
+                        </script>*@
+                }
+                @if (Model.statusEnum != CUT_OFF_ATTENDANCE.Cancel)
+                {
+                    <button class="k-button" type="button">Update Remarks</button>
+                }
+                @if (new[] { CUT_OFF_ATTENDANCE.Draft, CUT_OFF_ATTENDANCE.Submitted }.Contains(Model.statusEnum))
+                {
+                    <button class="k-button" type="button" onclick="cancelCutOff()">Cancel</button>
+                    <script type="text/javascript">
+                        function cancelCutOff() {
+                            if (confirm("Continue Cancel Generated Cut Off Attendance?")) {
+                                $.ajax({
+                                    url: "@Url.Action("CutOffAttendanceStatusUpdate")/",
+                                    type: "POST", dataType: "json",
+                                data: {
+                                    id: @Model.id,
+                                    statusValue: 6,
+                                    },
+                                success: function (result) {
+                                    if (result.success) {
+                                        $("#winCutOffDetails").data("kendoWindow").close();
+                                        var dataSource = $("#grdCutOffAttendance").data("kendoGrid").dataSource;
+                                        var dataItem = dataSource.get(result.id);
+                                        dataItem.status = result.status;
+                                        dataSource.sync();
+                                    } else {
+                                        swal({
+                                            type: "warning",
+                                            title: "",
+                                            text: result.msg,
+                                            html: true
+                                        });
+                                    }
+                                }})
+                            }
+                        }
+                    </script>
+                }
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-12">
+                    @{
+                        Html.Kendo().Grid<CutOffAttendanceSummaryModel>()
+                            .Name("grdCutOffAttendanceSummary")
+                            .Columns(col =>
+                            {
+                                col.Bound(x => x.employeeName);
+                                var totalWorkHours = col.Bound(x => x.totalWorkHours).Width(120);
+                                var totalLateHours = col.Bound(x => x.totalLateHours).Width(120);
+                                var totalOvertimeHours = col.Bound(x => x.totalOvertimeHours).Width(120);
+                                var totalUndertimeHours = col.Bound(x => x.totalUndertimeHours).Width(120);
+
+                                col.Bound(x => x.id).Title("").ClientTemplate("<button type='button' class='col-md-12 k-button' onclick='viewSummaryDetails(this,#= id #)'><i class='fa fa-edit'></i> View Details</button>").Width(120);
+                            })
+                            .SetDefaultSettings()
+                            .DataSource(source =>
+                            {
+                                source
+                                    .Ajax()
+                                    .Model(model =>
+                                    {
+                                        model.Id(x => x.id);
+                                        model.Field(x => x.id).Editable(false);
+                                        model.Field(x => x.employeeName).Editable(false);
+                                    })
+                                    .Read(read => read.Action("CutOffAttendanceSummaryGetByCutOffAttendanceId", "Attendance", new { cutOffAttendanceId = Model.id }));
+                            })
+                            .Render();
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@{
+
+    Html.Kendo()
+        .Window()
+        .Name("winSummaryDetails")
+        .Title("Cut Off Details")
+        .Width(800)
+        .Content(@<text>
+            <div class="col-md-12" id="summaryDetails">
+            </div>
+        </text>)
+        .Modal(true)
+        .Events(events => events.Open("HRIS.centerKendoWindow"))
+        .Draggable()
+        .Visible(false)
+        .Render();
+
+}
+
+<script type="text/javascript">
+    function viewSummaryDetails(ctrl, id) {
+        var btn = $(ctrl);
+        btn.attr("disabled", "disabled");
+
+        $("#winSummaryDetails").data("kendoWindow").open();
+
+        $("#summaryDetails").html("<h3>Loading Employee Summary Details</h3>");
+        $("#summaryDetails").load("@Url.Action("ViewSummaryDetails")/" + id, null, function () {
+            btn.removeAttr("disabled");
+            $("#winSummaryDetails").data("kendoWindow").open();
+        });
+    }
+    function submitCutOff(id) {
+        $.ajax({
+            url: "@Url.Action("CutOffAttendanceStatusUpdate")/",
+            type: "POST", dataType: "json",
+            data: {
+                id: id,
+                statusValue: 2,
+            },
+            success: function (result) {
+                if (result.success) {
+                    $("#winCutOffDetails").data("kendoWindow").close();
+                    var dataSource = $("#grdCutOffAttendance").data("kendoGrid").dataSource;
+                    var dataItem = dataSource.get(result.id);
+                    dataItem.status = result.status;
+                    dataSource.sync();
+                }
+            }})
+    }
+
+</script>

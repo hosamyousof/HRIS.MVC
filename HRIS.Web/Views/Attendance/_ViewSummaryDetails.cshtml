@@ -1,0 +1,71 @@
+﻿@using HRIS.Service.Attendance;
+@using HRIS.Model.Attendance;
+@model int?
+
+@{
+
+    var cutOffAttendance = DependencyResolver.Current.GetService<IAttendanceService>().CutOffAttendanceGetBySummaryId(Model.Value);
+
+}
+
+<script type="text/javascript">
+    function grdCutOffAttendanceSummaryDetailsRequestEnd(e) {
+        //console.log(e);
+        if (e.type == "update") {
+            $('#grdCutOffAttendanceSummary').data('kendoGrid').dataSource.read();
+            $('#grdCutOffAttendanceSummary').data('kendoGrid').refresh();
+            $("#winSummaryDetails").data("kendoWindow").close();
+        }
+    }
+</script>
+<div class="col-md-12">
+    <div class="form-horizontal">
+        <div class="form-group">
+                @{
+                    Html.Kendo().Grid<CutOffAttendanceSummaryDetailModel>()
+                        .Name("grdCutOffAttendanceSummaryDetails")
+                        .Columns(col =>
+                        {
+                            col.Bound(x => x.workDate);
+                            var workHours = col.Bound(x => x.workHours).Width(120);
+                            var lateHours = col.Bound(x => x.lateHours).Width(120);
+                            var overtimeHours = col.Bound(x => x.overtimeHours).Width(120);
+                            var undertimeHours = col.Bound(x => x.undertimeHours).Width(120);
+
+                        })
+                        .ToolBar(toolBar =>
+                        {
+                            if (cutOffAttendance.statusEnum == CUT_OFF_ATTENDANCE.Draft)
+                            {
+                                toolBar.Save();
+                                toolBar.Custom().Text("<span class='k-icon k-i-refresh'></span> Recompute").HtmlAttributes(new { href = "javascript:;" });
+                            }
+                        })
+                        .SetDefaultSettings()
+                        .Editable(editable => editable.Mode(GridEditMode.InCell))
+                        .DataSource(source =>
+                        {
+                            source
+                                .Ajax()
+                                .Model(model =>
+                                {
+                                    model.Id(x => x.id);
+                                    model.Field(x => x.id).Editable(false);
+                                    model.Field(x => x.workDate).Editable(false);
+                                    if (cutOffAttendance.statusEnum != CUT_OFF_ATTENDANCE.Draft)
+                                    {
+                                        model.Field(x => x.workHours).Editable(false);
+                                        model.Field(x => x.lateHours).Editable(false);
+                                        model.Field(x => x.overtimeHours).Editable(false);
+                                        model.Field(x => x.undertimeHours).Editable(false);
+                                    }
+                                })
+                                .Events(events=> events.RequestEnd("grdCutOffAttendanceSummaryDetailsRequestEnd"))
+                                .Read(read => read.Action("SummaryDetailList", "Attendance", new { id = Model }))
+                                .Update(update => update.Action("SummaryDetailUpdate", "Attendance", new { id = Model }));
+                        })
+                        .Render();
+                }
+            </div>
+    </div>
+</div>

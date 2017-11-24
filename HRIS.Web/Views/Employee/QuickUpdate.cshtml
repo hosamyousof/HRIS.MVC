@@ -1,0 +1,84 @@
+﻿@using HRIS.Model.MasterFile;
+@using HRIS.Model.Sys;
+@{
+    ViewBag.Title = "Employee Quick Update";
+}
+@Html.AdminHeader("Employee Maintenance")
+
+@section script_plugins{
+    <script src="@Url.Content("~/assets/kendo/js/jszip.min.js")"></script>
+}
+
+@{
+    Html.Kendo().Grid<EmployeeQuickUpdateModel>().Name("grd")
+        .ToolBar(tb =>
+        {
+
+        })
+        .Excel(excel =>
+        {
+            excel.AllPages(true)
+                .FileName("EmployeeMasterFile.xlsx");
+        })
+        .Columns(col =>
+        {
+            col.Bound(x => x.employeeCode).EditorTemplateName("TextBox").Width(100);
+            col.Bound(x => x.position).EditorTemplateName("DropDownPosition").ClientTemplate("#= position == null ? '' : position.description #").Width(200);
+            col.Bound(x => x.department).EditorTemplateName("DropDownDepartment").ClientTemplate("#= department == null ? '' : department.description #").Width(200);
+            col.Bound(x => x.employmentType).EditorTemplateName("DropDownEmploymentType").ClientTemplate("#= employmentType == null ? '' : employmentType.description #").Width(200);
+            col.Bound(x => x.employmentStatus).EditorTemplateName("DropDownEmploymentStatus").ClientTemplate("#= employmentStatus == null ? '' : employmentStatus.description #").Width(200);
+            col.Bound(x => x.positionLevel).EditorTemplateName("DropDownPositionLevel").ClientTemplate("#= positionLevel == null ? '' : positionLevel.description #").Width(200);
+            col.Command(cmd =>
+            {
+                cmd.Edit();
+            }).Width(50);
+        })
+        .SetDefaultSettings()
+        .Editable(editable=> editable.Mode(GridEditMode.InLine))
+        .Groupable()
+        .ColumnMenu()
+        .DataSource(dataSource =>
+        {
+            dataSource
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(x => x.id);
+                })
+                .Read(read => read.Action("QuickUpdateEmployeeList", "Employee"))
+                .Update(update => update.Action("QuickUpdateEmployee", "Employee"))
+            ;
+        })
+        .Render();
+}
+
+<style>
+    /* Page Template for the exported PDF */
+    .page-template {
+        font-family: "DejaVu Sans", "Arial", sans-serif;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+        .page-template .header {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            border-bottom: 1px solid #888;
+            color: #888;
+        }
+
+        .page-template .footer {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            border-top: 1px solid #888;
+            text-align: center;
+            color: #888;
+        }
+</style>

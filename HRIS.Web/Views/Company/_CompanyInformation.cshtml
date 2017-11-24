@@ -1,0 +1,86 @@
+﻿@using HRIS.Model.Sys;
+@model CompanyModel
+<div class="col-md-12" id="companyInformation">
+    @using (Html.BeginForm("AjaxUpdateCompanyInformation", "Company", FormMethod.Post))
+    {
+
+        @Html.AdminHeader("Business Information")
+        <div class="form-group">
+            @Html.LabelFor(model => model.code, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.Kendo().TextBoxFor(model => model.code)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.businessName, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.Kendo().TextBoxFor(model => model.businessName)
+            </div>
+        </div>
+
+        @Html.AdminHeader("Address Information")
+        <div class="form-group">
+            @Html.LabelFor(model => model.address1, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Kendo().TextBoxFor(model => model.address1)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.address2, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Kendo().TextBoxFor(model => model.address2)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.address3, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.Kendo().TextBoxFor(model => model.address3)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.countryId, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.Kendo().DropDownListFor(model => model.countryId).DataValueField("id").DataTextField("description").BindTo(Model.CountryList)
+            </div>
+            @Html.LabelFor(model => model.city, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.Kendo().TextBoxFor(model => model.city)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.postalCode, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.Kendo().TextBoxFor(model => model.postalCode)
+            </div>
+        </div>
+        @Html.AdminHeader("Contact Information")
+        <div class="form-group">
+            @Html.LabelFor(model => model.email, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.Kendo().TextBoxFor(model => model.email)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.telephone, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.Kendo().TextBoxFor(model => model.telephone)
+            </div>
+            @Html.LabelFor(model => model.mobile, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.Kendo().TextBoxFor(model => model.mobile)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.fax, new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.Kendo().TextBoxFor(model => model.fax)
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" class="k-button" onclick="saveCompanyInformation()">Save Changes</button>
+            </div>
+        </div>
+    }
+</div>

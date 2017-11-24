@@ -1,0 +1,9 @@
+﻿@model HRIS.Web.Models.LoginModel
+@{
+    ViewBag.Title = "Login";
+
+    var companyList = DependencyResolver.Current.GetService<HRIS.Service.Sys.ICompanyService>().GetList();
+
+}
+@Html.AdminHeader("Registration")
+<h3>Please contact your Company Administrator to create your Account.</h3>

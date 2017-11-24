@@ -1,0 +1,33 @@
+﻿@{
+    ViewBag.Title = "Company Information";
+}
+
+@Html.AdminHeader("Company Information")
+<div class="col-md-12">
+   
+        <div class="form-horizontal" role="form">
+            @{
+                Html.Kendo().TabStrip().Name("tab")
+                    .Items(itm =>
+                    {
+                        itm.Add().Text("Company Information").Selected(true).LoadContentFrom("CompanyInformation", "Company");
+                        itm.Add().Text("Settings").LoadContentFrom("GetSettings", "Company");
+                    })
+                    .Render();
+            }
+        </div>
+    
+</div>
+
+
+<script type="text/javascript">
+    function saveCompanyInformation() {
+        var form = $("#companyInformation form");
+        form.ajaxSubmit({
+            success: function (result) {
+                HRIS.showAjaxResult(result);
+            }
+        });
+
+    }
+</script>

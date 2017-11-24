@@ -1,0 +1,69 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.Attendance
+@using HRIS.Service.Attendance;
+@model ManualTimeLogModel
+@{
+}
+<div class="col-md-12">
+    @using (Html.BeginForm("AjaxSaveManualTimeLog", "Attendance", FormMethod.Post, new { id="frmManualAttendance" }))
+    {
+        <div class="form-horizontal" role="form">
+            <div class="form-group">
+                @Html.LabelFor(model => model.employeeId, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @{
+
+                        Html.Kendo().DropDownListFor(model => model.employeeId)
+                            .DataSource(source =>
+                            {
+                                source.Custom().Type("aspnetmvc-ajax").ServerFiltering(true)
+                                    .Transport(transport =>
+                                    {
+                                        transport.Read(read =>
+                                        {
+                                            read.Action("GetEmployeeAll", "Employee");
+                                        });
+                                    })
+                                    .Schema(schema =>
+                                    {
+                                        schema.Data("Data").Total("Total");
+                                    });
+                            })
+                            .Filter(FilterType.Contains)
+                            .DataValueField("id")
+                            .DataTextField("name")
+                            .TemplateId("dropdownEmployeeTemplate")
+                            .ValueTemplateId("dropdownEmployeeValueTemplate")
+                            .OptionLabel("select")
+                            .Render();
+
+                    }
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.logType, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.Kendo().DropDownListFor(model => model.logType).SetReferenceSettings(ReferenceList.TIME_LOG_TYPE)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.timeLog, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.Kendo().DateTimePickerFor(model => model.timeLog)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.remarks, new { @class = "control-label col-md-3" })
+                <div class="col-md-6">
+                    @Html.TextAreaFor(model => model.remarks, new { @class = "form-control", rows = 3 })
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-6">
+                    <button class="k-button" type="button" onclick="saveManualTimeLog()">Save Manual Time Log</button>
+                </div>
+            </div>
+        </div>
+                        }
+</div>

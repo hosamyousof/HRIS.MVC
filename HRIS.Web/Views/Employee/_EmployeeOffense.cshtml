@@ -1,0 +1,63 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Service.Sys;
+@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@using HRIS.Service.Configuration;
+@model int?
+
+@{
+
+    Html.Kendo().Grid<EmployeeOffenseModel>()
+        .Name("grdOffense")
+        .Columns(col =>
+        {
+            col.Bound(x => x.offenseDate).EditorTemplateName("DatePicker").Width(90);
+            col.Bound(x => x.memoDate).EditorTemplateName("DatePicker").Width(90);
+            col.Bound(x => x.Offense).ClientTemplate("#= Offense.description #").EditorTemplateName("DropDownOffense").Width(120);
+            col.Bound(x => x.penaltyType).ClientTemplate("#= penaltyType.description #").EditorTemplateName("DropDownPenaltyType").Width(120);
+            col.Bound(x => x.degree).ClientTemplate("#= degree.description #").EditorTemplateName("DropDownPenaltyDegree").Width(120);
+            col.Bound(x => x.frequency).Width(50);
+            col.Bound(x => x.startDate).EditorTemplateName("DatePicker").Width(90);
+            col.Bound(x => x.endDate).EditorTemplateName("DatePicker").Width(90);
+            col.Bound(x => x.remarks).EditorTemplateName("TextArea");
+            col.Bound(x => x.updatedBy).Width(80);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(40);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+
+                    var offense = DependencyResolver.Current.GetService<IOffenseService>().GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description, }).FirstOrDefaultInstance();
+                    var degree = DependencyResolver.Current.GetService<IEnumReferenceService>().GetQuery(ReferenceList.PENALTY_DEGREE).FirstOrDefaultInstance();
+                    var penaltyType = DependencyResolver.Current.GetService<IPenaltyTypeService>().GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description, }).FirstOrDefaultInstance();
+
+                    m.Field(f => f.offenseDate).DefaultValue(DateTime.Now.Date);
+                    m.Field(f => f.Offense).DefaultValue(offense);
+                    m.Field(f => f.degree).DefaultValue(degree);
+                    m.Field(f => f.penaltyType).DefaultValue(penaltyType);
+                    m.Field(f => f.updatedBy).Editable(false).DefaultValue(this.GetCurrentUsername());
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Read(read => read.Action("GetEmployeeOffenseList", "Employee", new { employeeId = Model }))
+                .Create(crud => crud.Action("OffenseCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("OffenseCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("OffenseCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Destroy }))
+                ;
+        })
+    .Render();
+
+}

@@ -1,0 +1,28 @@
+﻿<div class="col-md-12">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <label class="control-label col-md-2" for="payrollGroup">Payroll Group</label>
+            <div class="col-md-4">
+                @Html.Kendo().DropDownList().Name("payrollGroup").OptionLabel("select").SetValueTextDataSourceCustom("ValueTextList", "PayrollGroup")
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="startDate">Start Date</label>
+            <div class="col-md-4">
+                @Html.Kendo().DatePicker().Name("startDate").Value(DateTime.Now.Date).Format("MM/dd/yyyy")
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="endDate">End Date</label>
+            <div class="col-md-4">
+                @Html.Kendo().DatePicker().Name("endDate").Value(DateTime.Now.Date).Format("MM/dd/yyyy")
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-4">
+                <button type="button" class="k-button k-primary" onclick="generateCutOffAttendance(this)">Start to Generate</button>
+            </div>
+        </div>
+    </div>
+</div>

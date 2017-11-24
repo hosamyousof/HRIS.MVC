@@ -1,0 +1,46 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@model int?
+
+@{
+
+    Html.Kendo().Grid<EmployeeTrainingModel>()
+        .Name("grdTrainings")
+        .Columns(col =>
+        {
+            col.Bound(x => x.trainingDate).Width(90).EditorTemplateName("DatePicker");
+            col.Bound(x => x.trainingName).Width(120);
+            col.Bound(x => x.description);
+            col.Bound(x => x.startDate).Width(90).EditorTemplateName("DatePicker");
+            col.Bound(x => x.endDate).Width(90).EditorTemplateName("DatePicker");
+            col.Bound(x => x.updatedBy).Width(90);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(50);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+                    m.Field(f => f.updatedBy).Editable(false).DefaultValue(this.GetCurrentUsername());
+                })
+                .Read(read => read.Action("GetEmployeeTrainingList", "Employee", new { employeeId = Model }))
+                .Create(crud => crud.Action("TrainingCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("TrainingCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("TrainingCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Destroy }))
+                ;
+        })
+    .Render();
+
+}

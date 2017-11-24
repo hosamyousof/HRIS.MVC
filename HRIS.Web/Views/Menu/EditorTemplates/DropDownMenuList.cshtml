@@ -1,0 +1,26 @@
+﻿@using HRIS.Model.Sys;
+@model ReferenceModel
+@{
+    Html.Kendo().DropDownListFor(model => model)
+        .OptionLabel("select")
+        .Filter(FilterType.Contains)
+        .DataValueField("value")
+        .DataTextField("description")
+        .DataSource(source =>
+        {
+            source.Custom().Type("aspnetmvc-ajax")
+                .ServerFiltering(true)
+                .Transport(transport =>
+                {
+                    transport.Read(read =>
+                    {
+                        read.Action("GetReferenceModelList", "Menu");
+                    });
+                })
+                .Schema(schema =>
+                {
+                    schema.Data("Data").Total("Total");
+                });
+        })
+        .Render();
+}

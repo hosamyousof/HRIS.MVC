@@ -1,0 +1,46 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@model int?
+
+@{
+
+    Html.Kendo().Grid<EmployeeSkillModel>()
+        .Name("grdSkills")
+        .Columns(col =>
+        {
+            col.Bound(x => x.skillName);
+            col.Bound(x => x.skillProficiencyLevel).ClientTemplate("#= skillProficiencyLevel.description #").Width(150).EditorTemplateName("DropDownSkillProficiency");
+            col.Bound(x => x.updatedBy).Width(90);
+            col.Bound(x => x.updatedDate).Width(120);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(50);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+                    m.Field(f => f.skillProficiencyLevel).DefaultValue(new ReferenceModel() { value = 1, description = "Beginner" });
+                    m.Field(f => f.updatedBy).Editable(false);
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Read(read => read.Action("GetEmployeeSkillList", "Employee", new { employeeId = Model }))
+                .Create(crud => crud.Action("SkillCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("SkillCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("SkillCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Destroy }))
+                ;
+        })
+    .Render();
+
+}

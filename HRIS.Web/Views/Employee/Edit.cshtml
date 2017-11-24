@@ -1,0 +1,38 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@model int?
+@{
+    ViewBag.Title = "Employee Information";
+    bool confidential = (bool)ViewBag.confidential;
+}
+
+@section bottom{
+    @Html.IncludeVersionedJs("~/Scripts/App/employee.js")
+    <script type="text/javascript">
+        $(function () {
+            Employee.init();
+        })
+
+        function removePicture() {
+            $("#clearImage", $("#form_employee_basic_info")).val("true");
+            $("#empImage", $("#form_employee_basic_info")).attr("src", "@Html.GetFileUrl("~/assets/images/no-images-available.png")");
+        }
+
+    </script>
+}
+
+@Html.AdminHeader("Employee 201 File Information", @<text><a href="@Url.Action(confidential ? "EmployeeConfi" : "EmployeeNonConfi")" class="k-button pull-right">Back to list</a></text>)
+<div class="row">
+    <div class="col-md-12">
+        @{
+
+            Html.Kendo().TabStrip().Name("tsEmployee")
+                .Items(tab =>
+                {
+                    tab.Add().Text("Personal Details and Other Information").LoadContentFrom("GetEmployeeBasicInfo", "Employee", new { id = Model.Value }).Selected(true);
+                })
+                .Render();
+
+        }
+    </div>
+</div>

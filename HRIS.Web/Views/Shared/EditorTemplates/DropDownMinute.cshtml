@@ -1,0 +1,4 @@
+﻿@using HRIS.Service.Sys;
+@using HRIS.Model.Sys;
+@model int?
+@Html.Kendo().IntegerTextBoxFor(model => model).Min(0).Max(59).Format("#")

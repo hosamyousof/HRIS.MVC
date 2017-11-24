@@ -1,0 +1,214 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.Attendance;
+@using HRIS.Service.Attendance;
+@{
+    ViewBag.Title = "Update Work Days Attendance";
+
+    var deviceAttendanceService = DependencyResolver.Current.GetService<IDeviceAttendanceService>();
+    var devices = deviceAttendanceService.GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description }).ToList();
+}
+
+@section bottom{
+    <script type="text/javascript">
+
+        $(function () {
+
+        })
+
+        function refreshGrid(e) {
+            var grd = $("#grdAttendance").data("kendoGrid");
+            grd.dataSource.read(getParam);
+        }
+
+        function getParam() {
+            return {
+                payrollId: $("#payroll").data("kendoDropDownList").value(),
+                employeeId: $("#employee").data("kendoDropDownList").value(),
+                startDate: $("#startDate").data("kendoDateTimePicker").value(),
+                endDate: $("#endDate").data("kendoDateTimePicker").value(),
+            }
+        }
+
+        function selectWorkDayForSelectedRows() {
+            var grid = $("#grdAttendance").data("kendoGrid")
+            if (grid.select().length == 0) {
+                swal("Work Day", "Please select attendance.", "warning");
+                return;
+            }
+
+            var win = $("#winUpdateWorkDay").data("kendoWindow");
+            win.open();
+        }
+
+        function updateWorkDayAttendance() {
+            var grid = $("#grdAttendance").data("kendoGrid");
+
+            var selectedWorDay = $("#selectedWorDay").data("kendoDropDownList");
+            var workDay = selectedWorDay.dataItem(selectedWorDay.select());
+
+            var dataItems = [];
+
+            grid.select().each(function (i, item) {
+                var dataItem = grid.dataItem(item);
+                dataItems.push({ row: item, dataItem: dataItem });
+            });
+
+            $.each(dataItems, function (i, item) {
+                var dataItem = item.dataItem;
+                if (workDay == null || workDay.value == "0" || workDay.value == null || workDay.value == "") {
+                    dataItem.set("workDay", null);
+                }
+                else {
+                    dataItem.set("workDay", { value: workDay.value, description: workDay.description });
+                }
+
+            });
+
+            grid.dataSource.sync();
+            var win = $("#winUpdateWorkDay").data("kendoWindow");
+            win.close();
+        }
+    </script>
+}
+
+@Html.AdminHeader((string)ViewBag.Title)
+<div class="col-md-12 device-in-use">
+</div>
+<div class="col-md-12">
+    <div class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="control-label col-md-2" for="payrollGroup">Payroll Group</label>
+            <div class="col-md-4">
+                @Html.Kendo().DropDownList().Name("payroll").OptionLabel("select").SetValueTextDataSourceCustom("ValueTextList", "PayrollGroup")
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="selectDate">Start Date</label>
+            <div class="col-md-4">
+                @Html.Kendo().DateTimePicker().Name("startDate").Value(DateTime.Now.Date).Events(events => events.Change("refreshGrid"))
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="endDate">End Date</label>
+            <div class="col-md-4">
+                @Html.Kendo().DateTimePicker().Name("endDate").Value(DateTime.Now.Date).Events(events => events.Change("refreshGrid"))
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="employee">Employee</label>
+            <div class="col-md-4">
+                @{
+
+                    Html.Kendo().DropDownList().Name("employee")
+                        .DataSource(source =>
+                        {
+                            source.Custom().Type("aspnetmvc-ajax").ServerFiltering(true)
+                                .Transport(transport =>
+                                {
+                                    transport.Read(read =>
+                                    {
+                                        read.Action("GetEmployeeAll", "Employee");
+                                    });
+                                })
+                                .Schema(schema =>
+                                {
+                                    schema.Data("Data").Total("Total");
+                                });
+                        })
+                        .Filter(FilterType.Contains)
+                        .DataValueField("id")
+                        .DataTextField("name")
+                        .TemplateId("dropdownEmployeeTemplate")
+                        .ValueTemplateId("dropdownEmployeeValueTemplate")
+                        .OptionLabel("select")
+                        .Events(events => events.Change("refreshGrid"))
+                        .Render();
+
+                }
+                <span class="help-block">Select Employee that you want to view attendance</span>
+            </div>
+        </div>
+        <div class="form-group">
+            @{
+                Html.Kendo().Grid<EmployeeAttendanceModel>()
+                    .Name("grdAttendance")
+                    .Columns(col =>
+                    {
+                        col.Bound(x => x.employeeName);
+                        col.Bound(x => x.workDate).Width(120).EditorTemplateName("DatePicker");
+                        col.Bound(x => x.timeLog).Width(120);
+                        col.Bound(x => x.timeLogType).Width(150).ClientTemplate("#= timeLogType.description #");
+                        col.Bound(x => x.workDay).Width(300).ClientTemplate("#= workDay == null ? '' : workDay.description #").EditorTemplateName("DropDownWorkDay");
+                    })
+                    .SetDefaultSettings()
+                    .ToolBar(toolBar =>
+                    {
+                        toolBar.Excel();
+                        toolBar.Save();
+                        toolBar.Custom().Text("<i class='fa fa-list'></i> Update Work Day of Selected Attendance").HtmlAttributes(new { onclick = "selectWorkDayForSelectedRows()", href = "javascript:;" });
+                    })
+                    .Editable(editable => editable.Mode(GridEditMode.InCell))
+                    .Selectable(selectable => selectable.Mode(GridSelectionMode.Multiple))
+                    .DataSource(source =>
+                    {
+                        source
+                            .Ajax()
+                            .Model(m =>
+                            {
+                                m.Id(x => x.id);
+                                m.Field(x => x.timeLog).Editable(false);
+                                m.Field(x => x.employeeName).Editable(false);
+                                m.Field(x => x.timeLogType).Editable(false);
+                                m.Field(x => x.workDay).DefaultValue(new ReferenceModel());
+                            })
+                            .Read(read => read.Action("GetEmployeeAttendance", "Attendance").Data("getParam"))
+                            .Update(update => update.Action("EmployeeAttendanceUpdate", "Attendance").Data("getParam"));
+                    })
+                    .Render();
+            }
+        </div>
+    </div>
+</div>
+
+<script id="dropdownEmployeeTemplate" type="text/x-kendo-template">
+    <span class="k-state-default"><strong>#: data.employeeCode + ' - ' + data.name #</strong></span>
+    <br />
+    <span class="k-state-default">#: data.department + ' / ' + data.position #</span>
+</script>
+
+<script id="dropdownEmployeeValueTemplate" type="text/x-kendo-template">
+    <span class="selected-value">#: data.employeeCode + ' - ' + data.name #</span>
+</script>
+
+@{
+
+    Html.Kendo()
+        .Window()
+        .Name("winUpdateWorkDay")
+        .Title("Batch Update Work Day Attendance")
+        .Width(600)
+        .Content(@<text>
+            <div class="col-md-12">
+                <div class="form-horizontal import-logs">
+                    <div class="form-group">
+                        <label class="control-label col-md-3" for="endDate">Work Day</label>
+                        <div class="col-md-9">
+                            @Html.Kendo().DropDownList().Name("selectedWorDay").SetValueTextDataSourceCustom("ReferenceModelList", "WorkDay").SetReferenceSettings()
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="button" class="k-button" onclick="updateWorkDayAttendance()">Update Work Day Attendance</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </text>)
+        .Modal(true)
+        .Events(events => events.Open("HRIS.centerKendoWindow"))
+        .Draggable()
+        .Visible(false)
+        .Render();
+
+}

@@ -1,0 +1,50 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Service.Sys;
+@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@using HRIS.Service.Configuration;
+@model int?
+
+@{
+
+    Html.Kendo().Grid<EmployeeBalanceLeaveModel>()
+        .Name("grdBalanceLeave")
+        .Columns(col =>
+        {
+            col.Bound(x => x.leaveType).ClientTemplate("#= leaveType.description #").EditorTemplateName("DropDownLeaveType");
+            col.Bound(x => x.balance).Width(120).Format("{0:#,##0.00}").HtmlAttributes(new { @class="text-align-right" }).HeaderHtmlAttributes(new { @class = "text-align-right" });
+            col.Bound(x => x.updatedBy).Width(80);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(40);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+
+                    m.Field(f => f.leaveType).DefaultValue(new ReferenceModel());
+                    m.Field(f => f.balance).DefaultValue(0);
+                    m.Field(f => f.updatedBy).Editable(false).DefaultValue(this.GetCurrentUsername());
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Read(read => read.Action("GetEmployeeBalanceLeaveList", "Employee", new { employeeId = Model }))
+                .Create(crud => crud.Action("BalanceLeaveCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("BalanceLeaveCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("BalanceLeaveCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Destroy }))
+                ;
+        })
+    .Render();
+
+}

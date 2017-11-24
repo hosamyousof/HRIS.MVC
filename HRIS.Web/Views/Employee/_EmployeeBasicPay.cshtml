@@ -1,0 +1,52 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Service.Sys;
+@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@using HRIS.Service.Configuration;
+@model int?
+
+@{
+
+    Html.Kendo().Grid<EmployeeBasicPayModel>()
+        .Name("grdBasicPay")
+        .Columns(col =>
+        {
+            col.Bound(x => x.rateType).ClientTemplate("#= rateType.description #").EditorTemplateName("DropDownRateType");
+            col.Bound(x => x.basicPay).Width(120).EditorTemplateName("NumericTextBox").Format("{0:#,##0.000}").HtmlAttributes(new { @class="text-align-right" }).HeaderHtmlAttributes(new { @class = "text-align-right" });
+            col.Bound(x => x.updatedBy).Width(80);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(40);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+
+                    var rateType = DependencyResolver.Current.GetService<IEnumReferenceService>().GetQuery(ReferenceList.PAY_RATE_TYPE).FirstOrDefaultInstance();
+
+                    m.Field(f => f.rateType).DefaultValue(rateType);
+                    m.Field(f => f.basicPay).DefaultValue(0);
+                    m.Field(f => f.updatedBy).Editable(false).DefaultValue(this.GetCurrentUsername());
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Read(read => read.Action("GetEmployeeBasicPayList", "Employee", new { employeeId = Model }))
+                .Create(crud => crud.Action("BasicPayCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("BasicPayCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("BasicPayCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Destroy }))
+                ;
+        })
+    .Render();
+
+}

@@ -1,0 +1,55 @@
+﻿@model HRIS.Web.Models.LoginModel
+@{
+    ViewBag.Title = "Login";
+
+    var companyService = DependencyResolver.Current.GetService<HRIS.Service.Sys.ICompanyService>();
+
+    var isMoreThanOneCompany = companyService.GetQuery().Count() > 1 ;
+    
+}
+<div class="form-horizontal col-md-6">
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary()
+
+    <div class="form-group">
+        @(Html.LabelFor(model => model.CompanyCode, new { @class = "control-label col-md-3" }))
+        <div class="col-md-9">
+            @if (isMoreThanOneCompany)
+            {
+                @Html.Kendo().TextBoxFor(model => model.CompanyCode)
+            }
+            else
+            {
+                Model.CompanyCode = companyService.GetQuery().Select(x=> new { x.code }).First().code;
+                @Html.Kendo().TextBoxFor(model => model.CompanyCode).HtmlAttributes(new { @readonly = "readonly" })
+            }
+            @Html.ValidationMessageFor(model => model.CompanyCode)
+        </div>
+    </div>
+    <div class="form-group">
+        @(Html.LabelFor(model => model.Username, new { @class = "control-label col-md-3" }))
+        <div class="col-md-9">
+            @(Html.Kendo().TextBoxFor(model => model.Username))
+            @Html.ValidationMessageFor(model => model.Username)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @(Html.LabelFor(model => model.Password, new { @class = "control-label col-md-3" }))
+        <div class="col-md-9">
+            @(Html.Kendo().TextBoxFor(model => model.Password).HtmlAttributes(new { type="password" }))
+            @Html.ValidationMessageFor(model => model.Password)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-3"></label>
+        <div class="col-md-9">
+            <button type="submit" class="k-button k-primary" id="btnUpdateInfo">Login</button>
+        </div>
+    </div>
+    @Html.BootstrapClearFix()
+}
+
+</div>
+

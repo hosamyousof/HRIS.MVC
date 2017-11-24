@@ -1,0 +1,56 @@
+﻿@using HRIS.Model.Configuration;
+@using HRIS.Service.Sys;
+@using HRIS.Model.Sys;
+@{
+    ViewBag.Title = "Holiday Maintenance";
+}
+@Html.AdminHeader("Holiday Maintenance")
+
+@{
+
+    Html.Kendo().Grid<HolidayModel>()
+        .Name("grd")
+        .Columns(col =>
+        {
+            col.Bound(x => x.holidayDate).Width(100).EditorTemplateName("DatePicker");
+            col.Bound(x => x.description);
+            col.Bound(x => x.HolidayType).EditorTemplateName("DropDownHolidayType").ClientTemplate("#= HolidayType.description#").Width(150);
+            col.Bound(x => x.updatedBy).Width(90);
+            col.Bound(x => x.updatedDate).Width(120);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(50);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+                    var data = DependencyResolver.Current.GetService<HRIS.Service.Configuration.IHolidayTypeService>().GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description }).First();
+                    m.Field(f => f.HolidayType).DefaultValue(data);
+                    m.Field(f => f.updatedBy).Editable(false);
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Sort(s =>
+                {
+                    s.Add(x => x.holidayDate);
+                })
+                .Read(read => read.Action("HolidayList", "Holiday"))
+                .Create(crud => crud.Action("HolidayCRUD", "Holiday", new { updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("HolidayCRUD", "Holiday", new { updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("HolidayCRUD", "Holiday", new { updateType = UpdateType.Destroy }))
+                ;
+        })
+        .Render();
+
+}

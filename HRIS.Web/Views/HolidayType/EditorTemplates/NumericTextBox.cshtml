@@ -1,0 +1,4 @@
+﻿@using HRIS.Service.Sys;
+@using HRIS.Model.Sys;
+@model double?
+@Html.Kendo().NumericTextBoxFor(model => model).Decimals(2).Min(0)

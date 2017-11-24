@@ -1,0 +1,40 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@model int?
+
+@{
+
+    Html.Kendo().Grid<EmployeeWorkDayModel>()
+        .Name("grdWorkDay")
+        .Columns(col =>
+        {
+
+            col.Bound(x => x.name);
+            col.Bound(x => x.time).Width(150);
+            col.Bound(x => x.description).Width(250);
+            col.Bound(x => x.hasWorkDay).TemplateCheckBox().Width(100);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.workDayId);
+                    m.Field(f => f.name).Editable(false);
+                    m.Field(f => f.time).Editable(false);
+                    m.Field(f => f.description).Editable(false);
+                })
+                .Read(read => read.Action("GetEmployeeWorkDayList", "Employee", new { employeeId = Model }))
+                .Update(crud => crud.Action("WorkDayUpdate", "Employee", new { employeeId = Model }))
+                ;
+        })
+    .Render();
+
+}

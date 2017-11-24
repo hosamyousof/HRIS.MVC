@@ -1,0 +1,48 @@
+﻿
+@using HRIS.Model.Sys;
+@{
+    ViewBag.Title = "Permission";
+}
+@Html.AdminHeader("Permission")
+
+@{
+
+    Html.Kendo().Grid<PermissionModel>()
+        .Name("grd")
+        .Columns(col =>
+        {
+            col.Bound(x => x.code).Width(150);
+            col.Bound(x => x.description);
+            col.Bound(x => x.updatedBy).Width(90);
+            col.Bound(x => x.updatedDate).Width(120);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(90);
+        })
+    .ToolBar(tb =>
+    {
+        tb.Create();
+        tb.Save();
+    })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .SetDefaultSettings()
+    .DataSource(source =>
+    {
+        source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+                    m.Field(f => f.updatedBy).Editable(false);
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Read(read => read.Action("PermissionList", "Permission"))
+                .Create(crud => crud.Action("PermissionCRUD", "Permission", new { updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("PermissionCRUD", "Permission", new { updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("PermissionCRUD", "Permission", new { updateType = UpdateType.Destroy }))
+                ;
+    })
+    .Render();
+
+}

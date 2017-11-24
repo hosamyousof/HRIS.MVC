@@ -1,0 +1,64 @@
+﻿@using HRIS.Model.Sys;
+@{
+    ViewBag.Title = "Menu Maintenance";
+}
+@Html.AdminHeader("Menu Maintenance")
+
+@{
+
+    Html.Kendo().Grid<MenuModel>()
+        .Name("grd")
+        .Columns(col =>
+        {
+            col.Bound(x => x.description);
+            col.Bound(x => x.controllerName).Width(150);
+            col.Bound(x => x.actionName).Width(150);
+            col.Bound(x => x.parameter).Width(150);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(50);
+        })
+    .ToolBar(tb =>
+    {
+        tb.Create();
+        tb.Save();
+    })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .SetDefaultSettings()
+    .DataSource(source =>
+    {
+        source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+                    m.Field(f => f.updatedBy).Editable(false);
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Read(read => read.Action("MenuList", "Menu"))
+                .Create(crud => crud.Action("MenuCRUD", "Menu", new { updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("MenuCRUD", "Menu", new { updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("MenuCRUD", "Menu", new { updateType = UpdateType.Destroy }))
+                ;
+    })
+    .Render();
+
+}
+
+<script type="text/javascript">
+    function parentMenuFilter(element) {
+        element.kendoDropDownList({
+            "dataSource": {
+                "type": "aspnetmvc-ajax",
+                "transport": {
+                    "read": { "url": "@Url.Action("GetReferenceModelList")" }
+                },
+                "serverFiltering": true,
+                "filterable": true,
+                "filter": [],
+                "schema": { "data": "Data", "total": "Total" }
+            }, "dataTextField": "description", "filter": "contains", "dataValueField": "value"
+        });
+    }
+</script>

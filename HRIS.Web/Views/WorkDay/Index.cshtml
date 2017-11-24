@@ -1,0 +1,63 @@
+﻿@using HRIS.Model.Configuration;
+@using HRIS.Service.Sys;
+@using HRIS.Model.Sys;
+@{
+    ViewBag.Title = "Work Day Maintenance";
+}
+@Html.AdminHeader("Work Day Maintenance")
+
+@{
+
+    Html.Kendo().Grid<WorkDayModel>()
+        .Name("grd")
+        .Columns(col =>
+        {
+
+            col.Bound(x => x.code).Width(100);
+            col.Bound(x => x.description);
+            col.Bound(x => x.monday).Width(70).TemplateCheckBox();
+            col.Bound(x => x.tuesday).Width(70).TemplateCheckBox();
+            col.Bound(x => x.wednesday).Width(70).TemplateCheckBox();
+            col.Bound(x => x.thursday).Width(70).TemplateCheckBox();
+            col.Bound(x => x.friday).Width(70).TemplateCheckBox();
+            col.Bound(x => x.saturday).Width(70).TemplateCheckBox();
+            col.Bound(x => x.sunday).Width(70).TemplateCheckBox();
+            col.Bound(x => x.FromTimeHour).Width(90).ClientTemplate("#= FromTimeHour.description #").EditorTemplateName("DropDownHour").HtmlAttributes(new { @class = "center" });
+            col.Bound(x => x.fromTimeMinute).Width(70).HtmlAttributes(new { @class = "center" }).EditorTemplateName("DropDownMinute");
+            col.Bound(x => x.ToTimeHour).Width(90).ClientTemplate("#= ToTimeHour.description #").EditorTemplateName("DropDownHour").HtmlAttributes(new { @class = "center" });
+            col.Bound(x => x.toTimeMinute).Width(70).HtmlAttributes(new { @class = "center" }).EditorTemplateName("DropDownMinute");
+            col.Bound(x => x.breakHours).Width(70).HtmlAttributes(new { @class = "center" }).EditorTemplateName("NumericTextBox");
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(50);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+                    m.Field(f => f.updatedBy).Editable(false);
+                    m.Field(f => f.updatedDate).Editable(false);
+                    var data = DependencyResolver.Current.GetService<IEnumReferenceService>().GetQuery(ReferenceList.HOUR).First();
+                    m.Field(f => f.FromTimeHour).DefaultValue(data);
+                    m.Field(f => f.ToTimeHour).DefaultValue(data.Clone());
+                })
+                .Read(read => read.Action("WorkDayList", "WorkDay"))
+                .Create(crud => crud.Action("WorkDayCRUD", "WorkDay", new { updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("WorkDayCRUD", "WorkDay", new { updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("WorkDayCRUD", "WorkDay", new { updateType = UpdateType.Destroy }))
+                ;
+        })
+        .Render();
+
+}

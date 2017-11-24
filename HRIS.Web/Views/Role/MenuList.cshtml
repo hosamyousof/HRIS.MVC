@@ -1,0 +1,241 @@
+﻿@model int?
+
+<script type="text/javascript">
+
+    var selectedMenu = null;
+    var selectedParentMenu = null;
+
+    function menuOnSelect(e) {
+
+        var index = this.selectedIndex, dataItem;
+        if (this.options.optionLabel && index > 0) {
+            index = index - 1;
+
+            $("#btn-menu-add").attr("disabled", "disabled");
+            $("#btn-menu-save").attr("disabled", "disabled");
+            $("#btn-menu-main-add").attr("disabled", "disabled");
+
+        }
+
+        var dataItem = this.dataItem(e.item);
+
+        $("#btn-menu-main-add").removeAttr("disabled");
+
+        $("#menuDescription").val(dataItem.description);
+        //if($.trim($("#menuDescription").val()) == ""){
+        //    $("#menuDescription").val(dataItem.description);
+        //}
+    }
+
+    function addMainMenu(){
+        selectedMenu = null;
+        addMenu();
+    }
+
+    function saveMenu(){
+        var parentMenuId = (selectedMenu != null || selectedMenu!= undefined) ? selectedMenu.id : null;
+        $.ajax({
+            url: "@Url.Action("RoleMenuUpdate")",
+            dataType: "json", type: "post",
+            data: {
+                id: selectedMenu.id,
+                menuId: $("#menuId").data("kendoDropDownList").value(),
+                description: $("#menuDescription").val(),
+                displayOrder: $("#menuDisplayOrder").data("kendoNumericTextBox").value(),
+            },
+            success: function(result){
+                if(result.success){
+                    //$("#tvMenu").data("kendoTreeView").dataSource.read();
+
+                    //var parent = this.parent(e.node)
+                    try {
+                        selectedParentMenu.loaded(false);
+                        selectedParentMenu.load();
+                    } catch (e) {
+                        $("#tvMenu").data("kendoTreeView").dataSource.read();
+                    }
+                }
+                else {
+                    swal("Role Menu", result.msg, "error");
+                }
+            }
+        });
+    }
+
+    function addMenu() {
+        var parentMenuId = (selectedMenu != null || selectedMenu!= undefined) ? selectedMenu.id : null;
+
+        $.ajax({
+            url: "@Url.Action("RoleMenuAdd")",
+            dataType: "json", type: "post",
+            data: {
+                roleId: (@Model),
+                menuId: $("#menuId").data("kendoDropDownList").value(),
+                description: $("#menuDescription").val(),
+                displayOrder: $("#menuDisplayOrder").data("kendoNumericTextBox").value(),
+                parentMenuId: parentMenuId,
+            },
+            success: function(result){
+                if(result.success){
+                    var tvMenu = $("#tvMenu").data("kendoTreeView");
+                    if(parentMenuId != null){
+                        //var selectedNode = tvMenu.select();
+                        //tvMenu.append(result.data, selectedNode);
+                        selectedMenu.hasChildren = true;
+                        selectedMenu.loaded(false);
+                        selectedMenu.load();
+                    }
+                    else {
+                        $("#tvMenu").data("kendoTreeView").dataSource.read();
+                    }
+
+                }
+                else {
+                    swal("Role Menu", result.msg, "error");
+                }
+            }
+        });
+    }
+
+    function deleteSelectedMenu(){
+        $.ajax({
+            url: "@Url.Action("RoleMenuDelete")",
+            dataType: "json", type: "post",
+            data: { id: selectedMenu.id },
+            success: function(result){
+                if(result.success){
+                    $("#tvMenu").data("kendoTreeView").dataSource.read();
+                }
+                else {
+                    swal("Role Menu", result.msg, "error");
+                }
+            }
+        });
+    }
+
+    function tvMenuOnSelect(e) {
+        var data = this.dataItem(e.node);
+        selectedMenu = data;
+        try {
+            selectedParentMenu = this.dataItem(this.parent(e.node));
+        } catch (e) {}
+
+        $("#menuDescription").val(selectedMenu.description);
+        $("#menuDisplayOrder").data("kendoNumericTextBox").value(selectedMenu.displayOrder);
+        $("#menuId").data("kendoDropDownList").value(selectedMenu.menuId);
+
+        $("#btn-menu-add").removeAttr("disabled");
+        $("#btn-menu-save").removeAttr("disabled");
+        $("#btn-menu-main-move").removeAttr("disabled");
+        $("#btn-menu-delete").removeAttr("disabled");
+        this.expand(e.node);
+    }
+
+    function tvMenuOnDrop(e){
+        var source = this.dataItem(e.sourceNode).id;
+        var destination = this.dataItem(e.destinationNode).id;
+        changeParent(source, destination);
+    }
+
+    function changeToMainMenu(){
+        changeParent(selectedMenu.id, null, function(){
+            $("#tvMenu").data("kendoTreeView").dataSource.read();
+        });
+    }
+
+    function changeParent(source, destination, onSuccess){
+        $.ajax({
+            url: "@Url.Action("MenuChangeParent")",
+            dataType: "json", type: "post",
+            data: { source: source, destination: destination },
+            success: function(result){
+                if(result.success == false){
+                    swal("Role Menu", result.msg, "error");
+                    $("#tvMenu").data("kendoTreeView").dataSource.read();
+                }
+                else {
+                    if(onSuccess != undefined) onSuccess();
+                }
+            }
+        });
+    }
+
+    function copyMenuFromRole(){
+        $.ajax({
+            url: "@Url.Action("CopyMenuFromRole")",
+            dataType: "json", type: "post",
+            data: { fromRoleId: $("#ddlCopyMenuFromRoleId").data("kendoDropDownList").value(), toRoleId: "@Model" },
+            success: function(result){
+                if(result.success ){
+                    swal("Role Menu", "Role Successfully copied.", "success");
+                    $("#tvMenu").data("kendoTreeView").dataSource.read();
+                }
+                else {
+                    swal("Role Menu", result.msg, "error");
+                }
+            }
+        });
+    }
+</script>
+
+<div class="col-md-12">
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-8" style="border-right: 1px solid gray;min-height: 400px;">
+                @{
+                    Html.Kendo().TreeView().Name("tvMenu")
+                        .DataTextField("description")
+                        .Events(events => events.Select("tvMenuOnSelect").Drop("tvMenuOnDrop"))
+                        .ExpandAll(true)
+                        .DragAndDrop(true)
+                        .HighlightPath(true)
+                        .LoadOnDemand(true)
+                        .DataSource(dataSource => dataSource
+                            .Read(read => read.Action("RoleMenuList", "Role", new { roleId = Model }))
+                        )
+                        .Render();
+                }
+            </div>
+            <div class="col-md-4">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label class="control-label">Menu</label>
+                        <br />
+                        @Html.Kendo().DropDownList().Name("menuId").SetValueTextDataSourceCustom("GetReferenceModelList", "Menu").DataTextField("description").DataValueField("value").OptionLabel("").Events(events => events.Select("menuOnSelect")).Filter(FilterType.Contains)
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description</label>
+                        <br />
+                        @Html.Kendo().TextBox().Name("menuDescription")
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Display Order</label>
+                        <br />
+                        @Html.Kendo().IntegerTextBox().Name("menuDisplayOrder").Decimals(0)
+                    </div>
+                    <div class="form-group">
+                        <button id="btn-menu-save" class="k-button" type="button" onclick="saveMenu()" disabled="disabled">Save Menu</button>
+                        <button id="btn-menu-add" class="k-button" type="button" onclick="addMenu()" disabled="disabled">Add Menu</button>
+                    </div>
+                    <div class="form-group">
+                        <button id="btn-menu-main-add" class="k-button" type="button" onclick="addMainMenu()">Add Main Menu</button>
+                    </div>
+                    <div class="form-group">
+                        <button id="btn-menu-main-move" class="k-button" type="button" onclick="changeToMainMenu()" disabled="disabled">Move to Main Menu</button>
+                    </div>
+                    <div class="form-group">
+                        <button id="btn-menu-delete" class="k-button" type="button" onclick="deleteSelectedMenu()" disabled="disabled">Delete Selected Menu</button>
+                    </div>
+                    <div class="form-group" style="border-top: 1px solid gray;">
+                        <label class="control-label">Copy Menu's from Role</label>
+                        <br />
+                        @Html.Kendo().DropDownList().Name("ddlCopyMenuFromRoleId").SetValueTextDataSourceCustom("RoleList", "Role").DataTextField("description").DataValueField("id").OptionLabel("select Role").Filter(FilterType.Contains)
+                        <br />
+                        <button class="k-button" type="button" onclick="copyMenuFromRole()">Copy Menu From Role</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

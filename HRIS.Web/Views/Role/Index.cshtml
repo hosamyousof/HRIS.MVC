@@ -1,0 +1,122 @@
+﻿@using HRIS.Model.Sys;
+@{
+    ViewBag.Title = "Role";
+}
+@Html.AdminHeader("Role")
+
+@{
+
+    Html.Kendo().Grid<RoleModel>()
+        .Name("grd")
+        .Columns(col =>
+        {
+            col.Bound(x => x.code).Width(150);
+            col.Bound(x => x.description);
+            col.Bound(x => x.updatedBy).Width(90);
+            col.Bound(x => x.updatedDate).Width(120);
+            col.Command(x =>
+            {
+                x.Custom("cmd-user-role").Text("<i class='fa fa-user'></i> Users").Click("showUserRoles");
+                x.Custom("cmd-permission-role").Text("<i class='fa fa-check-circle-o'></i> Permission").Click("showRolePermissions");
+                x.Destroy();
+            }).Width(240);
+            col.Bound(x => x.id).Title("").ClientTemplate("<button class='k-button' type='button' onclick='showRoleMenu(#= id #)'><i class='fa fa-list'></i> Menu</button>").Width(80);
+
+        })
+    .ToolBar(tb =>
+    {
+        tb.Create();
+        tb.Save();
+    })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .SetDefaultSettings()
+    .DataSource(source =>
+    {
+        source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+                    m.Field(f => f.updatedBy).Editable(false);
+                    m.Field(f => f.updatedDate).Editable(false);
+                    m.Field(f => f.id).Editable(false);
+                })
+                .Read(read => read.Action("RoleList", "Role"))
+                .Create(crud => crud.Action("RoleCRUD", "Role", new { updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("RoleCRUD", "Role", new { updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("RoleCRUD", "Role", new { updateType = UpdateType.Destroy }))
+                ;
+    })
+    .Render();
+
+}
+@{
+    Html.Kendo().Window().Name("winUserRoles").Title("User Roles")
+        .Visible(false).Modal(true).Draggable(true).Width(800)
+        .Content(@<text>@Html.Partial("_UserRole")</text>)
+        .Render();
+
+    Html.Kendo().Window().Name("winRolePermissions").Title("Role Permissions")
+        .Visible(false).Modal(true).Draggable(true).Width(800)
+        .Content(@<text>@Html.Partial("_RolePermission")</text>)
+        .Render();
+
+    Html.Kendo().Window().Name("winRoleMenu").Title("Role Permissions")
+        .Visible(false).Modal(true).Draggable(true).Width(1200)
+        .Content(@<text><div id="menuList"></div></text>)
+        .Render();
+
+}
+
+<script type="text/javascript">
+    var roleId;
+    function showUserRoles(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+        roleId = dataItem.id;
+        $("#grdUserRole").data("kendoGrid").dataSource.read(getParamRoleId);
+
+        var win = $("#winUserRoles").data("kendoWindow");
+        win.center();
+        win.open();
+        $("#winUserRoles").parent().css("top", "50px");
+
+    }
+
+    function showRoleMenu(roleId) {
+        if (roleId == null || roleId == undefined) {
+            alert('Please Save Changes first before you proceed Menu Designer.');
+            return;
+        }
+
+        $("#menuList").load("@Url.Content("~/Role/MenuList/")" + roleId, null, function (e) {
+            var win = $("#winRoleMenu").data("kendoWindow");
+            win.center();
+            win.open();
+            $("#winRoleMenu").parent().css("top", "50px");
+        });
+
+    }
+
+    function showRolePermissions(e) {
+        e.preventDefault();
+        var dataItem = this.dataItem($(e.currentTarget).closest("tr"));
+
+        roleId = dataItem.id;
+        $("#grdRolePermission").data("kendoGrid").dataSource.read(getParamRoleId);
+
+        var win = $("#winRolePermissions").data("kendoWindow");
+        win.center();
+        win.open();
+        $("#winRolePermissions").parent().css("top", "50px");
+
+    }
+
+    function getParamRoleId() {
+        return {
+            roleId: roleId
+        }
+    }
+    
+</script>

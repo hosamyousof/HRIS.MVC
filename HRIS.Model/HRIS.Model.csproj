@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0A976F62-62C0-4C9D-A1E5-5B25254CA4F5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>HRIS.Model</RootNamespace>
+    <AssemblyName>HRIS.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'AcerHouseDev|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\AcerHouseDev\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Attendance\CutOffAttendanceListModel.cs" />
+    <Compile Include="Attendance\CutOffAttendanceModel.cs" />
+    <Compile Include="Attendance\CutOffAttendanceSummaryDetailModel.cs" />
+    <Compile Include="Attendance\CutOffAttendanceSummaryModel.cs" />
+    <Compile Include="Attendance\EmployeeAttendanceModel.cs" />
+    <Compile Include="Attendance\EmployeeCutOffAttendanceListModel.cs" />
+    <Compile Include="Attendance\GenerateCutOffAttendanceModel.cs" />
+    <Compile Include="Attendance\GenerateCutOffAttendance.cs" />
+    <Compile Include="Attendance\GenerateCutOffModel.cs" />
+    <Compile Include="Attendance\ManualTimeLogModel.cs" />
+    <Compile Include="Configuration\DeductionModel.cs" />
+    <Compile Include="Configuration\DepartmentSectionModel.cs" />
+    <Compile Include="Configuration\DepartmentSectionRequestApproverModel.cs" />
+    <Compile Include="Configuration\AllowanceModel.cs" />
+    <Compile Include="Configuration\PenaltyTypeModel.cs" />
+    <Compile Include="Configuration\PayrollGroupModel.cs" />
+    <Compile Include="Configuration\OffenseModel.cs" />
+    <Compile Include="Configuration\CountryModel.cs" />
+    <Compile Include="Configuration\DepartmentModel.cs" />
+    <Compile Include="Configuration\Holiday.cs" />
+    <Compile Include="Configuration\HolidayTypeModel.cs" />
+    <Compile Include="Configuration\WorkDayModel.cs" />
+    <Compile Include="EnumReference.cs" />
+    <Compile Include="LeaveMgmt\ApplicationRequestModel.cs" />
+    <Compile Include="MasterFile\AgencyModel.cs" />
+    <Compile Include="MasterFile\EmployeeDeductionModel.cs" />
+    <Compile Include="MasterFile\EmployeeAllowanceModel.cs" />
+    <Compile Include="MasterFile\EmployeeBalanceLeaveModel.cs" />
+    <Compile Include="MasterFile\EmployeeBasicPayModel.cs" />
+    <Compile Include="MasterFile\EmployeeQuickUpdateModel.cs" />
+    <Compile Include="MasterFile\EmploymentTypeModel.cs" />
+    <Compile Include="MasterFile\EmploymentStatusModel.cs" />
+    <Compile Include="MasterFile\Employee201Model.cs" />
+    <Compile Include="MasterFile\EmployeeBasicInfoModel.cs" />
+    <Compile Include="MasterFile\EmployeeListModel.cs" />
+    <Compile Include="Configuration\PositionModel.cs" />
+    <Compile Include="MasterFile\EmployeeIdentificationDocumentModel.cs" />
+    <Compile Include="MasterFile\EmployeeOffenseModel.cs" />
+    <Compile Include="MasterFile\EmployeeTrainingModel.cs" />
+    <Compile Include="MasterFile\EmployeeSkillModel.cs" />
+    <Compile Include="MasterFile\EmployeeWorkDayModel.cs" />
+    <Compile Include="MasterFile\EmployeeWorkHistoryModel.cs" />
+    <Compile Include="MasterFile\SkillProficiency.cs" />
+    <Compile Include="ModelAuditInfo.cs" />
+    <Compile Include="Payroll\GeneratePayrollModel.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sys\AccountProfileModel.cs" />
+    <Compile Include="Sys\EnumReferenceModel.cs" />
+    <Compile Include="Sys\IdentificationDocumentModel.cs" />
+    <Compile Include="Sys\CompanyModel.cs" />
+    <Compile Include="Sys\LocationModel.cs" />
+    <Compile Include="Sys\MenuModel.cs" />
+    <Compile Include="Sys\PermissionList.cs" />
+    <Compile Include="Sys\PermissionModel.cs" />
+    <Compile Include="Sys\ReferenceModel.cs" />
+    <Compile Include="Sys\RoleAccessType.cs" />
+    <Compile Include="Sys\RoleMenuEntryModel.cs" />
+    <Compile Include="Sys\RoleMenuModel.cs" />
+    <Compile Include="Sys\RoleMenuTreeViewModel.cs" />
+    <Compile Include="Sys\RoleModel.cs" />
+    <Compile Include="Sys\RolePermissionModel.cs" />
+    <Compile Include="Sys\SettingModel.cs" />
+    <Compile Include="Sys\UserModel.cs" />
+    <Compile Include="Sys\UserRoleModel.cs" />
+    <Compile Include="Sys\UserStatus.cs" />
+    <Compile Include="TreeViewModel.cs" />
+    <Compile Include="UpdateType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{dcd77e63-5f3a-454a-97bd-87519c7e3701}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Repository\Repository.csproj">
+      <Project>{87cb7be2-7203-421a-a4f4-991343c5cc68}</Project>
+      <Name>Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

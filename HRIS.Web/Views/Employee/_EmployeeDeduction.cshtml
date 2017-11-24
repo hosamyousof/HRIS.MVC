@@ -1,0 +1,52 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Service.Sys;
+@using HRIS.Model.Sys;
+@using HRIS.Model.MasterFile;
+@using HRIS.Service.Configuration;
+@model int?
+
+@{
+
+    Html.Kendo().Grid<EmployeeDeductionModel>()
+        .Name("grdDeduction")
+        .Columns(col =>
+        {
+            col.Bound(x => x.Deduction).ClientTemplate("#= Deduction.description #").EditorTemplateName("DropDownDeduction");
+            col.Bound(x => x.amount).Width(120).EditorTemplateName("NumericTextBox");
+            col.Bound(x => x.updatedBy).Width(80);
+            col.Command(x =>
+            {
+                x.Destroy();
+            }).Width(40);
+        })
+        .ToolBar(tb =>
+        {
+            tb.Create();
+            tb.Save();
+        })
+        .Editable(editable => editable.Mode(GridEditMode.InCell))
+        .SetDefaultSettings()
+        .DataSource(source =>
+        {
+            source
+                .Ajax()
+                .Model(m =>
+                {
+                    m.Id(f => f.id);
+
+                    var deduction = DependencyResolver.Current.GetService<IDeductionService>().GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description, }).FirstOrDefaultInstance();
+
+                    m.Field(f => f.Deduction).DefaultValue(deduction);
+                    m.Field(f => f.amount).DefaultValue(0);
+                    m.Field(f => f.updatedBy).Editable(false).DefaultValue(this.GetCurrentUsername());
+                    m.Field(f => f.updatedDate).Editable(false);
+                })
+                .Read(read => read.Action("GetEmployeeDeductionList", "Employee", new { employeeId = Model }))
+                .Create(crud => crud.Action("DeductionCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Create }))
+                .Update(crud => crud.Action("DeductionCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Update }))
+                .Destroy(crud => crud.Action("DeductionCRUD", "Employee", new { employeeId = Model, updateType = UpdateType.Destroy }))
+                ;
+        })
+    .Render();
+
+}

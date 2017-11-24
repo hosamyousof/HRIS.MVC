@@ -1,0 +1,140 @@
+﻿@{
+
+}
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8" />
+    <title>HRIS | @ViewBag.Title</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+
+    <link href="~/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/assets/kendo/web/kendo.common.min.css" rel="stylesheet" />
+    <link href="~/assets/kendo/web/kendo.rtl.min.css" rel="stylesheet" />
+    <link href="~/assets/kendo/web/kendo.default.min.css" rel="stylesheet" />
+    <link href="~/assets/kendo/web/kendo.default.mobile.min.css" rel="stylesheet" />
+    <link href="~/assets/kendo/dataviz/kendo.dataviz.min.css" rel="stylesheet" />
+    <link href="~/assets/kendo/dataviz/kendo.dataviz.default.min.css" rel="stylesheet" />
+    <link href="~/assets/kendo/mobile/kendo.mobile.all.min.css" rel="stylesheet" />
+
+    <link href="~/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/assets/sweetalert/sweetalert.css" rel="stylesheet" />
+    @RenderSection("css_plugins", false)
+    @Html.IncludeVersionedCss("~/assets/css/common.css")
+    @Html.IncludeVersionedCss("~/assets/css/admin.css")
+
+    <script src="~/assets/kendo/js/jquery.min.js"></script>
+
+    <script src="~/assets/kendo/js/kendo.all.min.js"></script>
+    <script src="~/assets/kendo/js/kendo.aspnetmvc.min.js"></script>
+    <script src="~/assets/kendo/js/kendo.timezones.min.js"></script>
+
+    <script src="~/assets/sweetalert/sweetalert.min.js"></script>
+
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/Scripts/jquery.form.min.js"></script>
+
+    @Html.IncludeVersionedJs("~/Scripts/hris.js")
+    @RenderSection("script_plugins", false)
+    @RenderSection("header", false)
+</head>
+<body>
+
+    <div id="splitter-vertical">
+        <div class="hris-header">
+            <div class="logo">
+                    <a href="@Url.Content("~/")">
+                        <img src="@Html.GetFileUrl("~/assets/images/logo.png")" class="logo-img" />
+                        Web HRIS
+                    </a>
+            </div>
+            <div style="width: 30%; float: right; text-align: right; padding: 10px;">
+                @if (User.Identity.IsAuthenticated)
+                {
+
+                    var userService = DependencyResolver.Current.GetService<HRIS.Service.Sys.IUserService>();
+                    var profile = userService.GetCurrentAccountProfile();
+
+                    <p>Hello, <strong>@(profile.username.ToUpper() + " [" + profile.company + "]")</strong></p>
+                    <p><a href="@Url.Content("~/MyProfile")">My Profile</a> | <a href="@Url.Content("~/LogOff")">Log off</a></p>
+                }
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+        <div style="background-color: #f1f1f1;">
+            @{
+                bool isVertical = false;
+            }
+            @if (isVertical)
+            {
+                <div class="main-container">
+
+                    <div class="hris-container">
+                        <div class="col-md-3">
+                            <div class="row">
+                                @Html.Action("GetRoleMenu", new { isVertical = true })
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            @RenderBody()
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div>
+                    @Html.Action("GetRoleMenu")
+                </div>
+                <div class="main-container">
+
+                    <div class="hris-container">
+                        @RenderBody()
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="hris-footer">
+            <p>
+                HRIS @@ Active Apps 2016 (<strong>Ver: @ViewContext.Controller.GetType().Assembly.GetName().Version</strong>)
+            </p>
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $("#splitter-vertical").kendoSplitter({
+                orientation: "vertical",
+                panes: [
+                    { collapsible: false, resizable: false, size: "70px" },
+                    { collapsible: false },
+                    { collapsible: false, resizable: false, size: "30px" },
+                ]
+            });
+
+            //$("#splitter-horizontal").kendoSplitter({
+            //    panes: [
+            //        { collapsible: true, size: "300px" },
+            //        { collapsible: false },
+            //    ]
+            //});
+        });
+    </script>
+
+    @RenderSection("bottom", false)
+</body>
+<!-- END BODY -->
+</html>

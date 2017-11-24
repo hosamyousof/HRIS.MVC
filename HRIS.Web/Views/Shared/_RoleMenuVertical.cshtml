@@ -1,0 +1,47 @@
+﻿@model IEnumerable<RoleMenuModel>
+
+@functions{
+    public void renderChild(IEnumerable<RoleMenuModel> childs, Kendo.Mvc.UI.Fluent.PanelBarItemBuilder builder)
+    {
+        if (childs != null && childs.Any())
+        {
+            builder.Items(menu =>
+            {
+                var chlds = childs;
+                foreach (var c in chlds)
+                {
+                    var m = menu.Add().Text(c.description).Action(c.actionName, c.controllerName);
+                    renderChild(c.Childs, m);
+                }
+            });
+        }
+    }
+}
+
+@{
+    Html.Kendo()
+        .PanelBar()
+        .Name("panelBarMenuVertical")
+        .ExpandMode(PanelBarExpandMode.Single)
+        .Items(menu =>
+        {
+
+            if (Model.Any())
+            {
+                var mainMenu = Model.Where(x => x.mainMenu);
+
+                foreach (var item in mainMenu)
+                {
+                    var m = menu.Add().Text(item.description).Action(item.actionName, item.controllerName);
+                    renderChild(item.Childs, m);
+                }
+            }
+            else
+            {
+                menu.Add().Text("Home").Url(Url.Action("Index", "Home"));
+            }
+
+        })
+    .Render();
+
+}

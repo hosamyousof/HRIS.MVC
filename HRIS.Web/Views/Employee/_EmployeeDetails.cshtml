@@ -1,0 +1,25 @@
+﻿@model int?
+<hr />
+@{
+
+    Html.Kendo().TabStrip().Name("tsEmployeeDetails")
+        .Items(tab =>
+        {
+            tab.Add().Text("Job Information").LoadContentFrom("GetEmployee201File", "Employee", new { id = Model.Value }).Selected(true);
+            tab.Add().Text("Work Days").LoadContentFrom("GetEmployeeWorkDays", "Employee", new { id = Model.Value });
+            tab.Add().Text("Basic Pay").LoadContentFrom("GetEmployeeBasicPays", "Employee", new { id = Model.Value });
+            tab.Add().Text("Balance Leave").LoadContentFrom("GetEmployeeBalanceLeaves", "Employee", new { id = Model.Value });
+            tab.Add().Text("Deduction").LoadContentFrom("GetEmployeeDeductions", "Employee", new { id = Model.Value });
+            tab.Add().Text("Allowance").LoadContentFrom("GetEmployeeAllowances", "Employee", new { id = Model.Value });
+            tab.Add().Text("Identification Documents (SSS, GSIS, TIN#, etc...)").LoadContentFrom("GetEmployeeIdentificationDocuments", "Employee", new { id = Model.Value });
+            tab.Add().Text("Work History").LoadContentFrom("GetEmployeeWorkHistory", "Employee", new { id = Model.Value });
+            tab.Add().Text("Skills").LoadContentFrom("GetEmployeeSkills", "Employee", new { id = Model.Value });
+            tab.Add().Text("Trainings").LoadContentFrom("GetEmployeeTrainings", "Employee", new { id = Model.Value });
+            tab.Add().Text("Offense").LoadContentFrom("GetEmployeeOffenses", "Employee", new { id = Model.Value });
+        })
+        .Animation(false)
+        .Render();
+
+}
+<div class="clearfix"></div>
+<br />

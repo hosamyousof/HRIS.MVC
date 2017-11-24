@@ -1,0 +1,17 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Service.Configuration;
+@model ReferenceModel
+@{
+    var data = DependencyResolver.Current.GetService<IAllowanceService>().GetQuery()
+        .Select(x => new ReferenceModel()
+        {
+             value = x.id.Value,
+             description = x.description,
+        })
+        .ToList();
+    Html.Kendo().DropDownListFor(model => model)
+        .BindTo(data)
+        .OptionLabel("select")
+        .DataValueField("value").DataTextField("description")
+        .Render();
+}

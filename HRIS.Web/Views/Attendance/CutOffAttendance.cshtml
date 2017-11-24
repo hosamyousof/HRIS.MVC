@@ -1,0 +1,185 @@
+﻿@using HRIS.Model.Attendance;
+@{
+    ViewBag.Title = "Generate Cut Off Attendance";
+}
+
+@section bottom{
+    <script type="text/javascript">
+        function getParam() {
+            return {
+                payrollGroupId: $("#filter_payrollGroup").data("kendoDropDownList").value(),
+                status: $("#filter_status").data("kendoDropDownList").value(),
+                generatedDate: $("#filter_generatedDate").data("kendoDatePicker").value(),
+            }
+        }
+
+        function refreshGrid() {
+            var grd = $("#grdCutOffAttendance").data("kendoGrid");
+            grd.dataSource.read(getParam);
+        }
+
+        function generateCutOffAttendance(ctrl) {
+            $('#winGenerateCutOff').data('kendoWindow').close()
+            var btn = $(ctrl);
+            btn.attr("disabled", "disabled");
+            $.ajax({
+                url: "@Url.Action("AjaxGenerateCutOffAttendance")",
+                data: {
+                    payrollGroupId: $("#payrollGroup").data("kendoDropDownList").value(),
+                    startDate: kendo.toString($("#startDate").data("kendoDatePicker").value(), "MM/dd/yyyy"),
+                    endDate: kendo.toString($("#endDate").data("kendoDatePicker").value(), "MM/dd/yyyy"),
+                },
+                type: "post", dataType: "json",
+                success: function (result) {
+                    btn.removeAttr("disabled");
+
+                    if (result.success) {
+                        $("#grdCutOffAttendance").data("kendoGrid").dataSource.read();
+                        viewSummary(null, result.id);
+                    }
+                    else {
+                        if (result.data) {
+                            if (result.data.thereIsNoWorkDay != undefined && result.data.thereIsNoWorkDay) {
+                                swal({
+                                    title: "Cut Off Attendance",
+                                    text: "Please update employee Work Day attendance before you generate Cut Off Attendance. <a href='@Url.Action("UpdateWorkDayAttendance", "Attendance")' target='_blank'>Check Here to Update</a>",
+                                    html: true,
+                                    type: "warning"
+                                });
+                                return;
+                            }
+
+                            if (result.data.noRecordAttendance != undefined && result.data.noRecordAttendance) {
+                                swal({
+                                    title: "Cut Off Attendance",
+                                    text: "No Record found in Employee attendance. Please confirm your input dates.",
+                                    html: true,
+                                    type: "warning"
+                                });
+                                return;
+                            }
+                        }
+                        swal("Cut Off Attendance", result.msg, "warning");
+
+                    }
+                }
+            })
+        }
+    </script>
+}
+
+@Html.AdminHeader("Generated Cut Off Attendance List")
+
+<div class="col-md-12">
+    <div class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="control-label col-md-2" for="payrollGroup">Payroll Group</label>
+            <div class="col-md-4">
+                @Html.Kendo().DropDownList().Name("filter_payrollGroup").SetValueTextDataSourceCustom("ValueTextList", "PayrollGroup").OptionLabel("All Payroll Group")
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="startDate">Start Date</label>
+            <div class="col-md-4">
+                @Html.Kendo().DatePicker().Name("filter_generatedDate").Value(DateTime.Now.Date).Format("MM/dd/yyyy")
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="endDate">End Date</label>
+            <div class="col-md-4">
+                @Html.Kendo().DropDownList().Name("filter_status").SetReferenceSettings(ReferenceList.CUT_OFF_ATTENDANCE).OptionLabel("All Status")
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="button" class="k-button k-primary" onclick="$('#winGenerateCutOff').data('kendoWindow').open()">Generate Cut Off Attendance</button>
+                <button type="button" class="k-button" onclick="refreshGrid()">Refresh List</button>
+            </div>
+        </div>
+        <hr />
+        <div class="form-group">
+            @{
+                Html.Kendo().Grid<CutOffAttendanceListModel>()
+                    .Name("grdCutOffAttendance")
+                    .Columns(col =>
+                    {
+                        col.Bound(x => x.id).Title("Id").Width(80);
+                        col.Bound(x => x.generatedDate).Width(120);
+                        col.Bound(x => x.payrollGroup);
+                        col.Bound(x => x.endDate).Width(120).Format("{0: MM/dd/yyyy}");
+                        col.Bound(x => x.startDate).Width(120).Format("{0: MM/dd/yyyy}");
+                        col.Bound(x => x.employeeCount).Width(120).HtmlAttributes(new { @class = "center" }).Filterable(false);
+                        col.Bound(x => x.statusDescr).Width(120).HtmlAttributes(new { @class = "center" }).Filterable(false);
+                        col.Bound(x => x.id).Title("").ClientTemplate("<button type='button' class='col-md-12 k-button' onclick='viewSummary(this,#= id #)'><i class='fa fa-edit'></i> View</button>").Width(120);
+                    })
+                    .SetDefaultSettings()
+                    .DataSource(source =>
+                    {
+                        source
+                            .Ajax()
+                            .ServerOperation(true)
+                            .Read(read => read.Action("CutOffAttendanceListModelGetQuery", "Attendance").Data("getParam"));
+                    })
+                    .Render();
+            }
+        </div>
+    </div>
+</div>
+
+<script id="dropdownEmployeeTemplate" type="text/x-kendo-template">
+    <span class="k-state-default"><strong>#: data.employeeCode + ' - ' + data.name #</strong></span>
+    <br />
+    <span class="k-state-default">#: data.department + ' / ' + data.position #</span>
+</script>
+
+<script id="dropdownEmployeeValueTemplate" type="text/x-kendo-template">
+    <span class="selected-value">#: data.employeeCode + ' - ' + data.name #</span>
+</script>
+
+@{
+
+    Html.Kendo()
+        .Window()
+        .Name("winCutOffDetails")
+        .Title("Cut Off Details")
+        .Width(1200)
+        .Content(@<text>
+            <div class="col-md-12" id="cutOffAttendanceDetails">
+            </div>
+        </text>)
+        .Modal(true)
+        .Events(events => events.Open("HRIS.centerKendoWindow"))
+        .Draggable()
+        .Visible(false)
+        .Render();
+
+    Html.Kendo()
+        .Window()
+        .Name("winGenerateCutOff")
+        .Title("Generate New Cut Off Attendance")
+        .Width(1200)
+        .LoadContentFrom("_GenerateCutOffAttendanceEntry", "Attendance")
+        .Modal(true)
+        .Events(events => events.Open("HRIS.centerKendoWindow"))
+        .Draggable()
+        .Visible(false)
+        .Render();
+
+}
+
+<script type="text/javascript">
+    function viewSummary(ctrl, id) {
+        var btn = null;
+        if (ctrl != null) {
+            btn = $(ctrl);
+            btn.attr("disabled", "disabled");
+        }
+        $("#cutOffAttendanceDetails").empty();
+        $("#cutOffAttendanceDetails").load("@Url.Action("ViewCutOffSummary")/" + id, null, function () {
+            if (ctrl != null) {
+                btn.removeAttr("disabled");
+            }
+            $("#winCutOffDetails").data("kendoWindow").open();
+        });
+    }
+</script>

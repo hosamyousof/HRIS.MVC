@@ -1,0 +1,154 @@
+﻿@using HRIS.Model.Sys;
+@using HRIS.Model.Attendance;
+@using HRIS.Service.Attendance;
+@{
+
+    ViewBag.Title = "Employee Time and Attendance";
+
+}
+
+@section bottom{
+    <script type="text/javascript">
+
+        $(function () {
+        })
+
+        function getParam() {
+            return {
+                employeeId: $("#employee").data("kendoDropDownList").value(),
+                startDate: $("#startDate").data("kendoDateTimePicker").value(),
+                endDate: $("#endDate").data("kendoDateTimePicker").value(),
+            }
+        }
+
+        function refreshGrid() {
+            var grd = $("#grdAttendance").data("kendoGrid");
+            grd.dataSource.read(getParam);
+        }
+
+        function saveManualTimeLog() {
+            var form = $("#frmManualAttendance");
+
+            if (form.valid()) {
+                form.ajaxSubmit({
+                    success: function (result) {
+                        HRIS.showAjaxResult(result);
+                        if (result.success) {
+                            $("#winManualTimeLog").data("kendoWindow").close();
+                        }
+                    }
+                });
+            }
+        }
+
+        function newManualTimeLog() {
+            $("#winManualTimeLog").data("kendoWindow").open();
+        }
+
+    </script>
+}
+
+@Html.AdminHeader((string)ViewBag.Title, @<text>
+        <button type="button" class="k-button pull-right" onclick="newManualTimeLog()">Add Missing Time Logs</button>
+        <button type="button" class="k-button pull-right hris-margin-right-5" onclick="downloadDeviceLogs()">Download Logs</button>
+</text>)
+<div class="col-md-12">
+    <div class="form-horizontal" role="form">
+        <div class="form-group">
+            <label class="control-label col-md-2" for="startDate">Start Date</label>
+            <div class="col-md-4">
+                @Html.Kendo().DateTimePicker().Name("startDate").Value(DateTime.Now.Date).Events(events => events.Change("refreshGrid"))
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-md-2" for="endDate">End Date</label>
+            <div class="col-md-4">
+                @Html.Kendo().DateTimePicker().Name("endDate").Value(DateTime.Now.Date).Events(events => events.Change("refreshGrid"))
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="employee">Employee</label>
+            <div class="col-md-4">
+                @{
+
+                    Html.Kendo().DropDownList().Name("employee")
+                        .DataSource(source =>
+                        {
+                            source.Custom().Type("aspnetmvc-ajax").ServerFiltering(true)
+                                .Transport(transport =>
+                                {
+                                    transport.Read(read =>
+                                    {
+                                        read.Action("GetEmployeeAll", "Employee");
+                                    });
+                                })
+                                .Schema(schema =>
+                                {
+                                    schema.Data("Data").Total("Total");
+                                });
+                        })
+                        .Filter(FilterType.Contains)
+                        .DataValueField("id")
+                        .DataTextField("name")
+                        .TemplateId("dropdownEmployeeTemplate")
+                        .ValueTemplateId("dropdownEmployeeValueTemplate")
+                        .OptionLabel("select")
+                        .Events(events => events.Change("refreshGrid"))
+                        .Render();
+
+                }
+                <span class="help-block">Select Employee that you want to view attendance</span>
+            </div>
+        </div>
+        <div class="form-group">
+            @{
+                Html.Kendo().Grid<EmployeeAttendanceModel>()
+                    .Name("grdAttendance")
+                    .Columns(col =>
+                    {
+                        col.Bound(x => x.employeeName);
+                        col.Bound(x => x.workDate).Width(150);
+                        col.Bound(x => x.timeLog).Width(150);
+                        col.Bound(x => x.timeLogType).Width(150).ClientTemplate("#= timeLogType.description #");
+                    })
+                    .SetDefaultSettings()
+                    .DataSource(source =>
+                    {
+                        source
+                            .Ajax()
+                            .Read(read => read.Action("GetEmployeeAttendance", "Attendance").Data("getParam"));
+                    })
+                    .Render();
+            }
+        </div>
+    </div>
+</div>
+
+<script id="dropdownEmployeeTemplate" type="text/x-kendo-template">
+    <span class="k-state-default"><strong>#: data.employeeCode + ' - ' + data.name #</strong></span>
+    <br />
+    <span class="k-state-default">#: data.department + ' / ' + data.position #</span>
+</script>
+
+<script id="dropdownEmployeeValueTemplate" type="text/x-kendo-template">
+    <span class="selected-value">#: data.employeeCode + ' - ' + data.name #</span>
+</script>
+
+@{
+
+    Html.Kendo()
+        .Window()
+        .Name("winManualTimeLog")
+        .Title("Manual Time Log")
+        .Width(600)
+        .LoadContentFrom("_ManualTimeLog", "Attendance")
+        .Modal(true)
+        .Events(events => events.Open("HRIS.centerKendoWindow"))
+        .Draggable()
+        .Visible(false)
+        .Render();
+
+   
+
+}
