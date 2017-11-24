@@ -26,7 +26,6 @@ namespace HRIS.Data.Mapping
 
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeIdentificationDocuments).HasForeignKey(c => c.employeeId);
             HasRequired(a => a.sys_IdentificationDocument).WithMany(b => b.mf_EmployeeIdentificationDocuments).HasForeignKey(c => c.identificationDocumentId);
-            HasRequired(a => a.sys_User).WithMany(b => b.mf_EmployeeIdentificationDocuments).HasForeignKey(c => c.updatedBy);
             InitializePartial();
         }
 

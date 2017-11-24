@@ -13,7 +13,7 @@ namespace HRIS.Data.Entity
 
         public virtual mf_Employee mf_Employee { get; set; }
         public virtual sys_IdentificationDocument sys_IdentificationDocument { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        
 
         public mf_EmployeeIdentificationDocument()
         {

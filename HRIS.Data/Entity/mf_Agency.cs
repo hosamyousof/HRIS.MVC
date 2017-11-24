@@ -14,7 +14,6 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_Employee201> mf_Employee201 { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }
-        public virtual sys_User sys_User { get; set; }
 
         public mf_Agency()
         {

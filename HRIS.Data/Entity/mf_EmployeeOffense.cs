@@ -21,7 +21,7 @@ namespace HRIS.Data.Entity
         public virtual mf_Employee mf_Employee { get; set; }
         public virtual mf_Offense mf_Offense { get; set; }
         public virtual mf_PenaltyType mf_PenaltyType { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        
 
         public mf_EmployeeOffense()
         {

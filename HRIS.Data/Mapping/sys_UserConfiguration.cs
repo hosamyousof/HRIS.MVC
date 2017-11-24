@@ -29,9 +29,6 @@ namespace HRIS.Data.Mapping
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
 
-            HasOptional(a => a.mf_Employee).WithMany(b => b.sys_Users).HasForeignKey(c => c.employeeId);
-            HasOptional(a => a.sys_User_updatedBy).WithMany(b => b.sys_Users).HasForeignKey(c => c.updatedBy);
-            HasRequired(a => a.sys_Company).WithMany(b => b.sys_Users).HasForeignKey(c => c.companyId);
             InitializePartial();
         }
 

@@ -14,7 +14,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<ta_CutOffAttendanceSummaryDetail> ta_CutOffAttendanceSummaryDetails { get; set; }
 
         public virtual mf_Employee mf_Employee { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        
         public virtual ta_CutOffAttendance ta_CutOffAttendance { get; set; }
 
         public ta_CutOffAttendanceSummary()

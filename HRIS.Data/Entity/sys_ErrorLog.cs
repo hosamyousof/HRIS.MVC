@@ -14,7 +14,7 @@ namespace HRIS.Data.Entity
         public int? createdBy { get; set; }
         public DateTime createdDate { get; set; }
 
-        public virtual sys_User sys_User { get; set; }
+        
 
         public sys_ErrorLog()
         {

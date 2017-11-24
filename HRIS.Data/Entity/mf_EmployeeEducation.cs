@@ -17,7 +17,6 @@ namespace HRIS.Data.Entity
         public DateTime updatedDate { get; set; }
 
         public virtual mf_Employee mf_Employee { get; set; }
-        public virtual sys_User sys_User { get; set; }
 
         public mf_EmployeeEducation()
         {

@@ -16,7 +16,7 @@ namespace HRIS.Data.Entity
 
         public virtual ICollection<sys_RoleMenu> sys_RoleMenus { get; set; }
 
-        public virtual sys_User sys_User { get; set; }
+        
 
         public sys_Menu()
         {

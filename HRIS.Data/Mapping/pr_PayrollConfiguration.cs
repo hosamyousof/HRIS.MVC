@@ -28,8 +28,6 @@ namespace HRIS.Data.Mapping
             Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
 
             HasRequired(a => a.sys_Company).WithMany(b => b.pr_Payrolls).HasForeignKey(c => c.companyId);
-            HasRequired(a => a.sys_User_generatedBy).WithMany(b => b.pr_Payrolls_generatedBy).HasForeignKey(c => c.generatedBy);
-            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.pr_Payrolls_updatedBy).HasForeignKey(c => c.updatedBy);
             HasRequired(a => a.ta_CutOffAttendance).WithMany(b => b.pr_Payrolls).HasForeignKey(c => c.cutOffAttendanceId);
             InitializePartial();
         }

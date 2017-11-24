@@ -23,7 +23,6 @@ namespace HRIS.Data.Mapping
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
 
-            HasRequired(a => a.sys_User).WithMany(b => b.sys_IdentificationDocuments).HasForeignKey(c => c.updatedBy);
             InitializePartial();
         }
 

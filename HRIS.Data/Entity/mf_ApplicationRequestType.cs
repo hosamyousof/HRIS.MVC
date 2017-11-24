@@ -16,7 +16,6 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_EmployeeBalanceLeave> mf_EmployeeBalanceLeaves { get; set; }
         public virtual ICollection<ta_ApplicationRequest> ta_ApplicationRequests { get; set; }
 
-        public virtual sys_User sys_User { get; set; }
 
         public mf_ApplicationRequestType()
         {

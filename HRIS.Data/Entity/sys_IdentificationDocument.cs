@@ -13,7 +13,7 @@ namespace HRIS.Data.Entity
 
         public virtual ICollection<mf_EmployeeIdentificationDocument> mf_EmployeeIdentificationDocuments { get; set; }
 
-        public virtual sys_User sys_User { get; set; }
+        
 
         public sys_IdentificationDocument()
         {

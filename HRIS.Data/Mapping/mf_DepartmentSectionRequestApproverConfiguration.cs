@@ -27,8 +27,6 @@ namespace HRIS.Data.Mapping
 
             HasRequired(a => a.mf_ApplicationRequestType).WithMany(b => b.mf_DepartmentSectionRequestApprovers).HasForeignKey(c => c.applicationRequestTypeId);
             HasRequired(a => a.mf_DepartmentSection).WithMany(b => b.mf_DepartmentSectionRequestApprovers).HasForeignKey(c => c.departmentSectionId);
-            HasRequired(a => a.sys_User_approverId).WithMany(b => b.mf_DepartmentSectionRequestApprovers_approverId).HasForeignKey(c => c.approverId);
-            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.mf_DepartmentSectionRequestApprovers_updatedBy).HasForeignKey(c => c.updatedBy);
             InitializePartial();
         }
 

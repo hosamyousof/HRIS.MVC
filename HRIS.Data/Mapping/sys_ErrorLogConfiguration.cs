@@ -26,7 +26,6 @@ namespace HRIS.Data.Mapping
             Property(x => x.createdBy).HasColumnName("createdBy").IsOptional().HasColumnType("int");
             Property(x => x.createdDate).HasColumnName("createdDate").IsRequired().HasColumnType("datetime");
 
-            HasOptional(a => a.sys_User).WithMany(b => b.sys_ErrorLogs).HasForeignKey(c => c.createdBy);
             InitializePartial();
         }
 

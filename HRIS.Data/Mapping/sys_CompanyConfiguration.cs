@@ -34,7 +34,6 @@ namespace HRIS.Data.Mapping
             Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
 
             HasRequired(a => a.mf_Country).WithMany(b => b.sys_Companies).HasForeignKey(c => c.countryId);
-            HasRequired(a => a.sys_User).WithMany(b => b.sys_Companies).HasForeignKey(c => c.updatedBy);
             InitializePartial();
         }
 

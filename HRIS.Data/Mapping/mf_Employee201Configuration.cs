@@ -47,7 +47,6 @@ namespace HRIS.Data.Mapping
             HasOptional(a => a.mf_EmploymentType).WithMany(b => b.mf_Employee201).HasForeignKey(c => c.employmentTypeId);
             HasOptional(a => a.mf_PayrollGroup).WithMany(b => b.mf_Employee201).HasForeignKey(c => c.payrollGroupId);
             HasOptional(a => a.mf_Position).WithMany(b => b.mf_Employee201).HasForeignKey(c => c.positionId);
-            HasRequired(a => a.sys_User).WithMany(b => b.mf_Employee201).HasForeignKey(c => c.updatedBy);
             InitializePartial();
         }
 

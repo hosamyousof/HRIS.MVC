@@ -32,8 +32,6 @@ namespace HRIS.Data.Mapping
 
             HasRequired(a => a.mf_PayrollGroup).WithMany(b => b.ta_CutOffAttendances).HasForeignKey(c => c.payrollGroupId);
             HasRequired(a => a.sys_Company).WithMany(b => b.ta_CutOffAttendances).HasForeignKey(c => c.companyId);
-            HasRequired(a => a.sys_User_changeStatusBy).WithMany(b => b.ta_CutOffAttendances_changeStatusBy).HasForeignKey(c => c.changeStatusBy);
-            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.ta_CutOffAttendances_updatedBy).HasForeignKey(c => c.updatedBy);
             InitializePartial();
         }
 

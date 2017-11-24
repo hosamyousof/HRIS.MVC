@@ -14,8 +14,6 @@ namespace HRIS.Data.Entity
 
         public virtual mf_ApplicationRequestType mf_ApplicationRequestType { get; set; }
         public virtual mf_DepartmentSection mf_DepartmentSection { get; set; }
-        public virtual sys_User sys_User_approverId { get; set; }
-        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public mf_DepartmentSectionRequestApprover()
         {

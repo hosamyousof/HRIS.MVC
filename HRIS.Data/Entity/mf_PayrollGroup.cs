@@ -14,7 +14,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_Employee201> mf_Employee201 { get; set; }
         public virtual ICollection<ta_CutOffAttendance> ta_CutOffAttendances { get; set; }
 
-        public virtual sys_User sys_User { get; set; }
+        
 
         public mf_PayrollGroup()
         {

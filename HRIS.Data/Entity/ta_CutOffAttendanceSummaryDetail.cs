@@ -18,7 +18,7 @@ namespace HRIS.Data.Entity
         public DateTime updatedDate { get; set; }
 
         public virtual mf_HolidayType mf_HolidayType { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        
         public virtual ta_CutOffAttendanceSummary ta_CutOffAttendanceSummary { get; set; }
 
         public ta_CutOffAttendanceSummaryDetail()

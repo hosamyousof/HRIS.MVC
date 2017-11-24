@@ -25,7 +25,6 @@ namespace HRIS.Data.Mapping
             Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
 
             HasRequired(a => a.mf_Department).WithMany(b => b.mf_DepartmentSections).HasForeignKey(c => c.departmentId);
-            HasRequired(a => a.sys_User).WithMany(b => b.mf_DepartmentSections).HasForeignKey(c => c.updatedBy);
             InitializePartial();
         }
 

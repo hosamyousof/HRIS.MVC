@@ -17,8 +17,6 @@ namespace HRIS.Data.Entity
         public virtual ICollection<pr_PayrollEmployee> pr_PayrollEmployees { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }
-        public virtual sys_User sys_User_generatedBy { get; set; }
-        public virtual sys_User sys_User_updatedBy { get; set; }
         public virtual ta_CutOffAttendance ta_CutOffAttendance { get; set; }
 
         public pr_Payroll()

@@ -20,9 +20,6 @@ namespace HRIS.Data.Entity
         public virtual ICollection<ta_ApplicationRequestLeave> ta_ApplicationRequestLeaves { get; set; }
 
         public virtual mf_ApplicationRequestType mf_ApplicationRequestType { get; set; }
-        public virtual sys_User sys_User_assignTo { get; set; }
-        public virtual sys_User sys_User_requestedBy { get; set; }
-        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public ta_ApplicationRequest()
         {

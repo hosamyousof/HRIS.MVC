@@ -31,7 +31,6 @@ namespace HRIS.Data.Mapping
             Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
 
             HasOptional(a => a.mf_HolidayType).WithMany(b => b.ta_CutOffAttendanceSummaryDetails).HasForeignKey(c => c.holidayTypeId);
-            HasRequired(a => a.sys_User).WithMany(b => b.ta_CutOffAttendanceSummaryDetails).HasForeignKey(c => c.updatedBy);
             HasRequired(a => a.ta_CutOffAttendanceSummary).WithMany(b => b.ta_CutOffAttendanceSummaryDetails).HasForeignKey(c => c.cutOffAttendanceSummaryId);
             InitializePartial();
         }
