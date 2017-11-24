@@ -57,19 +57,18 @@ namespace HRIS.Service.Configuration
 
         public IQueryable<PositionModel> GetQuery()
         {
-            Guid companyId = this.GetCurrentCompanyId();
+            var companyId = this.GetCurrentCompanyId();
 
             var data = this._repoPosition
                 .Query().FilterCurrentCompany()
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new PositionModel()
                 {
-                    id = x.Source.id,
-                    code = x.Source.code,
-                    description = x.Source.description,
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
+                    id = x.id,
+                    code = x.code,
+                    description = x.description,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
             return data;
         }

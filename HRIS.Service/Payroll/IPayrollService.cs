@@ -1,5 +1,5 @@
-﻿using System;
-using HRIS.Model.Payroll;
+﻿using HRIS.Model.Payroll;
+using System;
 
 namespace HRIS.Service.Payroll
 {

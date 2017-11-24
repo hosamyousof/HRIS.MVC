@@ -1,14 +1,10 @@
 ﻿using Common;
-using HRIS.Data;
 using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Configuration
 {
@@ -60,19 +56,18 @@ namespace HRIS.Service.Configuration
         {
             var data = this._repoHoliday.Query()
                 .Get()
-                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new HolidayModel()
                 {
-                    id = x.Source.id,
-                    holidayDate = x.Source.holidayDate,
-                    description = x.Source.description,
+                    id = x.id,
+                    holidayDate = x.holidayDate,
+                    description = x.description,
                     HolidayType = new DataReference()
                     {
-                        value = x.Source.mf_HolidayType.id,
-                        description = x.Source.mf_HolidayType.description
+                        value = x.mf_HolidayType.id,
+                        description = x.mf_HolidayType.description
                     },
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 })
                 ;
 

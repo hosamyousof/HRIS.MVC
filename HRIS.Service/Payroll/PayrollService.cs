@@ -1,18 +1,13 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model;
 using HRIS.Model.Payroll;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Payroll
 {
- 
     public class PayrollService : BaseService, IPayrollService
     {
         private readonly IEnumReferenceService _enumReferenceService;
@@ -53,7 +48,7 @@ namespace HRIS.Service.Payroll
             }
 
             cutOffAttendance.status = (int)CUT_OFF_ATTENDANCE.Posted;
-            cutOffAttendance.changeStatusById = userId;
+            cutOffAttendance.changeStatusBy = userId;
             cutOffAttendance.changeStatusDate = DateTime.Now;
 
             this._repoCutOffAttendance.Update(cutOffAttendance);
@@ -105,7 +100,7 @@ namespace HRIS.Service.Payroll
 
                 if (model.includeLegalDeduction)
                 {
-                    foreach (var item in emp.deductions.Where(x=> (x.amount ?? 0) > 0))
+                    foreach (var item in emp.deductions.Where(x => (x.amount ?? 0) > 0))
                     {
                         pr_emp.pr_PayrollEmployeeDeductions.Add(new pr_PayrollEmployeeDeduction()
                         {
@@ -117,7 +112,6 @@ namespace HRIS.Service.Payroll
 
                 if (model.includeAllowance)
                 {
-
                 }
 
                 //pr_emp.no

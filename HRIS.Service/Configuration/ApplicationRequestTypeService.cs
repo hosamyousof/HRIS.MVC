@@ -1,7 +1,6 @@
 ﻿using Common;
 using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
-using HRIS.Model.Sys;
 using Repository;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace HRIS.Service.Configuration
             this._repoDepartmentSectionRequestApprover = repoDepartmentSectionRequestApprover;
         }
 
-        public void ApplicationRequestApproverDelete(int id)
+        public void ApplicationRequestApproverDelete(Guid id)
         {
             var data = this._repoDepartmentSectionRequestApprover.Find(id);
             data.deleted = true;
@@ -35,7 +34,7 @@ namespace HRIS.Service.Configuration
 
         public void DepartmentSectionRequestApproverAdd(Guid departmentSectionId, Guid applicationRequestTypeId, Guid approverId, out Guid departmentSectionRequestApprover)
         {
-            Guid userId = this.GetCurrentUserId();
+            var userId = this.GetCurrentUserId();
 
             var ins = this._repoDepartmentSectionRequestApprover.Insert(new mf_DepartmentSectionRequestApprover()
             {
@@ -49,11 +48,11 @@ namespace HRIS.Service.Configuration
             departmentSectionRequestApprover = ins.id;
         }
 
-        public void DepartmentsectionRequestApproverDelete(Guid departmentSectionId, Guid requestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models)
+        public void DepartmentsectionRequestApproverDelete(Guid departmentSectionId, Guid applicationRequestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models)
         {
             var ids = models.Select(x => x.id).ToList();
 
-            Guid userId = this.GetCurrentUserId();
+            var userId = this.GetCurrentUserId();
             this._repoDepartmentSectionRequestApprover.Query().Filter(x => ids.Contains(x.id)).Get()
                 .ToList()
                 .ForEach(upt =>
@@ -67,10 +66,10 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public void DepartmentSectionRequestApproverUpdate(Guid departmentSectionId, Guid requestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models)
+        public void DepartmentSectionRequestApproverUpdate(Guid departmentSectionId, Guid applicationRequestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models)
         {
             var ids = models.Select(x => x.id).ToList();
-            Guid userId = this.GetCurrentUserId();
+            var userId = this.GetCurrentUserId();
             this._repoDepartmentSectionRequestApprover.Query().Filter(x => ids.Contains(x.id)).Get()
                 .ToList()
                 .ForEach(upt =>
@@ -86,21 +85,17 @@ namespace HRIS.Service.Configuration
 
         public IQueryable<DepartmentSectionRequestApproverModel> GetApplicationRequestApprover(Guid departmentSectionId, Guid applicationRequestTypeId)
         {
-            var query = this._repoDepartmentSectionRequestApprover
-                .Query()
-                .Filter(x => x.departmentSectionId == departmentSectionId && x.applicationRequestTypeId == applicationRequestTypeId)
+            var data = this._repoDepartmentSectionRequestApprover
+                .Query().Filter(x => !x.deleted && !x.sys_User_approverId.deleted && x.departmentSectionId == departmentSectionId && x.applicationRequestTypeId == applicationRequestTypeId)
                 .Get()
-                .JoinSystemUser(x => x.approverId)
-                .Where(x => x.User.deleted == false)
                 .Select(x => new DepartmentSectionRequestApproverModel()
                 {
-                    id = x.Source.id,
-                    userId = x.Source.approverId,
-                    username = x.User.username,
-                    orderNo = x.Source.orderNo,
+                    id = x.id,
+                    userId = x.approverId,
+                    username = x.sys_User_approverId.username,
+                    orderNo = x.orderNo,
                 });
-
-            return query;
+            return data;
         }
 
         public IEnumerable<DataReference> GetLeaveTypeList()

@@ -57,16 +57,15 @@ namespace HRIS.Service.MasterFile
         public IQueryable<EmploymentTypeModel> GetQuery()
         {
             var data = this._repoEmploymentType
-                .Query()
+                .Query().Filter(x => x.deleted == false)
                 .Get()
-                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new EmploymentTypeModel()
                 {
-                    id = x.Source.id,
-                    code = x.Source.code,
-                    description = x.Source.description,
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
+                    id = x.id,
+                    code = x.code,
+                    description = x.description,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
             return data;
         }

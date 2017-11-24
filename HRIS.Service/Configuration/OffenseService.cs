@@ -59,14 +59,13 @@ namespace HRIS.Service.Configuration
             var data = this._repoOffense
                 .Query().Filter(x => x.deleted == false)
                 .Get()
-                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new OffenseModel()
                 {
-                    id = x.Source.id,
-                    code = x.Source.code,
-                    description = x.Source.description,
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
+                    id = x.id,
+                    code = x.code,
+                    description = x.description,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
             return data;
         }

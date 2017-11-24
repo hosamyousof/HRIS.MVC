@@ -1,4 +1,5 @@
-﻿using HRIS.Data.Entity;
+﻿using HRIS.Data;
+using HRIS.Data.Entity;
 using Repository;
 using System;
 using System.Linq;
@@ -70,6 +71,5 @@ namespace HRIS.Service
                 .GroupJoin(_repoUser.QueryGet(), outerSourceKeySelector, u => u.id, (groupCurrentUser, u) => new QueryGroupJoinedSysUser<TSource> { GroupSource = groupCurrentUser, Users = u })
                 .SelectMany(x => x.Users.DefaultIfEmpty(), (currentUser, user) => new QueryGroupJoinedSelectManySysUser<TSource> { Source = currentUser, User = user });
         }
-
     }
 }

@@ -1,12 +1,9 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Sys;
 using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Sys
 {
@@ -69,7 +66,7 @@ namespace HRIS.Service.Sys
         {
             return this._repoCompany
                 .Query()
-                .Filter(x=> x.deleted == false)
+                .Filter(x => x.deleted == false)
                 .Get()
                 .Select(x => new CompanyModel()
                 {

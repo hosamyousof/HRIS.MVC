@@ -1,13 +1,9 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Configuration
 {
@@ -28,7 +24,7 @@ namespace HRIS.Service.Configuration
 
         public void Create(CountryModel model, out Guid countryId)
         {
-            if (this._repoCountry.Query().Filter(x => x.code == model.code ).Get().Any())
+            if (this._repoCountry.Query().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
@@ -63,14 +59,13 @@ namespace HRIS.Service.Configuration
             var data = this._repoCountry
                 .Query().Filter(x => x.deleted == false)
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new CountryModel()
                 {
-                    id = x.Source.id,
-                    code = x.Source.code,
-                    description = x.Source.description,
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
+                    id = x.id,
+                    code = x.code,
+                    description = x.description,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
             return data;
         }
@@ -80,7 +75,7 @@ namespace HRIS.Service.Configuration
             var upt = this._repoCountry.Find(model.id);
             if (upt.code != model.code)
             {
-                if (this._repoCountry.Query().Filter(x => x.code == model.code ).Get().Any())
+                if (this._repoCountry.Query().Filter(x => x.code == model.code).Get().Any())
                 {
                     throw new Exception(model.code + " is already exists");
                 }

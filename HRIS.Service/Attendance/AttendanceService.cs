@@ -19,29 +19,12 @@ namespace HRIS.Service.Attendance
         private readonly IRepository<ta_CutOffAttendanceSummaryDetail> _repoCutOffAttendanceSummaryDetail;
         private readonly IRepository<mf_Employee> _repoEmployee;
         private readonly IRepository<ta_EmployeeAttendance> _repoEmployeeAttendance;
-        private readonly IRepository<sys_User> _repoUser;
         private readonly IRepository<mf_WorkDay> _repoWorkDay;
         private readonly IUnitOfWork _unitOfWork;
 
-        private Func<DayOfWeek, mf_WorkDay, bool> checkDaysOfWeek = (DayOfWeek dow, mf_WorkDay mf) =>
-        {
-            switch (dow)
-            {
-                case DayOfWeek.Sunday: return mf.sunday;
-                case DayOfWeek.Monday: return mf.monday;
-                case DayOfWeek.Tuesday: return mf.tuesday;
-                case DayOfWeek.Wednesday: return mf.wednesday;
-                case DayOfWeek.Thursday: return mf.thursday;
-                case DayOfWeek.Friday: return mf.friday;
-                case DayOfWeek.Saturday: return mf.saturday;
-                default: return false;
-            }
-        };
-
         public AttendanceService(
-                    IEnumReferenceService enumReferenceService
+            IEnumReferenceService enumReferenceService
             , IHolidayService holidayService
-            , IRepository<sys_User> repoUser
             , IRepository<mf_Employee> repoEmployee
             , IRepository<mf_WorkDay> repoWorkDay
             , IRepository<ta_CutOffAttendance> repoCutOffAttendance
@@ -51,7 +34,6 @@ namespace HRIS.Service.Attendance
             , IUnitOfWork unitOfWork
             )
         {
-            this._repoUser = repoUser;
             this._holidayService = holidayService;
             this._enumReferenceService = enumReferenceService;
             this._repoCutOffAttendance = repoCutOffAttendance;
@@ -65,7 +47,7 @@ namespace HRIS.Service.Attendance
 
         public bool CheckIfEmployeeAttendanceHasRecord(DateTime startDate, DateTime endDate)
         {
-            Guid companyId = this.GetCurrentCompanyId();
+            var companyId = this.GetCurrentCompanyId();
             return this._repoEmployeeAttendance.Query()
                 .Filter(x => x.workDate >= startDate && x.workDate <= endDate && x.mf_Employee.companyId == companyId)
                 .Get()
@@ -74,23 +56,11 @@ namespace HRIS.Service.Attendance
 
         public bool CheckIfEmployeeAttendanceHasWorkDay(DateTime startDate, DateTime endDate)
         {
-            Guid companyId = this.GetCurrentCompanyId();
+            var companyId = this.GetCurrentCompanyId();
             return this._repoEmployeeAttendance.Query()
                 .Filter(x => x.workDate >= startDate && x.workDate <= endDate && x.workDayId == null && x.mf_Employee.companyId == companyId)
                 .Get()
                 .Any() == false;
-        }
-
-        public void CutOffAttendance_UpdateStatus(Guid id, CUT_OFF_ATTENDANCE status)
-        {
-            var userId = this.GetCurrentUserId();
-            var upt = this._repoCutOffAttendance.Find(id);
-
-            upt.status = (int)status;
-            upt.updatedBy = userId;
-            upt.updatedDate = DateTime.Now;
-            this._repoCutOffAttendance.Update(upt);
-            this._unitOfWork.Save();
         }
 
         public CutOffAttendanceModel CutOffAttendanceGetById(Guid id)
@@ -110,13 +80,11 @@ namespace HRIS.Service.Attendance
                     endDate = x.da.endDate,
                     status = x.status.description,
                     statusValue = x.status.value,
-                    changeStatusById = x.da.changeStatusById,
+                    changeStatusBy = x.da.sys_User_changeStatusBy.username,
                     changeStatusDate = x.da.changeStatusDate,
                     remarks = x.da.remarks,
                 })
                 .FirstOrDefault();
-
-            data.changeStatusBy = this.GetUsername(data.changeStatusById);
 
             return data;
         }
@@ -138,13 +106,11 @@ namespace HRIS.Service.Attendance
                     endDate = x.da.endDate,
                     status = x.status.description,
                     statusValue = x.status.value,
-                    changeStatusById = x.da.changeStatusById,
+                    changeStatusBy = x.da.sys_User_changeStatusBy.username,
                     changeStatusDate = x.da.changeStatusDate,
                     remarks = x.da.remarks,
                 })
                 .FirstOrDefault();
-
-            data.changeStatusBy = this.GetUsername(data.changeStatusById);
 
             return data;
         }
@@ -176,25 +142,23 @@ namespace HRIS.Service.Attendance
             var data = this._repoCutOffAttendanceSummaryDetail.Query()
                 .Filter(x => x.cutOffAttendanceSummaryId == cutOffAttendanceSummaryId)
                 .Get()
-                .Join(this._repoUser.Query().Get(), c => c.updatedBy, u => u.id, (cutOff, user) => new { cutOff, user })
                 .Select(x => new CutOffAttendanceSummaryDetailModel()
                 {
-                    id = x.cutOff.id,
-                    workDate = x.cutOff.workDate,
-                    workHours = x.cutOff.workHours,
-                    undertimeHours = x.cutOff.undertimeHours,
-                    lateHours = x.cutOff.lateHours,
-                    overtimeHours = x.cutOff.overtimeHours,
-                    updatedBy = x.user.username,
-                    updatedDate = x.cutOff.updatedDate,
+                    id = x.id,
+                    workDate = x.workDate,
+                    workHours = x.workHours,
+                    undertimeHours = x.undertimeHours,
+                    lateHours = x.lateHours,
+                    overtimeHours = x.overtimeHours,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
-
             return data;
         }
 
         public void CutOffAttendanceSummaryDetailUpdate(CutOffAttendanceSummaryDetailModel model)
         {
-            Guid userId = this.GetCurrentUserId();
+            var userId = this.GetCurrentUserId();
             this._repoCutOffAttendanceSummaryDetail.FindAndUpdateFromModel(model, model.id)
                 .MatchAllDataField()
                 .SetValue(x => x.updatedBy, userId)
@@ -208,17 +172,16 @@ namespace HRIS.Service.Attendance
             var data = this._repoCutOffAttendanceSummary.Query()
                 .Filter(x => x.cutOffAttendanceId == cutOffAttendanceId)
                 .Get()
-                .Join(this._repoUser.Query().Get(), c => c.updatedBy, u => u.id, (c, u) => new { c, u })
                 .Select(x => new CutOffAttendanceSummaryModel()
                 {
-                    id = x.c.id,
-                    employeeName = x.c.mf_Employee.lastName + ", " + x.c.mf_Employee.firstName,
-                    totalWorkHours = x.c.ta_CutOffAttendanceSummaryDetails.Sum(s => s.workHours),
-                    totalUndertimeHours = x.c.ta_CutOffAttendanceSummaryDetails.Sum(s => s.undertimeHours),
-                    totalLateHours = x.c.ta_CutOffAttendanceSummaryDetails.Sum(s => s.lateHours),
-                    totalOvertimeHours = x.c.ta_CutOffAttendanceSummaryDetails.Sum(s => s.overtimeHours),
-                    updatedBy = x.u.username,
-                    updatedDate = x.c.updatedDate,
+                    id = x.id,
+                    employeeName = x.mf_Employee.lastName + ", " + x.mf_Employee.firstName,
+                    totalWorkHours = x.ta_CutOffAttendanceSummaryDetails.Sum(s => s.workHours),
+                    totalUndertimeHours = x.ta_CutOffAttendanceSummaryDetails.Sum(s => s.undertimeHours),
+                    totalLateHours = x.ta_CutOffAttendanceSummaryDetails.Sum(s => s.lateHours),
+                    totalOvertimeHours = x.ta_CutOffAttendanceSummaryDetails.Sum(s => s.overtimeHours),
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
             return data;
         }
@@ -259,9 +222,9 @@ namespace HRIS.Service.Attendance
 
             data.remarks = remarks;
             data.status = (int)CUT_OFF_ATTENDANCE.Submitted;
-            data.changeStatusById = this.GetCurrentUserId();
+            data.changeStatusBy = this.GetCurrentUserId();
             data.changeStatusDate = DateTime.Now;
-            data.updatedBy = data.changeStatusById;
+            data.updatedBy = data.changeStatusBy;
             data.updatedDate = DateTime.Now;
 
             this._repoCutOffAttendance.Update(data);
@@ -270,7 +233,7 @@ namespace HRIS.Service.Attendance
 
         public void GenerateCutOffAttendance(GenerateCutOffAttendance model, out Guid cutOffAttendanceId)
         {
-            Guid userId = this.GetCurrentUserId();
+            var userId = this.GetCurrentUserId();
             var cutOffAttendance = this._repoCutOffAttendance.Insert(new ta_CutOffAttendance()
             {
                 generatedDate = DateTime.Now.Date,
@@ -280,7 +243,7 @@ namespace HRIS.Service.Attendance
                 companyId = this.GetCurrentCompanyId(),
                 updatedBy = userId,
                 status = (int)CUT_OFF_ATTENDANCE.Draft,
-                changeStatusById = userId,
+                changeStatusBy = userId,
                 changeStatusDate = DateTime.Now,
             });
 
@@ -397,6 +360,21 @@ namespace HRIS.Service.Attendance
             this._unitOfWork.Save();
         }
 
+        private Func<DayOfWeek, mf_WorkDay, bool> checkDaysOfWeek = (DayOfWeek dow, mf_WorkDay mf) =>
+        {
+            switch (dow)
+            {
+                case DayOfWeek.Sunday: return mf.sunday;
+                case DayOfWeek.Monday: return mf.monday;
+                case DayOfWeek.Tuesday: return mf.tuesday;
+                case DayOfWeek.Wednesday: return mf.wednesday;
+                case DayOfWeek.Thursday: return mf.thursday;
+                case DayOfWeek.Friday: return mf.friday;
+                case DayOfWeek.Saturday: return mf.saturday;
+                default: return false;
+            }
+        };
+
         private void FixEmployeeTotalWorkHours(DateTime startDate, DateTime endDate, ta_CutOffAttendanceSummary eda, mf_Employee201 _201)
         {
             var workDays = this._repoWorkDay
@@ -413,7 +391,7 @@ namespace HRIS.Service.Attendance
                 .OrderBy(x => x.workDate)
                 .ToList();
 
-            Guid userId = this.GetCurrentUserId();
+            var userId = this.GetCurrentUserId();
 
             DateTime date = startDate.Date;
             while (date <= endDate.Date)
@@ -485,6 +463,18 @@ namespace HRIS.Service.Attendance
 
                 date = date.AddDays(1);
             }
+        }
+
+        public void CutOffAttendance_UpdateStatus(Guid id, CUT_OFF_ATTENDANCE status)
+        {
+            var userId = this.GetCurrentUserId();
+            var upt = this._repoCutOffAttendance.Find(id);
+
+            upt.status = (int)status;
+            upt.updatedBy = userId;
+            upt.updatedDate = DateTime.Now;
+            this._repoCutOffAttendance.Update(upt);
+            this._unitOfWork.Save();
         }
     }
 }

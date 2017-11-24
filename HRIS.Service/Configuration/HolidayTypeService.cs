@@ -57,17 +57,17 @@ namespace HRIS.Service.Configuration
         {
             var data = this._repoHolidayType.Query()
                 .Get()
-                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new HolidayTypeModel()
                 {
-                    id = x.Source.id,
-                    code = x.Source.code,
-                    description = x.Source.description,
-                    rateNotWork = x.Source.rateNotWork,
-                    rateWork = x.Source.rateWork,
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
-                });
+                    id = x.id,
+                    code = x.code,
+                    description = x.description,
+                    rateNotWork = x.rateNotWork,
+                    rateWork = x.rateWork,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
+                })
+                ;
 
             return data;
         }

@@ -1,13 +1,8 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Sys;
-using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Sys
 {
@@ -65,7 +60,7 @@ namespace HRIS.Service.Sys
             var data = this._repoLocation
                 .Query().Filter(x => x.deleted == false && x.companyId == companyId)
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new LocationModel()
                 {
                     id = x.Source.id,

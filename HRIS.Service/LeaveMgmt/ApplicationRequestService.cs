@@ -19,11 +19,10 @@ namespace HRIS.Service.LeaveMgmt
 
         public void RequestTypeAdd(ApplicationRequestModel model)
         {
-            Guid userId = this.GetCurrentUserId();
+            var userId = this.GetCurrentUserId();
             var ins = this._repoApplicationRequest.Insert(new ta_ApplicationRequest()
             {
-                id = model.id ?? Guid.NewGuid(),
-                applicationRequestTypeId = model.applicationRequestTypeId.Value,
+                applicationRequestTypeId = model.applicationRequestTypeId ?? Guid.Empty,
                 note = model.note,
                 status = model.status,
                 assignTo = model.assignTo,

@@ -24,12 +24,12 @@ namespace HRIS.Service.Configuration
 
         public void Create(DeductionModel model, out Guid deductionId)
         {
-            Guid companyId = this.GetCurrentCompanyId();
+            var companyId = this.GetCurrentCompanyId();
             if (this._repoDeduction.Query().Filter(x => x.code == model.code && x.companyId == companyId).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            Guid userId = this.GetCurrentUserId();
+            var userId = this.GetCurrentUserId();
             var ins = this._repoDeduction.Insert(new mf_Deduction()
             {
                 companyId = companyId,
@@ -58,18 +58,17 @@ namespace HRIS.Service.Configuration
 
         public IQueryable<DeductionModel> GetQuery()
         {
-            Guid companyId = this.GetCurrentCompanyId();
+            var companyId = this.GetCurrentCompanyId();
             var data = this._repoDeduction
                 .Query().Filter(x => x.companyId == companyId)
                 .Get()
-                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new DeductionModel()
                 {
-                    id = x.Source.id,
-                    code = x.Source.code,
-                    description = x.Source.description,
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
+                    id = x.id,
+                    code = x.code,
+                    description = x.description,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
             return data;
         }
@@ -79,7 +78,7 @@ namespace HRIS.Service.Configuration
             var upt = this._repoDeduction.Find(model.id);
             if (upt.code != model.code)
             {
-                Guid companyId = this.GetCurrentCompanyId();
+                var companyId = this.GetCurrentCompanyId();
                 if (this._repoDeduction.Query().Filter(x => x.code == model.code && x.companyId == companyId).Get().Any())
                 {
                     throw new Exception(model.code + " is already exists");

@@ -1,15 +1,10 @@
 ﻿using Common;
-using HRIS.Data;
 using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
-using HRIS.Model.Sys;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Configuration
 {
@@ -71,14 +66,13 @@ namespace HRIS.Service.Configuration
                 .Query()
                 .FilterCurrentCompany()
                 .Get()
-                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new DepartmentModel()
                 {
-                    id = x.Source.id,
-                    code = x.Source.code,
-                    description = x.Source.description,
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
+                    id = x.id,
+                    code = x.code,
+                    description = x.description,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
             return data;
         }
@@ -134,23 +128,22 @@ namespace HRIS.Service.Configuration
 
         public IQueryable<DepartmentSectionModel> SectionGetQuery()
         {
-            Guid companyId = this.GetCurrentCompanyId();
+            var companyId = this.GetCurrentCompanyId();
             var data = this._repoDepartmentSection
                 .Query()
                 .Get()
-                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new DepartmentSectionModel()
                 {
-                    id = x.Source.id,
-                    code = x.Source.code,
-                    department = x.Source.mf_Department == null ? null : new DataReference()
+                    id = x.id,
+                    code = x.code,
+                    department = x.mf_Department == null ? null : new DataReference()
                     {
-                        value = x.Source.mf_Department.id,
-                        description = x.Source.mf_Department.description
+                        value = x.mf_Department.id,
+                        description = x.mf_Department.description
                     },
-                    description = x.Source.description,
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
+                    description = x.description,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
             return data;
         }

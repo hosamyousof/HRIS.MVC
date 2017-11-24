@@ -1,13 +1,9 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Configuration
 {
@@ -28,12 +24,12 @@ namespace HRIS.Service.Configuration
 
         public void Create(AllowanceModel model, out Guid allowanceId)
         {
-            Guid companyId = this.GetCurrentCompanyId();
+            var companyId = this.GetCurrentCompanyId();
             if (this._repoAllowance.Query().Filter(x => x.code == model.code && x.companyId == companyId).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            Guid userId = this.GetCurrentUserId();
+            var userId = this.GetCurrentUserId();
             var ins = this._repoAllowance.Insert(new mf_Allowance()
             {
                 companyId = companyId,
@@ -63,32 +59,29 @@ namespace HRIS.Service.Configuration
 
         public IQueryable<AllowanceModel> GetQuery()
         {
-            Guid companyId = this.GetCurrentCompanyId();
+            var companyId = this.GetCurrentCompanyId();
             var data = this._repoAllowance
                 .Query().Filter(x => x.companyId == companyId)
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new AllowanceModel()
                 {
-                    id = x.Source.id,
-                    code = x.Source.code,
-                    description = x.Source.description,
-                    isTaxable = x.Source.isTaxable,
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
+                    id = x.id,
+                    code = x.code,
+                    description = x.description,
+                    isTaxable = x.isTaxable,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
-
             return data;
         }
 
         public void Update(AllowanceModel model)
         {
-
             var upt = this._repoAllowance.Find(model.id);
             if (upt.code != model.code)
             {
-                Guid companyId = this.GetCurrentCompanyId();
-                if (this._repoAllowance.Query().Filter(x => x.code == model.code && x.companyId == companyId ).Get().Any())
+                var companyId = this.GetCurrentCompanyId();
+                if (this._repoAllowance.Query().Filter(x => x.code == model.code && x.companyId == companyId).Get().Any())
                 {
                     throw new Exception(model.code + " is already exists");
                 }

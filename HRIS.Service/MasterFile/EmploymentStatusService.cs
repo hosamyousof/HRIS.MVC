@@ -1,13 +1,9 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.MasterFile;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.MasterFile
 {
@@ -64,15 +60,14 @@ namespace HRIS.Service.MasterFile
             var data = this._repoEmploymentStatus
                 .Query()
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new EmploymentStatusModel()
                 {
-                    id = x.Source.id,
-                    code = x.Source.code,
-                    description = x.Source.description,
-                    allowProcessPayroll = x.Source.allowProcessPayroll,
-                    updatedBy = x.User.username,
-                    updatedDate = x.Source.updatedDate,
+                    id = x.id,
+                    code = x.code,
+                    description = x.description,
+                    allowProcessPayroll = x.allowProcessPayroll,
+                    updatedBy = x.sys_User.username,
+                    updatedDate = x.updatedDate,
                 });
             return data;
         }

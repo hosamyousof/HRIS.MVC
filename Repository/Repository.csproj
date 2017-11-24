@@ -94,7 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EntityBase.cs" />
-    <Compile Include="EntityBaseCompany.cs" />
     <Compile Include="ExcludeToUpdateAttribute.cs" />
     <Compile Include="IAuditDataService.cs" />
     <Compile Include="IObjectState.cs" />
