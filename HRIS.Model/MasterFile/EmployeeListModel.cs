@@ -11,7 +11,7 @@ namespace HRIS.Model.MasterFile
 {
     public class EmployeeListModel : ModelAuditInfo
     {
-        public int id { get; set; }
+        public Guid id { get; set; }
 
         [DisplayName("Employee Code")]
         public string employeeCode { get; set; }

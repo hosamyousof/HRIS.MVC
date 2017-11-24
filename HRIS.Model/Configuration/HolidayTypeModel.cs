@@ -13,7 +13,7 @@ namespace HRIS.Model.Configuration
     public class HolidayTypeModel : ModelAuditInfo
     {
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [DisplayName("Code")]
         public string code { get; set; }

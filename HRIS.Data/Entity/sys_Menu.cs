@@ -11,7 +11,7 @@ namespace HRIS.Data.Entity
         public string actionName { get; set; }
         public string areaName { get; set; }
         public string parameter { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<sys_RoleMenu> sys_RoleMenus { get; set; }

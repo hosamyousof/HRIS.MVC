@@ -11,7 +11,7 @@ namespace HRIS.Model.Sys
 {
     public class SettingModel : ModelAuditInfo
     {
-        public int? settingId { get; set; }
+        public Guid? settingId { get; set; }
 
         [DisplayName("Name")]
         public string name { get; set; }

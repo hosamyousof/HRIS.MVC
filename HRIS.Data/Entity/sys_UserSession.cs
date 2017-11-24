@@ -5,7 +5,7 @@ namespace HRIS.Data.Entity
 {
     public partial class sys_UserSession : EntityBaseCompany
     {
-        public int userId { get; set; }
+        public Guid userId { get; set; }
         public DateTime loggedDate { get; set; }
         public string ipAddress { get; set; }
         public DateTime expiredDate { get; set; }

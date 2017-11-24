@@ -1,4 +1,5 @@
-﻿using HRIS.Data.Entity;
+﻿using Common;
+using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
 using HRIS.Model.Sys;
 using Repository;
@@ -32,15 +33,15 @@ namespace HRIS.Service.Configuration
             this._repoDepartmentSectionRequestApprover.Update(data);
         }
 
-        public void DepartmentSectionRequestApproverAdd(int departmentSectionId, int requestTypeId, int approverId, out int departmentSectionRequestApprover)
+        public void DepartmentSectionRequestApproverAdd(Guid departmentSectionId, Guid applicationRequestTypeId, Guid approverId, out Guid departmentSectionRequestApprover)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
 
             var ins = this._repoDepartmentSectionRequestApprover.Insert(new mf_DepartmentSectionRequestApprover()
             {
                 approverId = approverId,
                 departmentSectionId = departmentSectionId,
-                applicationRequestTypeId = requestTypeId,
+                applicationRequestTypeId = applicationRequestTypeId,
                 updatedBy = userId,
                 orderNo = 0,
             });
@@ -48,11 +49,11 @@ namespace HRIS.Service.Configuration
             departmentSectionRequestApprover = ins.id;
         }
 
-        public void DepartmentsectionRequestApproverDelete(int departmentSectionId, int requestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models)
+        public void DepartmentsectionRequestApproverDelete(Guid departmentSectionId, Guid requestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models)
         {
             var ids = models.Select(x => x.id).ToList();
 
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             this._repoDepartmentSectionRequestApprover.Query().Filter(x => ids.Contains(x.id)).Get()
                 .ToList()
                 .ForEach(upt =>
@@ -66,10 +67,10 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public void DepartmentSectionRequestApproverUpdate(int departmentSectionId, int requestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models)
+        public void DepartmentSectionRequestApproverUpdate(Guid departmentSectionId, Guid requestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models)
         {
             var ids = models.Select(x => x.id).ToList();
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             this._repoDepartmentSectionRequestApprover.Query().Filter(x => ids.Contains(x.id)).Get()
                 .ToList()
                 .ForEach(upt =>
@@ -83,11 +84,11 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public IQueryable<DepartmentSectionRequestApproverModel> GetApplicationRequestApprover(int departmentSectionId, int requestTypeId)
+        public IQueryable<DepartmentSectionRequestApproverModel> GetApplicationRequestApprover(Guid departmentSectionId, Guid applicationRequestTypeId)
         {
             var query = this._repoDepartmentSectionRequestApprover
                 .Query()
-                .Filter(x => x.departmentSectionId == departmentSectionId && x.applicationRequestTypeId == requestTypeId)
+                .Filter(x => x.departmentSectionId == departmentSectionId && x.applicationRequestTypeId == applicationRequestTypeId)
                 .Get()
                 .JoinSystemUser(x => x.approverId)
                 .Where(x => x.User.deleted == false)
@@ -102,13 +103,13 @@ namespace HRIS.Service.Configuration
             return query;
         }
 
-        public IEnumerable<ReferenceModel> GetLeaveTypeList()
+        public IEnumerable<DataReference> GetLeaveTypeList()
         {
             return this._repoApplicationRequestType
                 .Query()
                 .Filter(x => x.requiredLeavePoints)
                 .Get()
-                .Select(x => new ReferenceModel()
+                .Select(x => new DataReference()
                 {
                     value = x.id,
                     description = x.description

@@ -10,7 +10,7 @@ namespace HRIS.Model.Attendance
 {
     public class CutOffAttendanceSummaryModel : ModelAuditInfo
     {
-        public int id { get; set; }
+        public Guid id { get; set; }
 
         [DisplayName("Employee Name")]
         public string employeeName { get; set; }

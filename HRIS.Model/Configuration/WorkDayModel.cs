@@ -13,7 +13,7 @@ namespace HRIS.Model.Configuration
     public class WorkDayModel : ModelAuditInfo
     {
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [DisplayName("Code")]
         public string code { get; set; }

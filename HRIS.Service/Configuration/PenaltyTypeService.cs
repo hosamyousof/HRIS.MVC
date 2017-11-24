@@ -26,14 +26,14 @@ namespace HRIS.Service.Configuration
             this._repoPenaltyType = repoPenaltyType;
         }
 
-        public void Create(PenaltyTypeModel model, out int PenaltyTypeId)
+        public void Create(PenaltyTypeModel model, out Guid penaltyTypeId)
         {
             if (this._repoPenaltyType.Query().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
 
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoPenaltyType
                 .NewEntity(ue =>
                 {
@@ -44,12 +44,12 @@ namespace HRIS.Service.Configuration
                 });
 
             this._unitOfWork.Save();
-            PenaltyTypeId = ins.id;
+            penaltyTypeId = ins.id;
         }
 
-        public void Delete(int PenaltyTypeId)
+        public void Delete(Guid penaltyTypeId)
         {
-            var data = this._repoPenaltyType.Find(PenaltyTypeId);
+            var data = this._repoPenaltyType.Find(penaltyTypeId);
             data.deleted = true;
             data.updatedBy = this.GetCurrentUserId();
             data.updatedDate = DateTime.Now;
@@ -57,9 +57,9 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public PenaltyTypeModel GetById(int PenaltyTypeId)
+        public PenaltyTypeModel GetById(Guid penaltyTypeId)
         {
-            return this.GetQuery().First(x => x.id == PenaltyTypeId);
+            return this.GetQuery().First(x => x.id == penaltyTypeId);
         }
 
         public IQueryable<PenaltyTypeModel> GetQuery()

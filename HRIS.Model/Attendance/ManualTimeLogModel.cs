@@ -17,7 +17,7 @@ namespace HRIS.Model.Attendance
 
         [Required]
         [DisplayName("Employee")]
-        public int employeeId { get; set; }
+        public Guid employeeId { get; set; }
 
         [Required]
         [DisplayName("Time Log")]

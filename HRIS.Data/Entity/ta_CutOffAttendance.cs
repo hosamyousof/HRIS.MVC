@@ -6,15 +6,15 @@ namespace HRIS.Data.Entity
 {
     public partial class ta_CutOffAttendance : EntityBaseCompany
     {
-        public int payrollGroupId { get; set; }
+        public Guid payrollGroupId { get; set; }
         public DateTime generatedDate { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
         public int status { get; set; }
         public string remarks { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
-        public int changeStatusById { get; set; }
+        public Guid changeStatusById { get; set; }
         public DateTime changeStatusDate { get; set; }
 
         public virtual ICollection<pr_Payroll> pr_Payrolls { get; set; }

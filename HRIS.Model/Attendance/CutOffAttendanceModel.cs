@@ -1,17 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Model.Attendance
 {
     public class CutOffAttendanceModel
     {
-        public int changeStatusById { get; set; }
-
-        public int id { get; set; }
+        public Guid id { get; set; }
 
         public string payrollGroup { get; set; }
 
@@ -34,6 +28,8 @@ namespace HRIS.Model.Attendance
         public string remarks { get; set; }
 
         public int statusValue { get; set; }
+
+        public Guid changeStatusById { get; set; }
 
         public CUT_OFF_ATTENDANCE statusEnum { get { return (CUT_OFF_ATTENDANCE)statusValue; } }
     }

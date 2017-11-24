@@ -12,7 +12,7 @@ namespace HRIS.Service
         public static IRepositoryQuery<TEntity> FilterCurrentCompany<TEntity>(this IRepositoryQuery<TEntity> rq) where TEntity : EntityBaseCompany
         {
             var bs = new BaseService();
-            int companyId = bs.GetCurrentCompanyId();
+            Guid companyId = bs.GetCurrentCompanyId();
             rq.Filter(x => x.companyId == companyId);
             return rq;
         }
@@ -20,7 +20,7 @@ namespace HRIS.Service
         public static UpdateEntity<TModelSource, TModelDestination> SetCurrentCompany<TModelSource, TModelDestination>(this UpdateEntity<TModelSource, TModelDestination> ue) where TModelDestination : EntityBase
         {
             var bs = new BaseService();
-            int companyId = bs.GetCurrentCompanyId();
+            Guid companyId = bs.GetCurrentCompanyId();
             ue.SetValue("companyId", companyId);
             return ue;
         }
@@ -28,7 +28,7 @@ namespace HRIS.Service
         public static UpdateEntity<TModelSource, TModelDestination> SetCurrentCompanyTo<TModelSource, TModelDestination, TProperty>(this UpdateEntity<TModelSource, TModelDestination> ue, Expression<Func<TModelDestination, TProperty>> destination) where TModelDestination : EntityBaseCompany
         {
             var bs = new BaseService();
-            int companyId = bs.GetCurrentCompanyId();
+            Guid companyId = bs.GetCurrentCompanyId();
             ue.SetValue(destination, companyId);
             return ue;
         }
@@ -42,12 +42,12 @@ namespace HRIS.Service
         public static UpdateEntity<TModelSource, TModelDestination> SetCurrentUserTo<TModelSource, TModelDestination, TProperty>(this UpdateEntity<TModelSource, TModelDestination> ue, Expression<Func<TModelDestination, TProperty>> destination) where TModelDestination : EntityBase
         {
             var bs = new BaseService();
-            int userId = bs.GetCurrentUserId();
+            Guid userId = bs.GetCurrentUserId();
             ue.SetValue(destination, userId);
             return ue;
         }
 
-        public static IQueryable<QueryJoinedSysUser<TSource>> JoinSystemUser<TSource>(this IQueryable<TSource> query, Expression<Func<TSource, int>> outerSourceKeySelector)
+        public static IQueryable<QueryJoinedSysUser<TSource>> JoinSystemUser<TSource>(this IQueryable<TSource> query, Expression<Func<TSource, Guid>> outerSourceKeySelector)
         {
             var _repoUser = DependencyResolver.Current.GetService<IRepository<sys_User>>();
             return query
@@ -55,7 +55,7 @@ namespace HRIS.Service
         }
 
         public static IQueryable<TResult> JoinSystemUser<TSource, TResult>(this IQueryable<TSource> query
-            , Expression<Func<TSource, int>> outerSourceKeySelector
+            , Expression<Func<TSource, Guid>> outerSourceKeySelector
             , Expression<Func<TSource, sys_User, TResult>> resultSelector)
         {
             var _repoUser = DependencyResolver.Current.GetService<IRepository<sys_User>>();
@@ -63,7 +63,7 @@ namespace HRIS.Service
                 .Join(_repoUser.QueryGet(), outerSourceKeySelector, u => u.id, resultSelector);
         }
 
-        public static IQueryable<QueryGroupJoinedSelectManySysUser<TSource>> LeftJoinSystemUser<TSource>(this IQueryable<TSource> query, Expression<Func<TSource, int?>> outerSourceKeySelector)
+        public static IQueryable<QueryGroupJoinedSelectManySysUser<TSource>> LeftJoinSystemUser<TSource>(this IQueryable<TSource> query, Expression<Func<TSource, Guid?>> outerSourceKeySelector)
         {
             var _repoUser = DependencyResolver.Current.GetService<IRepository<sys_User>>();
             return query

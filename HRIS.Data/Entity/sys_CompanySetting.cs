@@ -5,10 +5,10 @@ namespace HRIS.Data.Entity
 {
     public partial class sys_CompanySetting : EntityBase
     {
-        public int settingId { get; set; }
-        public int? companyId { get; set; }
+        public Guid settingId { get; set; }
+        public Guid? companyId { get; set; }
         public string value { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }

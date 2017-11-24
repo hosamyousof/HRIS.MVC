@@ -1,4 +1,5 @@
-﻿using HRIS.Data.Entity;
+﻿using Common;
+using HRIS.Data.Entity;
 using HRIS.Model;
 using HRIS.Model.MasterFile;
 using HRIS.Model.Sys;
@@ -78,16 +79,16 @@ namespace HRIS.Service.MasterFile
 
         public void QuickUpdateEmployee(EmployeeQuickUpdateModel model)
         {
-            int employeeId = model.id;
+            Guid employeeId = model.id;
             var _201 = this._repoEmployee201.Query().Filter(x => x.mf_Employees.Any(e => e.id == employeeId)).Get().FirstOrDefault();
             if (_201 != null)
             {
                 var userId = this.GetCurrentUserId();
                 _201.employeeCode = model.employeeCode;
-                _201.positionId = model.position == null ? (int?)null : model.position.value;
-                _201.departmentId = model.department == null ? (int?)null : model.department.value;
-                _201.employmentStatusId = model.employmentStatus == null ? (int?)null : model.employmentStatus.value;
-                _201.employmentTypeId = model.employmentType == null ? (int?)null : model.employmentType.value;
+                _201.positionId = model.position == null ? (Guid?)null : model.position.value;
+                _201.departmentId = model.department == null ? (Guid?)null : model.department.value;
+                _201.employmentStatusId = model.employmentStatus == null ? (Guid?)null : model.employmentStatus.value;
+                _201.employmentTypeId = model.employmentType == null ? (Guid?)null : model.employmentType.value;
                 _201.positionLevel = model.positionLevel == null ? (int?)null : model.positionLevel.value;
                 _201.updatedBy = userId;
                 _201.updatedDate = DateTime.Now;
@@ -102,29 +103,29 @@ namespace HRIS.Service.MasterFile
             var data = this._repoEmployee
                 .Query()
                 .Get()
-                .GroupJoin(positionLevel, e => e.id, pl => pl.value, (Emp, PosLevel) => new { Emp, PosLevel })
+                .GroupJoin(positionLevel, e => e.mf_Employee201.positionLevel, pl => pl.value, (Emp, PosLevel) => new { Emp, PosLevel })
                 .SelectMany(x => x.PosLevel.DefaultIfEmpty(), (emp, posLevel) => new { Emp = emp.Emp, PosLevel = posLevel })
                 .Select(x => new { Emp = x.Emp, Emp201 = x.Emp.mf_Employee201, x.PosLevel })
                 .Select(x => new EmployeeQuickUpdateModel()
                 {
                     id = x.Emp.id,
                     employeeCode = x.Emp201.employeeCode,
-                    position = x.Emp201.positionId.HasValue ? (new ReferenceModel()
+                    position = x.Emp201.positionId.HasValue ? (new DataReference()
                     {
                         value = x.Emp201.mf_Position.id,
                         description = x.Emp201.mf_Position.description,
                     }) : null,
-                    department = x.Emp201.departmentId.HasValue ? (new ReferenceModel()
+                    department = x.Emp201.departmentId.HasValue ? (new DataReference()
                     {
                         value = x.Emp201.mf_Department.id,
                         description = x.Emp201.mf_Department.description,
                     }) : null,
-                    employmentStatus = x.Emp201.employmentStatusId.HasValue ? (new ReferenceModel()
+                    employmentStatus = x.Emp201.employmentStatusId.HasValue ? (new DataReference()
                     {
                         value = x.Emp201.mf_EmploymentStatu.id,
                         description = x.Emp201.mf_EmploymentStatu.description,
                     }) : null,
-                    employmentType = x.Emp201.employmentTypeId.HasValue ? (new ReferenceModel()
+                    employmentType = x.Emp201.employmentTypeId.HasValue ? (new DataReference()
                     {
                         value = x.Emp201.mf_EmploymentType.id,
                         description = x.Emp201.mf_EmploymentType.description,
@@ -137,11 +138,11 @@ namespace HRIS.Service.MasterFile
 
         #endregion Quick Update
 
-        public void BasicInfoCreate(EmployeeBasicInfoModel model, out int employeeId)
+        public void BasicInfoCreate(EmployeeBasicInfoModel model, out Guid employeeId)
         {
             using (TransactionScope ts = new TransactionScope())
             {
-                int userId = this.GetCurrentUserId();
+                Guid userId = this.GetCurrentUserId();
 
                 var addr = this._repoEmployeeAddress.Insert(new mf_EmployeeAddress()
                 {
@@ -187,7 +188,7 @@ namespace HRIS.Service.MasterFile
             }
         }
 
-        public EmployeeBasicInfoModel BasicInfoGetByEmployeeId(int employeeId)
+        public EmployeeBasicInfoModel BasicInfoGetByEmployeeId(Guid employeeId)
         {
             var data = this._repoEmployee
                 .Query().Filter(x => x.id == employeeId)
@@ -219,7 +220,7 @@ namespace HRIS.Service.MasterFile
             return data;
         }
 
-        public void BasicInfoUpdate(int employeeId, EmployeeBasicInfoModel model)
+        public void BasicInfoUpdate(Guid employeeId, EmployeeBasicInfoModel model)
         {
             var data = this._repoEmployee.Query()
                      .Include(x => x.mf_EmployeeAddress)
@@ -297,7 +298,7 @@ namespace HRIS.Service.MasterFile
             model.pictureExtension = data.pictureExtension;
         }
 
-        public void Delete(int employeeId)
+        public void Delete(Guid employeeId)
         {
             var data = this._repoEmployee.Find(employeeId);
 
@@ -309,7 +310,7 @@ namespace HRIS.Service.MasterFile
             this._unitOfWork.Save();
         }
 
-        public Employee201Model Employee201FileGetByEmployeeId(int employeeId)
+        public Employee201Model Employee201FileGetByEmployeeId(Guid employeeId)
         {
             var data = this._repoEmployee.Query().Filter(x => x.id == employeeId)
                 .Get()
@@ -345,13 +346,13 @@ namespace HRIS.Service.MasterFile
             return data;
         }
 
-        public void Employee201Update(int employeeId, Employee201Model model)
+        public void Employee201Update(Guid employeeId, Employee201Model model)
         {
             using (TransactionScope ts = new TransactionScope())
             {
                 var emp = this._repoEmployee.Query().Filter(x => x.id == employeeId).Include(x => x.mf_Employee201).Get().FirstOrDefault();
                 var data = emp.mf_Employee201;
-                int userId = this.GetCurrentUserId();
+                Guid userId = this.GetCurrentUserId();
 
                 UpdateEntity<Employee201Model, mf_Employee201> uptEnt;
 
@@ -382,7 +383,7 @@ namespace HRIS.Service.MasterFile
 
         public IQueryable<EmployeeListModel> EmployeeAllGetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoEmployee
                 .Query().Filter(x => x.deleted == false && x.companyId == companyId)
                 .Get()
@@ -402,11 +403,11 @@ namespace HRIS.Service.MasterFile
 
         public IQueryable<EmployeeListModel> EmployeeConfidentialGetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoEmployee
                 .Query().Filter(x => x.deleted == false && x.companyId == companyId && x.mf_Employee201.confidential)
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new EmployeeListModel()
                 {
                     id = x.Source.id,
@@ -420,7 +421,7 @@ namespace HRIS.Service.MasterFile
             return data;
         }
 
-        public bool EmployeeIsConfidential(int id)
+        public bool EmployeeIsConfidential(Guid id)
         {
             var data = this._repoEmployee.Query().Filter(x => x.id == id).Get().Select(x => x.mf_Employee201).FirstOrDefault();
             if (data == null) return false;
@@ -429,11 +430,11 @@ namespace HRIS.Service.MasterFile
 
         public IQueryable<EmployeeListModel> EmployeeNonConfidentialGetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoEmployee
                 .Query().Filter(x => x.deleted == false && x.companyId == companyId && x.mf_Employee201.confidential == false)
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new EmployeeListModel()
                 {
                     id = x.Source.id,
@@ -449,12 +450,12 @@ namespace HRIS.Service.MasterFile
 
         #region Work Days
 
-        public void WorkDayAdd(int employeeId, int workDayId)
+        public void WorkDayAdd(Guid employeeId, Guid workDayId)
         {
             bool exists = this._repoEmployeeWorkDay.Query().Filter(x => x.employeeId == employeeId && x.workDayId == workDayId && !x.deleted).Get().Any();
             if (!exists)
             {
-                int userId = this.GetCurrentUserId();
+                Guid userId = this.GetCurrentUserId();
                 this._repoEmployeeWorkDay.Insert(new mf_EmployeeWorkDay()
                 {
                     employeeId = employeeId,
@@ -465,7 +466,7 @@ namespace HRIS.Service.MasterFile
             }
         }
 
-        public void WorkDayDelete(int employeeId, int workDayId)
+        public void WorkDayDelete(Guid employeeId, Guid workDayId)
         {
             this._repoEmployeeWorkDay.Query().Filter(x => x.employeeId == employeeId && x.workDayId == workDayId && !x.deleted).Get().ToList().ForEach(data =>
             {
@@ -477,7 +478,7 @@ namespace HRIS.Service.MasterFile
             this._unitOfWork.Save();
         }
 
-        public IEnumerable<EmployeeWorkDayModel> WorkDayList(int employeeId)
+        public IEnumerable<EmployeeWorkDayModel> WorkDayList(Guid employeeId)
         {
             var data = this._repoWorkDay
                 .Query()
@@ -513,7 +514,7 @@ namespace HRIS.Service.MasterFile
 
         #region Skill
 
-        public void SkillDelete(int employeeId, int skillId)
+        public void SkillDelete(Guid employeeId, Guid skillId)
         {
             var data = this._repoEmployeeSkill.Query().Filter(x => x.employeeId == employeeId && x.id == skillId).Get().FirstOrDefault();
             if (data != null)
@@ -523,12 +524,12 @@ namespace HRIS.Service.MasterFile
             }
         }
 
-        public IQueryable<EmployeeSkillModel> SkillList(int employeeId)
+        public IQueryable<EmployeeSkillModel> SkillList(Guid employeeId)
         {
             var data = this._repoEmployeeSkill.Query().Filter(x => x.employeeId == employeeId)
                 .Get()
                 .Join(this._enumReferenceService.GetQuery(ReferenceList.SKILL_PROFICIENCY_LEVEL), s => s.skillProficiencyLevel, p => p.value, (s, p) => new { Skill = s, PL = p })
-                .JoinSystemUser(x=> x.Skill.updatedBy)
+                .JoinSystemUser(x => x.Skill.updatedBy)
                 .Select(x => new EmployeeSkillModel()
                 {
                     id = x.Source.Skill.id,
@@ -540,10 +541,10 @@ namespace HRIS.Service.MasterFile
             return data;
         }
 
-        public void SkillUpdate(int employeeId, EmployeeSkillModel model)
+        public void SkillUpdate(Guid employeeId, EmployeeSkillModel model)
         {
-            int userId = this.GetCurrentUserId();
-            if ((model.id ?? 0) != 0)
+            Guid userId = this.GetCurrentUserId();
+            if ((model.id ?? Guid.Empty) != Guid.Empty)
             {
                 this._repoEmployeeSkill.FindAndUpdateFromModel(model, model.id.Value)
                     .SetValue(x => x.skillName, model.skillName)
@@ -571,7 +572,7 @@ namespace HRIS.Service.MasterFile
 
         #region Training
 
-        public void TrainingDelete(int employeeId, int traningId)
+        public void TrainingDelete(Guid employeeId, Guid traningId)
         {
             var data = this._repoEmployeeTraining.Query().Filter(x => x.employeeId == employeeId && x.id == traningId).Get().FirstOrDefault();
             if (data != null)
@@ -581,11 +582,11 @@ namespace HRIS.Service.MasterFile
             }
         }
 
-        public IQueryable<EmployeeTrainingModel> TrainingList(int employeeId)
+        public IQueryable<EmployeeTrainingModel> TrainingList(Guid employeeId)
         {
             var data = this._repoEmployeeTraining.Query().Filter(x => x.employeeId == employeeId)
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new EmployeeTrainingModel()
                 {
                     id = x.Source.id,
@@ -600,13 +601,13 @@ namespace HRIS.Service.MasterFile
             return data;
         }
 
-        public void TrainingUpdate(int employeeId, EmployeeTrainingModel model)
+        public void TrainingUpdate(Guid employeeId, EmployeeTrainingModel model)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
 
             UpdateEntity<EmployeeTrainingModel, mf_EmployeeTraining> ue;
 
-            if ((model.id ?? 0) != 0)
+            if ((model.id ?? Guid.Empty) != Guid.Empty)
             {
                 ue = this._repoEmployeeTraining.FindAndUpdateFromModel(model, model.id.Value);
                 ue.Update();
@@ -632,9 +633,9 @@ namespace HRIS.Service.MasterFile
 
         #region Work History
 
-        public void WorkHistoryCreate(int employeeId, EmployeeWorkHistoryModel model, out int workHistoryId)
+        public void WorkHistoryCreate(Guid employeeId, EmployeeWorkHistoryModel model, out Guid workHistoryId)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var ins = this._repoEmployeeWorkHistory.PrepareEntity(model)
                 .MatchAllDataField()
                 .SetValue(x => x.employeeId, employeeId)
@@ -645,9 +646,9 @@ namespace HRIS.Service.MasterFile
             workHistoryId = ins.id;
         }
 
-        public void WorkHistoryDelete(int employeeId, int workHistoryId)
+        public void WorkHistoryDelete(Guid employeeId, Guid workHistoryId)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var upt = this._repoEmployeeWorkHistory.Query().Filter(x => x.id == workHistoryId && x.employeeId == employeeId).Get().FirstOrDefault();
 
             upt.deleted = true;
@@ -658,12 +659,12 @@ namespace HRIS.Service.MasterFile
             this._unitOfWork.Save();
         }
 
-        public IQueryable<EmployeeWorkHistoryModel> WorkHistoryList(int employeeId)
+        public IQueryable<EmployeeWorkHistoryModel> WorkHistoryList(Guid employeeId)
         {
             var data = this._repoEmployeeWorkHistory
                 .Query().Filter(x => x.employeeId == employeeId)
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new EmployeeWorkHistoryModel()
                 {
                     id = x.Source.id,
@@ -682,9 +683,9 @@ namespace HRIS.Service.MasterFile
             return data;
         }
 
-        public void WorkHistoryUpdate(int employeeId, EmployeeWorkHistoryModel model)
+        public void WorkHistoryUpdate(Guid employeeId, EmployeeWorkHistoryModel model)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var upt = this._repoEmployeeWorkHistory.Query().Filter(x => x.id == model.id && x.employeeId == employeeId).Get().FirstOrDefault();
 
             var data = this._repoEmployeeWorkHistory.UpdateFromModel(upt, model)
@@ -699,7 +700,7 @@ namespace HRIS.Service.MasterFile
 
         #region Identification Document
 
-        public void IdentificationDocumentDelete(int employeeIdentificationDocumentId)
+        public void IdentificationDocumentDelete(Guid employeeIdentificationDocumentId)
         {
             var data = this._repoEmployeeIdentificationDocument.Find(employeeIdentificationDocumentId);
             data.updatedBy = this.GetCurrentUserId();
@@ -709,15 +710,15 @@ namespace HRIS.Service.MasterFile
             this._unitOfWork.Save();
         }
 
-        public IQueryable<EmployeeIdentificationDocumentModel> IdentificationDocumentList(int employeeId)
+        public IQueryable<EmployeeIdentificationDocumentModel> IdentificationDocumentList(Guid employeeId)
         {
             var data = this._repoEmployeeIdentificationDocument.Query().Filter(x => x.employeeId == employeeId && !x.deleted)
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new EmployeeIdentificationDocumentModel()
                 {
                     id = x.Source.id,
-                    IdentificationDocument = new Model.Sys.ReferenceModel()
+                    IdentificationDocument = new DataReference()
                     {
                         value = x.Source.sys_IdentificationDocument.id,
                         description = x.Source.sys_IdentificationDocument.code + ": " + x.Source.sys_IdentificationDocument.description,
@@ -729,10 +730,10 @@ namespace HRIS.Service.MasterFile
             return data;
         }
 
-        public void IdentificationDocumentUpdate(int employeeId, EmployeeIdentificationDocumentModel model)
+        public void IdentificationDocumentUpdate(Guid employeeId, EmployeeIdentificationDocumentModel model)
         {
-            int userId = this.GetCurrentUserId();
-            if ((model.id ?? 0) != 0)
+            Guid userId = this.GetCurrentUserId();
+            if ((model.id ?? Guid.Empty) != Guid.Empty)
             {
                 this._repoEmployeeIdentificationDocument.FindAndUpdateFromModel(model, model.id.Value)
                     .SetValue(x => x.identificationDocumentId, model.IdentificationDocument.value)
@@ -760,7 +761,7 @@ namespace HRIS.Service.MasterFile
 
         #region Offenses
 
-        public void OffenseDelete(int employeeOffenseId)
+        public void OffenseDelete(Guid employeeOffenseId)
         {
             var data = this._repoEmployeeOffense.Find(employeeOffenseId);
             data.updatedBy = this.GetCurrentUserId();
@@ -770,7 +771,7 @@ namespace HRIS.Service.MasterFile
             this._unitOfWork.Save();
         }
 
-        public IQueryable<EmployeeOffenseModel> OffenseList(int employeeId)
+        public IQueryable<EmployeeOffenseModel> OffenseList(Guid employeeId)
         {
             var query = this._repoEmployeeOffense
                 .Query()
@@ -781,7 +782,7 @@ namespace HRIS.Service.MasterFile
                 .Select(x => new EmployeeOffenseModel()
                 {
                     id = x.Source.eo.id,
-                    Offense = new ReferenceModel()
+                    Offense = new DataReference()
                     {
                         value = x.Source.eo.mf_Offense.id,
                         description = x.Source.eo.mf_Offense.description,
@@ -789,7 +790,7 @@ namespace HRIS.Service.MasterFile
                     offenseDate = x.Source.eo.offenseDate,
                     memoDate = x.Source.eo.memoDate,
                     degree = x.Source.pd,
-                    penaltyType = new ReferenceModel()
+                    penaltyType = new DataReference()
                     {
                         value = x.Source.eo.mf_PenaltyType.id,
                         description = x.Source.eo.mf_PenaltyType.description
@@ -805,13 +806,13 @@ namespace HRIS.Service.MasterFile
             return query;
         }
 
-        public void OffenseUpdate(int employeeId, EmployeeOffenseModel model)
+        public void OffenseUpdate(Guid employeeId, EmployeeOffenseModel model)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
 
             UpdateEntity<EmployeeOffenseModel, mf_EmployeeOffense> ue;
 
-            if ((model.id ?? 0) != 0)
+            if ((model.id ?? Guid.Empty) != Guid.Empty)
             {
                 ue = this._repoEmployeeOffense.FindAndUpdateFromModel(model, model.id.Value);
                 ue.Update();
@@ -840,7 +841,7 @@ namespace HRIS.Service.MasterFile
 
         #region Allowances
 
-        public void AllowanceDelete(int employeeAllowanceId)
+        public void AllowanceDelete(Guid employeeAllowanceId)
         {
             var data = this._repoEmployeeAllowance.Find(employeeAllowanceId);
             data.updatedBy = this.GetCurrentUserId();
@@ -850,7 +851,7 @@ namespace HRIS.Service.MasterFile
             this._unitOfWork.Save();
         }
 
-        public IQueryable<EmployeeAllowanceModel> AllowanceList(int employeeId)
+        public IQueryable<EmployeeAllowanceModel> AllowanceList(Guid employeeId)
         {
             var query = this._repoEmployeeAllowance.Query().Filter(x => x.employeeId == employeeId && !x.deleted && !x.mf_Allowance.deleted)
                 .Get()
@@ -858,7 +859,7 @@ namespace HRIS.Service.MasterFile
                 .Select(x => new EmployeeAllowanceModel()
                 {
                     id = x.Source.id,
-                    Allowance = new ReferenceModel()
+                    Allowance = new DataReference()
                     {
                         value = x.Source.mf_Allowance.id,
                         description = x.Source.mf_Allowance.description,
@@ -871,13 +872,13 @@ namespace HRIS.Service.MasterFile
             return query;
         }
 
-        public void AllowanceUpdate(int employeeId, EmployeeAllowanceModel model)
+        public void AllowanceUpdate(Guid employeeId, EmployeeAllowanceModel model)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
 
             UpdateEntity<EmployeeAllowanceModel, mf_EmployeeAllowance> ue;
 
-            if ((model.id ?? 0) != 0)
+            if ((model.id ?? Guid.Empty) != Guid.Empty)
             {
                 ue = this._repoEmployeeAllowance.FindAndUpdateFromModel(model, model.id.Value);
                 ue.Update();
@@ -904,7 +905,7 @@ namespace HRIS.Service.MasterFile
 
         #region Deductions
 
-        public void DeductionDelete(int employeeDeductionId)
+        public void DeductionDelete(Guid employeeDeductionId)
         {
             var data = this._repoEmployeeDeduction.Find(employeeDeductionId);
             data.updatedBy = this.GetCurrentUserId();
@@ -914,7 +915,7 @@ namespace HRIS.Service.MasterFile
             this._unitOfWork.Save();
         }
 
-        public IQueryable<EmployeeDeductionModel> DeductionList(int employeeId)
+        public IQueryable<EmployeeDeductionModel> DeductionList(Guid employeeId)
         {
             var query = this._repoEmployeeDeduction
                 .Query()
@@ -924,7 +925,7 @@ namespace HRIS.Service.MasterFile
                 .Select(x => new EmployeeDeductionModel()
                 {
                     id = x.Source.id,
-                    Deduction = new ReferenceModel()
+                    Deduction = new DataReference()
                     {
                         value = x.Source.mf_Deduction.id,
                         description = x.Source.mf_Deduction.description,
@@ -937,13 +938,13 @@ namespace HRIS.Service.MasterFile
             return query;
         }
 
-        public void DeductionUpdate(int employeeId, EmployeeDeductionModel model)
+        public void DeductionUpdate(Guid employeeId, EmployeeDeductionModel model)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
 
             UpdateEntity<EmployeeDeductionModel, mf_EmployeeDeduction> ue;
 
-            if ((model.id ?? 0) != 0)
+            if ((model.id ?? Guid.Empty) != Guid.Empty)
             {
                 ue = this._repoEmployeeDeduction.FindAndUpdateFromModel(model, model.id.Value);
                 ue.Update();
@@ -970,7 +971,7 @@ namespace HRIS.Service.MasterFile
 
         #region BasicPay
 
-        public void BasicPayDelete(int employeeBasicPayId)
+        public void BasicPayDelete(Guid employeeBasicPayId)
         {
             var data = this._repoEmployeeBasicPay.Find(employeeBasicPayId);
             data.updatedBy = this.GetCurrentUserId();
@@ -980,7 +981,7 @@ namespace HRIS.Service.MasterFile
             this._unitOfWork.Save();
         }
 
-        public IQueryable<EmployeeBasicPayModel> BasicPayList(int employeeId)
+        public IQueryable<EmployeeBasicPayModel> BasicPayList(Guid employeeId)
         {
             var payRateType = this._enumReferenceService.GetQuery(ReferenceList.PAY_RATE_TYPE);
 
@@ -999,13 +1000,13 @@ namespace HRIS.Service.MasterFile
             return query;
         }
 
-        public void BasicPayUpdate(int employeeId, EmployeeBasicPayModel model)
+        public void BasicPayUpdate(Guid employeeId, EmployeeBasicPayModel model)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
 
             UpdateEntity<EmployeeBasicPayModel, mf_EmployeeBasicPay> ue;
 
-            if ((model.id ?? 0) != 0)
+            if ((model.id ?? Guid.Empty) != Guid.Empty)
             {
                 ue = this._repoEmployeeBasicPay.FindAndUpdateFromModel(model, model.id.Value);
                 ue.Update();
@@ -1032,7 +1033,7 @@ namespace HRIS.Service.MasterFile
 
         #region BalanceLeave
 
-        public void BalanceLeaveDelete(int employeeBalanceLeaveId)
+        public void BalanceLeaveDelete(Guid employeeBalanceLeaveId)
         {
             var data = this._repoEmployeeBalanceLeave.Find(employeeBalanceLeaveId);
             data.updatedBy = this.GetCurrentUserId();
@@ -1042,10 +1043,10 @@ namespace HRIS.Service.MasterFile
             this._unitOfWork.Save();
         }
 
-        public IQueryable<EmployeeBalanceLeaveModel> BalanceLeaveList(int employeeId)
+        public IQueryable<EmployeeBalanceLeaveModel> BalanceLeaveList(Guid employeeId)
         {
             var leaveType = this._repoApplicationRequestType.Query().Filter(x => x.requiredLeavePoints)
-                .Select(x => new ReferenceModel()
+                .Select(x => new DataReference()
                 {
                     value = x.id,
                     description = x.description,
@@ -1067,13 +1068,13 @@ namespace HRIS.Service.MasterFile
             return query;
         }
 
-        public void BalanceLeaveUpdate(int employeeId, EmployeeBalanceLeaveModel model)
+        public void BalanceLeaveUpdate(Guid employeeId, EmployeeBalanceLeaveModel model)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
 
             UpdateEntity<EmployeeBalanceLeaveModel, mf_EmployeeBalanceLeave> ue;
 
-            if ((model.id ?? 0) != 0)
+            if ((model.id ?? Guid.Empty) != Guid.Empty)
             {
                 ue = this._repoEmployeeBalanceLeave.FindAndUpdateFromModel(model, model.id.Value);
                 ue.Update();

@@ -1,14 +1,15 @@
-﻿using System.Linq;
-using HRIS.Model.Configuration;
+﻿using HRIS.Model.Configuration;
+using System;
+using System.Linq;
 
 namespace HRIS.Service.Configuration
 {
     public interface IPositionService
     {
-        void Create(PositionModel model, out int positionId);
-        void Delete(int positionId);
+        void Create(PositionModel model, out Guid positionId);
+        void Delete(Guid positionId);
         IQueryable<PositionModel> GetQuery();
         void Update(PositionModel model);
-        PositionModel GetById(int positionId);
+        PositionModel GetById(Guid positionId);
     }
 }

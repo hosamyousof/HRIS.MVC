@@ -1,19 +1,14 @@
 ﻿using Repository;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Model.Attendance
 {
     public class CutOffAttendanceSummaryDetailModel : ModelAuditInfo
     {
-
         [PrimaryKey]
-        public int id { get; set; }
+        public Guid id { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy - dddd}")]
         [DisplayName("Work Date")]

@@ -12,11 +12,7 @@ using System.Threading.Tasks;
 
 namespace HRIS.Service.Payroll
 {
-    public interface IPayrollService
-    {
-        void GeneratePayroll(GeneratePayrollModel model, out int payrollId);
-    }
-
+ 
     public class PayrollService : BaseService, IPayrollService
     {
         private readonly IEnumReferenceService _enumReferenceService;
@@ -38,7 +34,7 @@ namespace HRIS.Service.Payroll
             this._repoCutOffAttendance = repoCutOffAttendance;
         }
 
-        public void GeneratePayroll(GeneratePayrollModel model, out int payrollId)
+        public void GeneratePayroll(GeneratePayrollModel model, out Guid payrollId)
         {
             var companyId = this.GetCurrentCompanyId();
             var userId = this.GetCurrentUserId();

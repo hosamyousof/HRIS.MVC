@@ -9,7 +9,7 @@ namespace HRIS.Model.Sys
 {
     public class UserRoleModel
     {
-        public int userId { get; set; }
+        public Guid userId { get; set; }
 
         [DisplayName("Username")]
         public string username { get; set; }

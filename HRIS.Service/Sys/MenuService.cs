@@ -25,9 +25,9 @@ namespace HRIS.Service.Sys
             this._repoMenu = repoMenu;
         }
 
-        public void Create(MenuModel model, out int menuId)
+        public void Create(MenuModel model, out Guid menuId)
         {
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
 
             this._memoryCacheManager.RemoveStartWith(MemoryCacheKey.CURRENT_USER_ROLE_MENU);
 
@@ -40,7 +40,7 @@ namespace HRIS.Service.Sys
             menuId = ins.id;
         }
 
-        public void Delete(int menuId)
+        public void Delete(Guid menuId)
         {
             this._memoryCacheManager.RemoveStartWith(MemoryCacheKey.CURRENT_USER_ROLE_MENU);
             var data = this._repoMenu.Find(menuId);
@@ -51,7 +51,7 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public MenuModel GetById(int menuId)
+        public MenuModel GetById(Guid menuId)
         {
             return this.GetQuery().First(x => x.id == menuId);
         }

@@ -57,7 +57,7 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int payrollGroupId;
+                            Guid payrollGroupId;
                             this._payrollGroupService.Create(model, out payrollGroupId);
                             model.id = payrollGroupId;
                             break;

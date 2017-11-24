@@ -5,7 +5,7 @@ namespace HRIS.Data.Entity
 {
     public partial class ta_CutOffAttendanceSummaryDetail : EntityBase
     {
-        public int cutOffAttendanceSummaryId { get; set; }
+        public Guid cutOffAttendanceSummaryId { get; set; }
         public DateTime workDate { get; set; }
         public double workHours { get; set; }
         public double undertimeHours { get; set; }
@@ -14,7 +14,7 @@ namespace HRIS.Data.Entity
         public double? workHolidayHours { get; set; }
         public int? holidayTypeId { get; set; }
         public bool absent { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual mf_HolidayType mf_HolidayType { get; set; }

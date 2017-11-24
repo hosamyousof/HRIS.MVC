@@ -22,8 +22,8 @@ namespace HRIS.Web.Framework
                 bool isValid = false;
                 try
                 {
-                    var loggedUser = filterContext.RequestContext.HttpContext.User.Identity.Name.Split('-');
-                    int sessionId = int.Parse(loggedUser[0]);
+                    var loggedUser = filterContext.RequestContext.HttpContext.User.Identity.Name.Split('|');
+                    Guid sessionId = Guid.Parse(loggedUser[0]);
                     string username = loggedUser[1];
 
                     var userService = DependencyResolver.Current.GetService<IUserService>();

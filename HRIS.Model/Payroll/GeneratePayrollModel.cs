@@ -8,7 +8,7 @@ namespace HRIS.Model.Payroll
 {
     public class GeneratePayrollModel
     {
-        public int cutOffAttendanceId { get; set; }
+        public Guid cutOffAttendanceId { get; set; }
 
         public bool includeLegalDeduction { get; set; }
 

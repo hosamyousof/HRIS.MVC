@@ -1,4 +1,5 @@
-﻿using HRIS.Data;
+﻿using Common;
+using HRIS.Data;
 using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
 using HRIS.Service.Sys;
@@ -26,9 +27,9 @@ namespace HRIS.Service.Configuration
             this._repoHoliday = repoHoliday;
         }
 
-        public void Create(HolidayModel model, out int HolidayId)
+        public void Create(HolidayModel model, out Guid holidayId)
         {
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoHoliday.PrepareEntity(model)
                 .SetValue(x => x.holidayDate, model.holidayDate.Date)
                 .SetValue(x => x.description, model.description)
@@ -37,12 +38,12 @@ namespace HRIS.Service.Configuration
                 .Insert()
                 .GetEntity();
             this._unitOfWork.Save();
-            HolidayId = ins.id;
+            holidayId = ins.id;
         }
 
-        public void Delete(int HolidayId)
+        public void Delete(Guid holidayId)
         {
-            var data = this._repoHoliday.Find(HolidayId);
+            var data = this._repoHoliday.Find(holidayId);
             data.deleted = true;
             data.updatedBy = this.GetCurrentUserId();
             data.updatedDate = DateTime.Now;
@@ -50,9 +51,9 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public HolidayModel GetById(int HolidayId)
+        public HolidayModel GetById(Guid holidayId)
         {
-            return this.GetQuery().First(x => x.id == HolidayId);
+            return this.GetQuery().First(x => x.id == holidayId);
         }
 
         public IQueryable<HolidayModel> GetQuery()
@@ -65,7 +66,7 @@ namespace HRIS.Service.Configuration
                     id = x.Source.id,
                     holidayDate = x.Source.holidayDate,
                     description = x.Source.description,
-                    HolidayType = new Model.Sys.ReferenceModel()
+                    HolidayType = new DataReference()
                     {
                         value = x.Source.mf_HolidayType.id,
                         description = x.Source.mf_HolidayType.description

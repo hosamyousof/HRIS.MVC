@@ -1,4 +1,5 @@
-﻿using HRIS.Model.Sys;
+﻿using Common;
+using HRIS.Model.Sys;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ namespace HRIS.Model.Configuration
 {
     public class DepartmentSectionModel : ModelAuditInfo
     {
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [DisplayName("Code")]
         [Required]
@@ -24,6 +25,6 @@ namespace HRIS.Model.Configuration
         [UIHint("DropDownDepartment")]
         [Required]
         [DisplayName("Department")]
-        public ReferenceModel department { get; set; }
+        public DataReference department { get; set; }
     }
 }

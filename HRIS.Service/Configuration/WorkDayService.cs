@@ -26,13 +26,13 @@ namespace HRIS.Service.Configuration
             this._repoWorkDay = repoWorkDay;
         }
 
-        public void Create(WorkDayModel model, out int WorkDayId)
+        public void Create(WorkDayModel model, out Guid WorkDayId)
         {
             if (this._repoWorkDay.Query().FilterCurrentCompany().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoWorkDay.PrepareEntity(model)
                 .MatchAllDataField()
                 .SetCurrentCompany()
@@ -43,7 +43,7 @@ namespace HRIS.Service.Configuration
             WorkDayId = ins.id;
         }
 
-        public void Delete(int WorkDayId)
+        public void Delete(Guid WorkDayId)
         {
             var data = this._repoWorkDay.Find(WorkDayId);
 
@@ -56,7 +56,7 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public WorkDayModel GetById(int WorkDayId)
+        public WorkDayModel GetById(Guid WorkDayId)
         {
             return this.GetQuery().First(x => x.id == WorkDayId);
         }

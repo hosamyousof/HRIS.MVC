@@ -5,7 +5,7 @@ namespace HRIS.Data.Entity
 {
     public partial class mf_EmployeeOffense : EntityBase
     {
-        public int employeeId { get; set; }
+        public Guid employeeId { get; set; }
         public int offenseId { get; set; }
         public DateTime offenseDate { get; set; }
         public DateTime? memoDate { get; set; }
@@ -15,7 +15,7 @@ namespace HRIS.Data.Entity
         public DateTime? startDate { get; set; }
         public DateTime? endDate { get; set; }
         public string remarks { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual mf_Employee mf_Employee { get; set; }

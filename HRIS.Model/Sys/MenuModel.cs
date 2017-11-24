@@ -12,7 +12,7 @@ namespace HRIS.Model.Sys
     public class MenuModel : ModelAuditInfo
     {
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [Required]
         [DisplayName("Description")]

@@ -6,9 +6,9 @@ namespace HRIS.Data.Entity
 {
     public partial class ta_CutOffAttendanceSummary : EntityBase
     {
-        public int cutOffAttendanceId { get; set; }
-        public int employeeId { get; set; }
-        public int updatedBy { get; set; }
+        public Guid cutOffAttendanceId { get; set; }
+        public Guid employeeId { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<ta_CutOffAttendanceSummaryDetail> ta_CutOffAttendanceSummaryDetails { get; set; }

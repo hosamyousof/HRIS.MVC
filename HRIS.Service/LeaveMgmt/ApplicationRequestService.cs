@@ -1,7 +1,7 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.LeaveMgmt;
 using Repository;
+using System;
 using System.Linq;
 
 namespace HRIS.Service.LeaveMgmt
@@ -14,16 +14,16 @@ namespace HRIS.Service.LeaveMgmt
         public ApplicationRequestService(IUnitOfWork unitOfWork, IRepository<ta_ApplicationRequest> repoApplicationRequest)
         {
             this._repoApplicationRequest = repoApplicationRequest;
-            this._unitOfWork = unitOfWork;                
+            this._unitOfWork = unitOfWork;
         }
 
         public void RequestTypeAdd(ApplicationRequestModel model)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var ins = this._repoApplicationRequest.Insert(new ta_ApplicationRequest()
             {
-                id = model.id??0,
-                applicationRequestTypeId = model.applicationRequestTypeId??0,
+                id = model.id ?? Guid.NewGuid(),
+                applicationRequestTypeId = model.applicationRequestTypeId.Value,
                 note = model.note,
                 status = model.status,
                 assignTo = model.assignTo,
@@ -32,11 +32,10 @@ namespace HRIS.Service.LeaveMgmt
             });
             _unitOfWork.Save();
             model.id = ins.id;
-       }
+        }
 
-        public IQueryable<ApplicationRequestModel> GetByID(int id)
+        public IQueryable<ApplicationRequestModel> GetById(Guid id)
         {
-
             var result = _repoApplicationRequest.Query().Filter(x => x.id == id).Get().Select(model => new ApplicationRequestModel
             {
                 id = model.id,

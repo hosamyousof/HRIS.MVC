@@ -9,7 +9,7 @@ namespace HRIS.Model.MasterFile
 {
     public class EmployeeWorkDayModel
     {
-        public int workDayId { get; set; }
+        public Guid workDayId { get; set; }
 
         [DisplayName("Name")]
         public string name { get; set; }

@@ -6,12 +6,12 @@ namespace HRIS.Data.Entity
 {
     public partial class pr_Payroll : EntityBaseCompany
     {
-        public int cutOffAttendanceId { get; set; }
+        public Guid cutOffAttendanceId { get; set; }
         public int status { get; set; }
         public bool includeLegalDeduction { get; set; }
-        public int generatedBy { get; set; }
+        public Guid generatedBy { get; set; }
         public DateTime generatedDate { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<pr_PayrollEmployee> pr_PayrollEmployees { get; set; }

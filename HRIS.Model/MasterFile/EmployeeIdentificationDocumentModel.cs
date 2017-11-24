@@ -11,14 +11,14 @@ namespace HRIS.Model.MasterFile
     {
         public EmployeeIdentificationDocumentModel()
         {
-            this.IdentificationDocument = new ReferenceModel();
+            this.IdentificationDocument = new DataReference();
         }
 
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [DisplayName("Identification")]
-        public ReferenceModel IdentificationDocument { get; set; }
+        public DataReference IdentificationDocument { get; set; }
 
         [DisplayName("ID Number")]
         public string idNumber { get; set; }

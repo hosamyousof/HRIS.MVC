@@ -20,7 +20,7 @@ namespace HRIS.Data.Entity
         public int toTimeHour { get; set; }
         public int toTimeMinute { get; set; }
         public double breakHours { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<mf_EmployeeWorkDay> mf_EmployeeWorkDays { get; set; }

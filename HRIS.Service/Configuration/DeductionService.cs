@@ -22,14 +22,14 @@ namespace HRIS.Service.Configuration
             this._repoDeduction = repoDeduction;
         }
 
-        public void Create(DeductionModel model, out int deductionId)
+        public void Create(DeductionModel model, out Guid deductionId)
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             if (this._repoDeduction.Query().Filter(x => x.code == model.code && x.companyId == companyId).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var ins = this._repoDeduction.Insert(new mf_Deduction()
             {
                 companyId = companyId,
@@ -41,7 +41,7 @@ namespace HRIS.Service.Configuration
             deductionId = ins.id;
         }
 
-        public void Delete(int deductionId)
+        public void Delete(Guid deductionId)
         {
             var data = this._repoDeduction.Find(deductionId);
             data.deleted = true;
@@ -51,14 +51,14 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public DeductionModel GetById(int deductionId)
+        public DeductionModel GetById(Guid deductionId)
         {
             return this.GetQuery().First(x => x.id == deductionId);
         }
 
         public IQueryable<DeductionModel> GetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoDeduction
                 .Query().Filter(x => x.companyId == companyId)
                 .Get()
@@ -79,7 +79,7 @@ namespace HRIS.Service.Configuration
             var upt = this._repoDeduction.Find(model.id);
             if (upt.code != model.code)
             {
-                int companyId = this.GetCurrentCompanyId();
+                Guid companyId = this.GetCurrentCompanyId();
                 if (this._repoDeduction.Query().Filter(x => x.code == model.code && x.companyId == companyId).Get().Any())
                 {
                     throw new Exception(model.code + " is already exists");

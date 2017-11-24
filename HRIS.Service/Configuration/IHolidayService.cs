@@ -6,11 +6,11 @@ namespace HRIS.Service.Configuration
 {
     public interface IHolidayService
     {
-        void Create(HolidayModel model, out int HolidayId);
+        void Create(HolidayModel model, out Guid holidayId);
 
-        void Delete(int HolidayId);
+        void Delete(Guid holidayId);
 
-        HolidayModel GetById(int HolidayId);
+        HolidayModel GetById(Guid holidayId);
 
         IQueryable<HolidayModel> GetQuery();
 

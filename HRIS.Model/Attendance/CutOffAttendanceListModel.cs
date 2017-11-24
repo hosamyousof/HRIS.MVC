@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Model.Attendance
 {
     public class CutOffAttendanceListModel : ModelAuditInfo
     {
-        public int id { get; set; }
+        public Guid id { get; set; }
 
         [DisplayName("Generated Date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
@@ -33,7 +29,8 @@ namespace HRIS.Model.Attendance
         [DisplayName("Employee Count")]
         public int employeeCount { get; set; }
 
-        public int payrollGroupId { get; set; }
+        public Guid payrollGroupId { get; set; }
+
         public int statusId { get; set; }
     }
 }

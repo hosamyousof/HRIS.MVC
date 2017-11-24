@@ -1,46 +1,47 @@
 ﻿using HRIS.Model.Sys;
+using System;
 using System.Linq;
 
 namespace HRIS.Service.Sys
 {
     public interface IUserService
     {
-        void Create(UserModel model, out int userId);
+        void Create(UserModel model, out Guid userId);
 
-        int CreateUserSession(int companyId, int userId);
+        Guid CreateUserSession(Guid companyId, Guid userId);
 
-        void Delete(int userId);
+        void Delete(Guid userId);
 
-        void DisableUser(int userId, bool disable = true);
+        void DisableUser(Guid userId, bool disable = true);
 
-        UserModel GetById(int userId);
+        UserModel GetById(Guid userId);
 
-        int GetCompanyIdBySessionId(int sessionId);
+        Guid GetCompanyIdBySessionId(Guid sessionId);
 
         AccountProfileModel GetCurrentAccountProfile();
 
         IQueryable<UserModel> GetQuery();
 
-        IQueryable<UserRoleModel> GetRoleUsers(int roleId);
+        IQueryable<UserRoleModel> GetRoleUsers(Guid roleId);
 
-        int GetUserIdByUsername(string username);
+        Guid GetUserIdByUsername(string username);
 
-        string GetUsernameByUserId(int userId);
+        string GetUsernameByUserId(Guid userId);
 
         bool HasPermission(string username, RoleAccessType accessType, string permissionCode);
 
-        bool IsSessionValid(int sessionId, string username);
+        bool IsSessionValid(Guid sessionId, string username);
 
-        void LoggedUser(int companyId, string username, out int sessionId);
+        void LoggedUser(Guid companyId, string username, out Guid sessionId);
 
         void Update(UserModel model);
 
         void UpdateProfile(AccountProfileModel model);
 
-        void UpdateStatus(int userId, UserStatus status);
+        void UpdateStatus(Guid userId, UserStatus status);
 
-        void UpdateUserSessionExpiration(int sessionId);
+        void UpdateUserSessionExpiration(Guid sessionId);
 
-        void ValidateLogin(string companyCode, string username, string password, out int sessionId);
+        void ValidateLogin(string companyCode, string username, string password, out Guid sessionId);
     }
 }

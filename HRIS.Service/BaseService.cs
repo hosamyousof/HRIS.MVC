@@ -36,10 +36,10 @@ namespace HRIS.Service
             this.Log(new Exception(string.Format(msg, args)));
         }
 
-        public int GetCurrentCompanyId()
+        public Guid GetCurrentCompanyId()
         {
-            int sessionId = int.Parse(System.Web.HttpContext.Current.User.Identity.Name.Split('-')[0]);
-            int companyId = DependencyResolver.Current.GetService<IUserService>().GetCompanyIdBySessionId(sessionId);
+            Guid sessionId = Guid.Parse(System.Web.HttpContext.Current.User.Identity.Name.Split('|')[0]);
+            Guid companyId = DependencyResolver.Current.GetService<IUserService>().GetCompanyIdBySessionId(sessionId);
             return companyId;
         }
 
@@ -48,30 +48,30 @@ namespace HRIS.Service
             DependencyResolver.Current.GetService<Data.HRISContext>().Database.ExecuteSqlCommand(sql);
         }
 
-        protected int GetCurrentSessionId()
+        protected Guid GetCurrentSessionId()
         {
-            int sessionId = int.Parse(System.Web.HttpContext.Current.User.Identity.Name.Split('-')[0]);
+            Guid sessionId = Guid.Parse(System.Web.HttpContext.Current.User.Identity.Name.Split('|')[0]);
             return sessionId;
         }
 
-        public int GetCurrentUserId()
+        public Guid GetCurrentUserId()
         {
-            string username = System.Web.HttpContext.Current.User.Identity.Name.Split('-')[1];
+            string username = System.Web.HttpContext.Current.User.Identity.Name.Split('|')[1];
             return DependencyResolver.Current.GetService<IUserService>().GetUserIdByUsername(username);
         }
 
         protected string GetSettingValue(string settingName)
         {
-            int companyId = GetCurrentCompanyId();
+            Guid companyId = GetCurrentCompanyId();
             return DependencyResolver.Current.GetService<ISettingService>().GetValue(companyId, settingName);
         }
 
-        protected string GetSettingValue(int companyId, string settingName)
+        protected string GetSettingValue(Guid companyId, string settingName)
         {
             return DependencyResolver.Current.GetService<ISettingService>().GetValue(companyId, settingName);
         }
 
-        protected string GetUsername(int userId)
+        protected string GetUsername(Guid userId)
         {
             return DependencyResolver.Current.GetService<IUserService>().GetUsernameByUserId(userId);
         }

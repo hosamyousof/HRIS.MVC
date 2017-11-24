@@ -46,9 +46,8 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int PenaltyTypeId;
-                            this._PenaltyTypeService.Create(model, out PenaltyTypeId);
-                            model.id = PenaltyTypeId;
+                            this._PenaltyTypeService.Create(model, out Guid penaltyTypeId);
+                            model.id = penaltyTypeId;
                             break;
                         case UpdateType.Update:
                             this._PenaltyTypeService.Update(model);

@@ -1,4 +1,5 @@
-﻿using HRIS.Model.Sys;
+﻿using Common;
+using HRIS.Model.Sys;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ namespace HRIS.Model.Attendance
 {
     public class EmployeeAttendanceModel
     {
-        public int id { get; set; }
+        public Guid id { get; set; }
 
         [DisplayFormat(DataFormatString = "{0: MM/dd/yyyy hh:mm tt}")]
         [DisplayName("Time Log")]
@@ -21,7 +22,7 @@ namespace HRIS.Model.Attendance
         public ReferenceModel timeLogType { get; set; }
 
         [DisplayName("Work Day")]
-        public ReferenceModel workDay { get; set; }
+        public DataReference workDay { get; set; }
 
         [DisplayName("Employee Name")]
         public string employeeName { get; set; }

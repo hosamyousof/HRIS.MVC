@@ -14,7 +14,7 @@ namespace HRIS.Model.MasterFile
         }
 
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         public string skillName { get; set; }
 

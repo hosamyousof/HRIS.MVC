@@ -1,18 +1,13 @@
-﻿using HRIS.Model;
-using HRIS.Model.Configuration;
-using HRIS.Model.MasterFile;
+﻿using HRIS.Model.Configuration;
+using HRIS.Model.LeaveMgmt;
 using HRIS.Service.Configuration;
-using HRIS.Service.MasterFile;
+using HRIS.Service.LeaveMgmt;
 using HRIS.Web.Framework;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using HRIS.Model.LeaveMgmt;
-using HRIS.Service.LeaveMgmt;
 
 namespace HRIS.Web.Controllers
 {
@@ -31,16 +26,16 @@ namespace HRIS.Web.Controllers
             this._applicationRequestService = applicationRequestService;
         }
 
-        public ActionResult DepartmentSectionApproverList([DataSourceRequest] DataSourceRequest request, int? requestTypeId, int? sectionId)
+        public ActionResult DepartmentSectionApproverList([DataSourceRequest] DataSourceRequest request, Guid? requestTypeId, Guid? sectionId)
         {
-            var data = this._applicationRequestTypeService.GetApplicationRequestApprover(sectionId ?? 0, requestTypeId ?? 0);
+            var data = this._applicationRequestTypeService.GetApplicationRequestApprover(sectionId ?? Guid.Empty, requestTypeId ?? Guid.Empty);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult DepartmentSectionApproverListUpdate([DataSourceRequest] DataSourceRequest request
-            , int requestTypeId
-            , int sectionId
+            , Guid requestTypeId
+            , Guid sectionId
             , [Bind(Prefix = "models")]IEnumerable<DepartmentSectionRequestApproverModel> models)
         {
             if (models != null && ModelState.IsValid)
@@ -58,8 +53,8 @@ namespace HRIS.Web.Controllers
         }
 
         public ActionResult DepartmentSectionApproverListDelete([DataSourceRequest] DataSourceRequest request
-            , int requestTypeId
-            , int sectionId
+            , Guid requestTypeId
+            , Guid sectionId
             , [Bind(Prefix = "models")]IEnumerable<DepartmentSectionRequestApproverModel> models)
         {
             if (models != null && ModelState.IsValid)
@@ -76,13 +71,12 @@ namespace HRIS.Web.Controllers
             return Json(models.ToDataSourceResult(request, ModelState));
         }
 
-
         [HttpPost]
-        public ActionResult DepartmentSectionApproverAdd(int approverId, int sectionId, int requestTypeId)
+        public ActionResult DepartmentSectionApproverAdd(Guid approverId, Guid sectionId, Guid requestTypeId)
         {
             try
             {
-                int applicationRequestDepartmentSectionApproverId;
+                Guid applicationRequestDepartmentSectionApproverId = Guid.Empty;
                 this._applicationRequestTypeService.DepartmentSectionRequestApproverAdd(sectionId, requestTypeId, approverId, out applicationRequestDepartmentSectionApproverId);
             }
             catch (Exception ex)
@@ -115,9 +109,9 @@ namespace HRIS.Web.Controllers
         public ActionResult RequestTypeAdd(ApplicationRequestModel model)
         {
             try
-            {               
-                this._applicationRequestService.RequestTypeAdd(model);                               
-                var data = this._applicationRequestService.GetByID(model.id??0);
+            {
+                this._applicationRequestService.RequestTypeAdd(model);
+                var data = this._applicationRequestService.GetById(model.id ?? Guid.Empty);
                 return this.JsonResultSuccess(new { data });
             }
             catch (Exception ex)
@@ -125,7 +119,5 @@ namespace HRIS.Web.Controllers
                 return this.JsonResultError(ex);
             }
         }
-
-
     }
 }

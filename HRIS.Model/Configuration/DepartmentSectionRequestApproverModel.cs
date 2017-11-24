@@ -10,7 +10,7 @@ namespace HRIS.Model.Configuration
 {
     public class DepartmentSectionRequestApproverModel
     {
-        public int id { get; set; }
+        public Guid id { get; set; }
 
         [DisplayName("Approver Username")]
         public string username { get; set; }
@@ -19,6 +19,6 @@ namespace HRIS.Model.Configuration
         [UIHint("IntegerTextBox")]
         public int orderNo { get; set; }
 
-        public int userId { get; set; }
+        public Guid userId { get; set; }
     }
 }

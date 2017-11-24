@@ -26,13 +26,13 @@ namespace HRIS.Service.Configuration
             this._repoPayrollGroup = repoPayrollGroup;
         }
 
-        public void Create(PayrollGroupModel model, out int payrollGroupId)
+        public void Create(PayrollGroupModel model, out Guid payrollGroupId)
         {
             if (this._repoPayrollGroup.Query().Filter(x => x.code == model.code ).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoPayrollGroup.Insert(new mf_PayrollGroup()
             {
                 code = model.code,
@@ -43,7 +43,7 @@ namespace HRIS.Service.Configuration
             payrollGroupId = ins.id;
         }
 
-        public void Delete(int payrollGroupId)
+        public void Delete(Guid payrollGroupId)
         {
             var data = this._repoPayrollGroup.Find(payrollGroupId);
             data.deleted = true;
@@ -53,7 +53,7 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public PayrollGroupModel GetById(int payrollGroupId)
+        public PayrollGroupModel GetById(Guid payrollGroupId)
         {
             return this.GetQuery().First(x => x.id == payrollGroupId);
         }

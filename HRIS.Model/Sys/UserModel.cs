@@ -12,7 +12,7 @@ namespace HRIS.Model.Sys
 {
     public class UserModel : ModelAuditInfo
     {
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         public string username { get; set; }
 

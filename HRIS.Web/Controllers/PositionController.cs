@@ -39,7 +39,7 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int positionId;
+                            Guid positionId;
                             this._positionService.Create(model, out positionId);
                             model.id = positionId;
                             break;

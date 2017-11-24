@@ -10,7 +10,7 @@ namespace HRIS.Data.Entity
         public string description { get; set; }
         public double rateNotWork { get; set; }
         public double rateWork { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<mf_Holiday> mf_Holidays { get; set; }

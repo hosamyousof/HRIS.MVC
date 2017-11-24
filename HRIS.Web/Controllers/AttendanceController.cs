@@ -35,7 +35,7 @@ namespace HRIS.Web.Controllers
         {
             try
             {
-                if (model.payrollGroupId == 0)
+                if (model.payrollGroupId == Guid.Empty)
                     throw new Exception("Please select Payroll Group.");
 
                 //if (!this._attendanceService.CheckIfEmployeeAttendanceHasWorkDay(model.startDate, model.endDate))
@@ -48,7 +48,7 @@ namespace HRIS.Web.Controllers
                 //    return this.JsonResultError(new Exception(), new { noRecordAttendance = true });
                 //}
 
-                int dailyAttendanceId = 0;
+                Guid dailyAttendanceId = Guid.Empty;
                 this._attendanceService.GenerateCutOffAttendance(model, out dailyAttendanceId);
                 return this.JsonResultSuccess(new { id = dailyAttendanceId });
             }
@@ -78,7 +78,7 @@ namespace HRIS.Web.Controllers
         public ActionResult CutOffAttendanceListModelGetQuery([DataSourceRequest] DataSourceRequest request
             , DateTime? generatedDate
             , int? status
-            , int? payrollGroupId)
+            , Guid? payrollGroupId)
         {
 
             var data = this._attendanceService.CutOffAttendanceListModelGetQuery();
@@ -128,8 +128,8 @@ namespace HRIS.Web.Controllers
         }
 
         public ActionResult GetEmployeeAttendance([DataSourceRequest] DataSourceRequest request
-            , int? payrollId
-            , int? employeeId
+            , Guid? payrollId
+            , Guid? employeeId
             , DateTime? startDate
             , DateTime? endDate
             )
@@ -139,7 +139,7 @@ namespace HRIS.Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult CutOffAttendanceSummaryGetByCutOffAttendanceId([DataSourceRequest] DataSourceRequest request, int cutOffAttendanceId)
+        public ActionResult CutOffAttendanceSummaryGetByCutOffAttendanceId([DataSourceRequest] DataSourceRequest request, Guid cutOffAttendanceId)
         {
             var data = this._attendanceService.CutOffAttendanceSummaryGetByCutOffAttendanceId(cutOffAttendanceId);
             var result = data.ToDataSourceResult(request);
@@ -157,7 +157,7 @@ namespace HRIS.Web.Controllers
             return View();
         }
 
-        public ActionResult ViewCutOffSummary(int id)
+        public ActionResult ViewCutOffSummary(Guid id)
         {
             var model = this._attendanceService.CutOffAttendanceGetById(id);
             return PartialView("_ViewCutOffSummary", model);
@@ -168,7 +168,7 @@ namespace HRIS.Web.Controllers
         /// </summary>
         /// <param name="id">cutOffAttendanceSummaryId</param>
         /// <returns></returns>
-        public ActionResult ViewSummaryDetails(int id)
+        public ActionResult ViewSummaryDetails(Guid id)
         {
             return PartialView("_ViewSummaryDetails", id);
         }
@@ -179,7 +179,7 @@ namespace HRIS.Web.Controllers
         /// <param name="request"></param>
         /// <param name="id">cutOffAttendanceSummaryId</param>
         /// <returns></returns>
-        public ActionResult SummaryDetailList([DataSourceRequest] DataSourceRequest request, int id)
+        public ActionResult SummaryDetailList([DataSourceRequest] DataSourceRequest request, Guid id)
         {
             var data = this._attendanceService.CutOffAttendanceSummaryDetailGetByCutOffAttendanceSummaryId(id);
             var result = data.ToDataSourceResult(request);

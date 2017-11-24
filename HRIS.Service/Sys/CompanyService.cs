@@ -24,7 +24,7 @@ namespace HRIS.Service.Sys
 
         public void UpdateCurrentCompany(CompanyModel model)
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             this._repoCompany.FindAndUpdateFromModel(model, companyId)
                 .MatchAllDataField()
                 .SetValue(x => x.updatedBy, this.GetCurrentUserId())
@@ -35,7 +35,7 @@ namespace HRIS.Service.Sys
 
         public CompanyModel GetCurrentCompany()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoCompany
                 .Query().Filter(x => x.id == companyId)
                 .Get()

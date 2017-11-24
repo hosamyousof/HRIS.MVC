@@ -11,7 +11,7 @@ namespace HRIS.Model.Configuration
 {
     public class PositionModel : ModelAuditInfo
     {
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [DisplayName("Code")]
         public string code { get; set; }

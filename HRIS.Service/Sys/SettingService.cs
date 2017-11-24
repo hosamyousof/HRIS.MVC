@@ -21,7 +21,7 @@ namespace HRIS.Service.Sys
             this._unitOfWork = unitOfWork;
         }
 
-        //public string GenerateFormat(int companyId, string settingFormatName, string settingCurrentNoName)
+        //public string GenerateFormat(Guid companyId, string settingFormatName, string settingCurrentNoName)
         //{
         //    string format = this.GetValue(companyId, settingFormatName);
         //    int current_no = this.GetValue<int>(companyId, settingCurrentNoName);
@@ -34,7 +34,7 @@ namespace HRIS.Service.Sys
 
         public IQueryable<SettingModel> GetSettingList()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var companySetting = this._repoCompanySetting.Query().Filter(x => x.companyId == companyId).Get();
 
             var data = this._repoSetting.Query().Get()
@@ -55,12 +55,12 @@ namespace HRIS.Service.Sys
             return data;
         }
 
-        public T GetValue<T>(int companyId, string settingName) where T : struct
+        public T GetValue<T>(Guid companyId, string settingName) where T : struct
         {
             return GetValue(companyId, settingName).ConvertTo<T>();
         }
 
-        public string GetValue(int companyId, string settingName)
+        public string GetValue(Guid companyId, string settingName)
         {
             string name = settingName.ToString();
             var data = this._repoCompanySetting
@@ -73,9 +73,9 @@ namespace HRIS.Service.Sys
             return data ?? "";
         }
 
-        public void Update(int settingId, string value)
+        public void Update(Guid settingId, string value)
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoCompanySetting.Query().Filter(x => x.companyId == companyId && x.settingId == settingId).Get().FirstOrDefault();
 
             if (data == null)

@@ -22,13 +22,13 @@ namespace HRIS.Service.Configuration
             this._repoOffense = repoOffense;
         }
 
-        public void Create(OffenseModel model, out int offenseId)
+        public void Create(OffenseModel model, out Guid offenseId)
         {
             if (this._repoOffense.Query().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoOffense.Insert(new mf_Offense()
             {
                 code = model.code,
@@ -39,7 +39,7 @@ namespace HRIS.Service.Configuration
             offenseId = ins.id;
         }
 
-        public void Delete(int offenseId)
+        public void Delete(Guid offenseId)
         {
             var data = this._repoOffense.Find(offenseId);
             data.deleted = true;
@@ -49,7 +49,7 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public OffenseModel GetById(int offenseId)
+        public OffenseModel GetById(Guid offenseId)
         {
             return this.GetQuery().First(x => x.id == offenseId);
         }

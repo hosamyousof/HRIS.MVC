@@ -26,13 +26,13 @@ namespace HRIS.Service.Configuration
             this._repoCountry = repoCountry;
         }
 
-        public void Create(CountryModel model, out int countryId)
+        public void Create(CountryModel model, out Guid countryId)
         {
             if (this._repoCountry.Query().Filter(x => x.code == model.code ).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoCountry.Insert(new mf_Country()
             {
                 code = model.code,
@@ -43,7 +43,7 @@ namespace HRIS.Service.Configuration
             countryId = ins.id;
         }
 
-        public void Delete(int countryId)
+        public void Delete(Guid countryId)
         {
             var data = this._repoCountry.Find(countryId);
             data.deleted = true;
@@ -53,7 +53,7 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public CountryModel GetById(int countryId)
+        public CountryModel GetById(Guid countryId)
         {
             return this.GetQuery().First(x => x.id == countryId);
         }

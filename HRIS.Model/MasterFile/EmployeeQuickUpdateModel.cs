@@ -1,4 +1,5 @@
-﻿using HRIS.Model.Sys;
+﻿using Common;
+using HRIS.Model.Sys;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,23 +12,23 @@ namespace HRIS.Model.MasterFile
 {
     public class EmployeeQuickUpdateModel
     {
-        public int id { get; set; }
+        public Guid id { get; set; }
 
         [Required]
         [DisplayName("Employee Code")]
         public string employeeCode { get; set; }
 
         [DisplayName("Position")]
-        public ReferenceModel position { get; set; }
+        public DataReference position { get; set; }
 
         [DisplayName("Department")]
-        public ReferenceModel department { get; set; }
+        public DataReference department { get; set; }
 
         [DisplayName("Employment Status")]
-        public ReferenceModel employmentStatus { get; set; }
+        public DataReference employmentStatus { get; set; }
 
         [DisplayName("Employment Type")]
-        public ReferenceModel employmentType { get; set; }
+        public DataReference employmentType { get; set; }
 
         [DisplayName("Position Level")]
         public ReferenceModel positionLevel { get; set; }

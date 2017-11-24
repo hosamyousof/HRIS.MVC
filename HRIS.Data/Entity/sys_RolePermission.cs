@@ -5,14 +5,14 @@ namespace HRIS.Data.Entity
 {
     public partial class sys_RolePermission : EntityBase
     {
-        public int roleId { get; set; }
-        public int permissionId { get; set; }
+        public Guid roleId { get; set; }
+        public Guid permissionId { get; set; }
         public bool viewAccess { get; set; }
         public bool createAccess { get; set; }
         public bool updateAccess { get; set; }
         public bool deleteAccess { get; set; }
         public bool printAccess { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual sys_Permission sys_Permission { get; set; }

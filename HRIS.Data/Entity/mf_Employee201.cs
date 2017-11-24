@@ -7,12 +7,12 @@ namespace HRIS.Data.Entity
     public partial class mf_Employee201 : EntityBase
     {
         public string employeeCode { get; set; }
-        public int? departmentId { get; set; }
-        public int? departmentSectionId { get; set; }
-        public int? positionId { get; set; }
+        public Guid? departmentId { get; set; }
+        public Guid? departmentSectionId { get; set; }
+        public Guid? positionId { get; set; }
         public string email { get; set; }
-        public int? employmentTypeId { get; set; }
-        public int? employmentStatusId { get; set; }
+        public Guid? employmentTypeId { get; set; }
+        public Guid? employmentStatusId { get; set; }
         public int? positionLevel { get; set; }
         public DateTime? dateHired { get; set; }
         public DateTime? resignedDate { get; set; }
@@ -22,9 +22,9 @@ namespace HRIS.Data.Entity
         public bool? entitledUnworkSpecialHoliday { get; set; }
         public bool? entitledOvertime { get; set; }
         public bool? entitledHolidayPay { get; set; }
-        public int? payrollGroupId { get; set; }
-        public int? agencyId { get; set; }
-        public int updatedBy { get; set; }
+        public Guid? payrollGroupId { get; set; }
+        public Guid? agencyId { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
         public bool confidential { get; set; }
 

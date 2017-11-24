@@ -1,16 +1,14 @@
-﻿using HRIS.Model;
+﻿using Common;
+using HRIS.Model;
 using HRIS.Model.Configuration;
-using HRIS.Model.MasterFile;
 using HRIS.Model.Sys;
 using HRIS.Service.Configuration;
-using HRIS.Service.MasterFile;
 using HRIS.Web.Framework;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HRIS.Web.Controllers
@@ -37,7 +35,7 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int departmentId;
+                            Guid departmentId;
                             this._departmentService.Create(model, out departmentId);
                             model.id = departmentId;
                             break;
@@ -77,7 +75,7 @@ namespace HRIS.Web.Controllers
 
         public ActionResult ReferenceModelList([DataSourceRequest] DataSourceRequest request)
         {
-            var data = this._departmentService.GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description });
+            var data = this._departmentService.GetQuery().Select(x => new DataReference() { value = x.id.Value, description = x.description });
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
@@ -104,7 +102,7 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int departmentId;
+                            Guid departmentId;
                             this._departmentService.SectionCreate(model, out departmentId);
                             model.id = departmentId;
                             break;
@@ -150,11 +148,16 @@ namespace HRIS.Web.Controllers
             return View();
         }
 
-        public ActionResult SectionReferenceModelList([DataSourceRequest] DataSourceRequest request, int? departmentId)
+        public ActionResult SectionReferenceModelList([DataSourceRequest] DataSourceRequest request, Guid? departmentId)
         {
             if (departmentId.HasValue)
             {
-                var data = this._departmentService.SectionGetQuery().Where(x => x.department.value == departmentId.Value).Select(x => new ReferenceModel() { value = x.id.Value, description = x.description });
+                var data = this._departmentService.SectionGetQuery().Where(x => x.department.value == departmentId.Value)
+                    .Select(x => new DataReference()
+                    {
+                        value = x.id.Value,
+                        description = x.description
+                    });
                 var result = data.ToDataSourceResult(request);
                 return Json(result, JsonRequestBehavior.AllowGet);
             }

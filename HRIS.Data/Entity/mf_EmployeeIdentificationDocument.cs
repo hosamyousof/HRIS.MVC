@@ -5,10 +5,10 @@ namespace HRIS.Data.Entity
 {
     public partial class mf_EmployeeIdentificationDocument : EntityBase
     {
-        public int employeeId { get; set; }
-        public int identificationDocumentId { get; set; }
+        public Guid employeeId { get; set; }
+        public Guid identificationDocumentId { get; set; }
         public string idNumber { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual mf_Employee mf_Employee { get; set; }

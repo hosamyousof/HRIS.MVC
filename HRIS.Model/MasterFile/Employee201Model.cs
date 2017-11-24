@@ -15,36 +15,36 @@ namespace HRIS.Model.MasterFile
     {
         public Employee201Model()
         {
-            this.EmploymentTypeList = new List<ReferenceModel>();
+            this.EmploymentTypeList = new List<DataReference>();
             this.PositionLevelList = new List<ReferenceModel>();
             this.PayRateTypeList = new List<ReferenceModel>();
             this.TaxStatusList = new List<ReferenceModel>();
-            this.EmploymentStatusList = new List<ReferenceModel>();
+            this.EmploymentStatusList = new List<DataReference>();
         }
 
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [ExcludeToUpdate]
-        public int? employeeId { get; set; }
+        public Guid? employeeId { get; set; }
 
         [DisplayName("Employee Code")]
         public string employeeCode { get; set; }
 
         [DisplayName("Department")]
-        public int? departmentId { get; set; }
+        public Guid? departmentId { get; set; }
 
         [DisplayName("Section")]
-        public int? departmentSectionId { get; set; }
+        public Guid? departmentSectionId { get; set; }
 
         [DisplayName("Position")]
-        public int? positionId { get; set; }
+        public Guid? positionId { get; set; }
 
         [DisplayName("Email")]
         public string email { get; set; }
 
         [DisplayName("Employment Type")]
-        public int? employmentTypeId { get; set; }
+        public Guid? employmentTypeId { get; set; }
 
         [DisplayName("Position Level")]
         public int? positionLevel { get; set; }
@@ -76,13 +76,13 @@ namespace HRIS.Model.MasterFile
         public bool? entitledHolidayPay { get; set; }
 
         [DisplayName("Payroll Group")]
-        public int? payrollGroupId { get; set; }
+        public Guid? payrollGroupId { get; set; }
 
         [DisplayName("Employment Status")]
-        public int? employmentStatusId { get; set; }
+        public Guid? employmentStatusId { get; set; }
 
         [DisplayName("Agency")]
-        public int? agencyId { get; set; }
+        public Guid? agencyId { get; set; }
 
         [Required]
         [DisplayName("Confidential")]
@@ -91,7 +91,7 @@ namespace HRIS.Model.MasterFile
         #region Reference
 
         [ExcludeToUpdate]
-        public List<ReferenceModel> EmploymentTypeList { get; set; }
+        public List<DataReference> EmploymentTypeList { get; set; }
 
         [ExcludeToUpdate]
         public List<ReferenceModel> PositionLevelList { get; set; }
@@ -102,7 +102,7 @@ namespace HRIS.Model.MasterFile
         [ExcludeToUpdate]
         public List<ReferenceModel> TaxStatusList { get; set; }
 
-        public List<ReferenceModel> EmploymentStatusList { get; set; }
+        public List<DataReference> EmploymentStatusList { get; set; }
 
         #endregion Reference
     }

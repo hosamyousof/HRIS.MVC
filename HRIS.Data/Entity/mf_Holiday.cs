@@ -7,12 +7,11 @@ namespace HRIS.Data.Entity
     {
         public DateTime holidayDate { get; set; }
         public string description { get; set; }
-        public int holidayTypeId { get; set; }
-        public int updatedBy { get; set; }
+        public Guid holidayTypeId { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual mf_HolidayType mf_HolidayType { get; set; }
-        
 
         public mf_Holiday()
         {

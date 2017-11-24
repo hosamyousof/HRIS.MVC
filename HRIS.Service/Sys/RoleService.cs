@@ -1,14 +1,10 @@
 ﻿using Common;
-using HRIS.Data;
 using HRIS.Data.Entity;
-using HRIS.Model;
 using HRIS.Model.Sys;
 using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 
 namespace HRIS.Service.Sys
@@ -40,7 +36,7 @@ namespace HRIS.Service.Sys
             this._unitOfWork = unitOfWork;
         }
 
-        public void Create(RoleModel model, out int userId)
+        public void Create(RoleModel model, out Guid userId)
         {
             using (TransactionScope ts = new TransactionScope())
             {
@@ -49,7 +45,7 @@ namespace HRIS.Service.Sys
                     throw new Exception(model.description + " is already exists.");
                 }
 
-                int currentUser = this.GetCurrentUserId();
+                var currentUser = this.GetCurrentUserId();
 
                 var ins = this._repoRole.Insert(new sys_Role()
                 {
@@ -64,7 +60,7 @@ namespace HRIS.Service.Sys
             }
         }
 
-        public void Delete(int userId)
+        public void Delete(Guid userId)
         {
             var data = this._repoRole.Find(userId);
             data.deleted = true;
@@ -74,18 +70,17 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public RoleModel GetById(int userId)
+        public RoleModel GetById(Guid userId)
         {
             return this.GetQuery().First(x => x.id == userId);
         }
 
         public IEnumerable<RoleMenuModel> GetCurrentUserRoleMenu()
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
 
             var cache = _memoryCacheManager.Get(MemoryCacheKey.CURRENT_USER_ROLE_MENU, userId, () =>
             {
-
                 var data = this._repoRoleMenu.Query()
                 .Filter(x => x.sys_Role.sys_UserRoles.Any(ur => ur.userId == userId && !ur.deleted))
                 .Include(x => x.sys_Menu)
@@ -131,9 +126,9 @@ namespace HRIS.Service.Sys
             return cache;
         }
 
-        public IEnumerable<RoleMenuModel> RoleMenuGetByRoleId(int roleId)
+        public IEnumerable<RoleMenuModel> RoleMenuGetByRoleId(Guid roleId)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
 
             var data = this._repoRoleMenu.Query()
                 .Filter(x => x.roleId == roleId)
@@ -169,7 +164,7 @@ namespace HRIS.Service.Sys
         {
             var companyId = this.GetCurrentCompanyId();
             var data = this._repoRole.Query().Filter(x => !x.deleted && x.companyId == companyId).Get()
-                .JoinSystemUser(x=> x.updatedBy)
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new RoleModel
                 {
                     id = x.Source.id,
@@ -181,7 +176,7 @@ namespace HRIS.Service.Sys
             return data;
         }
 
-        public void MenuChangeParent(int sourceId, int? destinationId)
+        public void MenuChangeParent(Guid sourceId, Guid? destinationId)
         {
             var m = this._repoRoleMenu.Find(sourceId);
             m.parentRoleMenuId = destinationId;
@@ -193,7 +188,7 @@ namespace HRIS.Service.Sys
         {
             this._memoryCacheManager.RemoveStartWith(MemoryCacheKey.CURRENT_USER_ROLE_MENU);
             var menu = this._repoMenu.Find(model.menuId);
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var ins = this._repoRoleMenu.Insert(new sys_RoleMenu()
             {
                 roleId = model.roleId,
@@ -207,16 +202,16 @@ namespace HRIS.Service.Sys
             model.id = ins.id;
         }
 
-        public void RoleMenuCopyFromRoleId(int fromRoleId, int toRoleId)
+        public void RoleMenuCopyFromRoleId(Guid fromRoleId, Guid toRoleId)
         {
             this._memoryCacheManager.RemoveStartWith(MemoryCacheKey.CURRENT_USER_ROLE_MENU);
-            if (fromRoleId == toRoleId || fromRoleId == 0 || toRoleId == 0)
+            if (fromRoleId == toRoleId || fromRoleId == Guid.Empty || toRoleId == Guid.Empty)
             {
                 throw new Exception("Unable to copy Menu's. Please check your entry or get assistance from your administrator.");
             }
 
             var data = RoleMenuGetByRoleId(fromRoleId);
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
 
             using (TransactionScope ts = new TransactionScope())
             {
@@ -239,7 +234,7 @@ namespace HRIS.Service.Sys
             }
         }
 
-        private void _RoleMenuModelToEntity(int userId, int roleId, RoleMenuModel model, sys_RoleMenu entity)
+        private void _RoleMenuModelToEntity(Guid userId, Guid roleId, RoleMenuModel model, sys_RoleMenu entity)
         {
             if (model.Childs.Any())
             {
@@ -261,7 +256,7 @@ namespace HRIS.Service.Sys
             }
         }
 
-        public void RoleMenuDelete(int id)
+        public void RoleMenuDelete(Guid id)
         {
             this._memoryCacheManager.RemoveStartWith(MemoryCacheKey.CURRENT_USER_ROLE_MENU);
             var rm = this._repoRoleMenu.Find(id);
@@ -272,7 +267,7 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public RoleMenuTreeViewModel RoleMenuGetById(int id)
+        public RoleMenuTreeViewModel RoleMenuGetById(Guid id)
         {
             var data = this._repoRoleMenu
                 .Query()
@@ -289,12 +284,12 @@ namespace HRIS.Service.Sys
             return data;
         }
 
-        public IEnumerable<RoleMenuTreeViewModel> RoleMenuList(int roleId, string id)
+        public IEnumerable<RoleMenuTreeViewModel> RoleMenuList(Guid roleId, string id)
         {
-            int? parentMenuId = null;
+            Guid? parentMenuId = null;
             if (!string.IsNullOrEmpty(id))
             {
-                parentMenuId = int.Parse(id);
+                parentMenuId = Guid.Parse(id);
             }
 
             var data = this._repoRoleMenu
@@ -329,9 +324,9 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public void RolePermissionUpdate(int roleId, IEnumerable<RolePermissionModel> models)
+        public void RolePermissionUpdate(Guid roleId, IEnumerable<RolePermissionModel> models)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var companyId = this.GetCurrentCompanyId();
             foreach (var model in models)
             {
@@ -384,9 +379,9 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public void UserRoleUpdate(int roleId, IEnumerable<UserRoleModel> models)
+        public void UserRoleUpdate(Guid roleId, IEnumerable<UserRoleModel> models)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var companyId = this.GetCurrentCompanyId();
             foreach (var model in models)
             {
@@ -417,7 +412,7 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        private IEnumerable<RoleMenuModel> _RoleMenuGetChilds(IEnumerable<sys_RoleMenu> data, int id)
+        private IEnumerable<RoleMenuModel> _RoleMenuGetChilds(IEnumerable<sys_RoleMenu> data, Guid id)
         {
             return data.Where(x => x.parentRoleMenuId == id)
                    .OrderBy(x => x.displayOrder).ThenBy(x => x.description)
@@ -436,11 +431,9 @@ namespace HRIS.Service.Sys
                    .ToList();
         }
 
-        private IEnumerable<RoleMenuModel> _RoleMenuGetChildsWithGroupings(IEnumerable<sys_RoleMenu> data, IEnumerable<int> ids)
+        private IEnumerable<RoleMenuModel> _RoleMenuGetChildsWithGroupings(IEnumerable<sys_RoleMenu> data, IEnumerable<Guid> ids)
         {
-
-
-            var result = data.Where(x => ids.Contains(x.parentRoleMenuId ?? 0))
+            var result = data.Where(x => ids.Contains(x.parentRoleMenuId ?? Guid.Empty))
                 .GroupBy(p => new
                 {
                     description = string.IsNullOrEmpty(p.description) ? p.sys_Menu.description : p.description,
@@ -471,21 +464,6 @@ namespace HRIS.Service.Sys
                 ;
 
             return result;
-
-            //return data.Where(x => x.parentRoleMenuId == id)
-            //       .OrderBy(x => x.displayOrder).ThenBy(x => x.description)
-            //       .Select(p => new RoleMenuModel()
-            //       {
-            //           description = string.IsNullOrEmpty(p.description) ? p.sys_Menu.description : p.description,
-            //           actionName = p.sys_Menu.actionName,
-            //           controllerName = p.sys_Menu.controllerName,
-            //           areaName = p.sys_Menu.areaName,
-            //           parentMenuId = p.parentRoleMenuId,
-            //           menuId = p.sourceMenuId,
-            //           displayOrder = p.displayOrder,
-            //           Childs = _RoleMenuGetChildsWithGroupings(data, p.id).ToList(),
-            //       })
-            //       .ToList();
         }
     }
 }

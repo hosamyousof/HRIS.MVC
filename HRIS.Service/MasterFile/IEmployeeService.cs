@@ -1,4 +1,5 @@
 ﻿using HRIS.Model.MasterFile;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,90 +7,90 @@ namespace HRIS.Service.MasterFile
 {
     public interface IEmployeeService
     {
-        void AllowanceDelete(int employeeAllowanceId);
+        void AllowanceDelete(Guid employeeAllowanceId);
 
-        IQueryable<EmployeeAllowanceModel> AllowanceList(int employeeId);
+        IQueryable<EmployeeAllowanceModel> AllowanceList(Guid employeeId);
 
-        void AllowanceUpdate(int employeeId, EmployeeAllowanceModel model);
+        void AllowanceUpdate(Guid employeeId, EmployeeAllowanceModel model);
 
-        void BalanceLeaveDelete(int employeeBalanceLeaveId);
+        void BalanceLeaveDelete(Guid employeeBalanceLeaveId);
 
-        IQueryable<EmployeeBalanceLeaveModel> BalanceLeaveList(int employeeId);
+        IQueryable<EmployeeBalanceLeaveModel> BalanceLeaveList(Guid employeeId);
 
-        void BalanceLeaveUpdate(int employeeId, EmployeeBalanceLeaveModel model);
+        void BalanceLeaveUpdate(Guid employeeId, EmployeeBalanceLeaveModel model);
 
-        void BasicInfoCreate(EmployeeBasicInfoModel model, out int employeeId);
+        void BasicInfoCreate(EmployeeBasicInfoModel model, out Guid employeeId);
 
-        EmployeeBasicInfoModel BasicInfoGetByEmployeeId(int employeeId);
+        EmployeeBasicInfoModel BasicInfoGetByEmployeeId(Guid employeeId);
 
-        void BasicInfoUpdate(int employeeId, EmployeeBasicInfoModel model);
+        void BasicInfoUpdate(Guid employeeId, EmployeeBasicInfoModel model);
 
-        void BasicPayDelete(int employeeBasicPayId);
+        void BasicPayDelete(Guid employeeBasicPayId);
 
-        IQueryable<EmployeeBasicPayModel> BasicPayList(int employeeId);
+        IQueryable<EmployeeBasicPayModel> BasicPayList(Guid employeeId);
 
-        void BasicPayUpdate(int employeeId, EmployeeBasicPayModel model);
+        void BasicPayUpdate(Guid employeeId, EmployeeBasicPayModel model);
 
-        void DeductionDelete(int employeeDeductionId);
+        void DeductionDelete(Guid employeeDeductionId);
 
-        IQueryable<EmployeeDeductionModel> DeductionList(int employeeId);
+        IQueryable<EmployeeDeductionModel> DeductionList(Guid employeeId);
 
-        void DeductionUpdate(int employeeId, EmployeeDeductionModel model);
+        void DeductionUpdate(Guid employeeId, EmployeeDeductionModel model);
 
-        void Delete(int employeeId);
+        void Delete(Guid employeeId);
 
-        Employee201Model Employee201FileGetByEmployeeId(int employeeId);
+        Employee201Model Employee201FileGetByEmployeeId(Guid employeeId);
 
-        void Employee201Update(int employeeId, Employee201Model model);
+        void Employee201Update(Guid employeeId, Employee201Model model);
 
         IQueryable<EmployeeListModel> EmployeeAllGetQuery();
 
         IQueryable<EmployeeListModel> EmployeeConfidentialGetQuery();
 
-        bool EmployeeIsConfidential(int id);
+        bool EmployeeIsConfidential(Guid id);
 
         IQueryable<EmployeeListModel> EmployeeNonConfidentialGetQuery();
 
-        void IdentificationDocumentDelete(int employeeIdentificationDocumentId);
+        void IdentificationDocumentDelete(Guid employeeIdentificationDocumentId);
 
-        IQueryable<EmployeeIdentificationDocumentModel> IdentificationDocumentList(int employeeId);
+        IQueryable<EmployeeIdentificationDocumentModel> IdentificationDocumentList(Guid employeeId);
 
-        void IdentificationDocumentUpdate(int employeeId, EmployeeIdentificationDocumentModel model);
+        void IdentificationDocumentUpdate(Guid employeeId, EmployeeIdentificationDocumentModel model);
 
-        void OffenseDelete(int employeeOffenseId);
+        void OffenseDelete(Guid employeeOffenseId);
 
-        IQueryable<EmployeeOffenseModel> OffenseList(int employeeId);
+        IQueryable<EmployeeOffenseModel> OffenseList(Guid employeeId);
 
-        void OffenseUpdate(int employeeId, EmployeeOffenseModel model);
+        void OffenseUpdate(Guid employeeId, EmployeeOffenseModel model);
 
         void QuickUpdateEmployee(EmployeeQuickUpdateModel model);
 
         IQueryable<EmployeeQuickUpdateModel> QuickUpdateEmployeeList();
 
-        void SkillDelete(int employeeId, int skillId);
+        void SkillDelete(Guid employeeId, Guid skillId);
 
-        IQueryable<EmployeeSkillModel> SkillList(int employeeId);
+        IQueryable<EmployeeSkillModel> SkillList(Guid employeeId);
 
-        void SkillUpdate(int employeeId, EmployeeSkillModel model);
+        void SkillUpdate(Guid employeeId, EmployeeSkillModel model);
 
-        void TrainingDelete(int employeeId, int trainingId);
+        void TrainingDelete(Guid employeeId, Guid trainingId);
 
-        IQueryable<EmployeeTrainingModel> TrainingList(int employeeId);
+        IQueryable<EmployeeTrainingModel> TrainingList(Guid employeeId);
 
-        void TrainingUpdate(int employeeId, EmployeeTrainingModel model);
+        void TrainingUpdate(Guid employeeId, EmployeeTrainingModel model);
 
-        void WorkDayAdd(int employeeId, int workDayId);
+        void WorkDayAdd(Guid employeeId, Guid workDayId);
 
-        void WorkDayDelete(int employeeId, int workDayId);
+        void WorkDayDelete(Guid employeeId, Guid workDayId);
 
-        IEnumerable<EmployeeWorkDayModel> WorkDayList(int employeeId);
+        IEnumerable<EmployeeWorkDayModel> WorkDayList(Guid employeeId);
 
-        void WorkHistoryCreate(int employeeId, EmployeeWorkHistoryModel model, out int workHistoryId);
+        void WorkHistoryCreate(Guid employeeId, EmployeeWorkHistoryModel model, out Guid workHistoryId);
 
-        void WorkHistoryDelete(int employeeId, int workHistoryId);
+        void WorkHistoryDelete(Guid employeeId, Guid workHistoryId);
 
-        IQueryable<EmployeeWorkHistoryModel> WorkHistoryList(int employeeId);
+        IQueryable<EmployeeWorkHistoryModel> WorkHistoryList(Guid employeeId);
 
-        void WorkHistoryUpdate(int employeeId, EmployeeWorkHistoryModel model);
+        void WorkHistoryUpdate(Guid employeeId, EmployeeWorkHistoryModel model);
     }
 }

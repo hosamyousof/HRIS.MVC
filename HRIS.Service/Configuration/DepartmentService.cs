@@ -1,4 +1,5 @@
-﻿using HRIS.Data;
+﻿using Common;
+using HRIS.Data;
 using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
 using HRIS.Model.Sys;
@@ -30,7 +31,7 @@ namespace HRIS.Service.Configuration
             this._repoDepartment = repoDepartment;
         }
 
-        public void Create(DepartmentModel model, out int departmentId)
+        public void Create(DepartmentModel model, out Guid departmentId)
         {
             if (this._repoDepartment.Query().Filter(x => x.code == model.code).FilterCurrentCompany().Get().Any())
             {
@@ -49,7 +50,7 @@ namespace HRIS.Service.Configuration
             departmentId = ins.id;
         }
 
-        public void Delete(int departmentId)
+        public void Delete(Guid departmentId)
         {
             var data = this._repoDepartment.Find(departmentId);
             data.deleted = true;
@@ -59,7 +60,7 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public DepartmentModel GetById(int departmentId)
+        public DepartmentModel GetById(Guid departmentId)
         {
             return this.GetQuery().First(x => x.id == departmentId);
         }
@@ -70,7 +71,7 @@ namespace HRIS.Service.Configuration
                 .Query()
                 .FilterCurrentCompany()
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new DepartmentModel()
                 {
                     id = x.Source.id,
@@ -102,9 +103,9 @@ namespace HRIS.Service.Configuration
 
         #region Section
 
-        public void SectionCreate(DepartmentSectionModel model, out int departmentSectionId)
+        public void SectionCreate(DepartmentSectionModel model, out Guid departmentSectionId)
         {
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoDepartmentSection.Insert(new mf_DepartmentSection()
             {
                 code = model.code,
@@ -116,7 +117,7 @@ namespace HRIS.Service.Configuration
             departmentSectionId = ins.id;
         }
 
-        public void SectionDelete(int departmentSectionId)
+        public void SectionDelete(Guid departmentSectionId)
         {
             var data = this._repoDepartmentSection.Find(departmentSectionId);
             data.deleted = true;
@@ -126,23 +127,27 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public DepartmentSectionModel SectionGetById(int departmentSectionId)
+        public DepartmentSectionModel SectionGetById(Guid departmentSectionId)
         {
             return this.SectionGetQuery().First(x => x.id == departmentSectionId);
         }
 
         public IQueryable<DepartmentSectionModel> SectionGetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoDepartmentSection
                 .Query()
                 .Get()
-                .JoinSystemUser(x=> x.updatedBy)
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new DepartmentSectionModel()
                 {
                     id = x.Source.id,
                     code = x.Source.code,
-                    department = x.Source.mf_Department == null ? null : new ReferenceModel() { value = x.Source.mf_Department.id, description = x.Source.mf_Department.description },
+                    department = x.Source.mf_Department == null ? null : new DataReference()
+                    {
+                        value = x.Source.mf_Department.id,
+                        description = x.Source.mf_Department.description
+                    },
                     description = x.Source.description,
                     updatedBy = x.User.username,
                     updatedDate = x.Source.updatedDate,

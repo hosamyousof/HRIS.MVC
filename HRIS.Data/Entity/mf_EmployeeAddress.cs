@@ -9,10 +9,10 @@ namespace HRIS.Data.Entity
         public string address1 { get; set; }
         public string address2 { get; set; }
         public string address3 { get; set; }
-        public int countryId { get; set; }
+        public Guid countryId { get; set; }
         public string city { get; set; }
         public string postalCode { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<mf_Employee> mf_Employees { get; set; }

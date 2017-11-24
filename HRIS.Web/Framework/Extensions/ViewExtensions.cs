@@ -15,7 +15,7 @@ namespace HRIS.Web.Framework.Extensions
         public static string GetSetting(this WebViewPage wvp, string name)
         {
             var settingService = DependencyResolver.Current.GetService<ISettingService>();
-            int sessionId = int.Parse(System.Web.HttpContext.Current.User.Identity.Name.Split('-')[0]);
+            Guid sessionId = Guid.Parse(System.Web.HttpContext.Current.User.Identity.Name.Split('|')[0]);
 
             string content = settingService.GetValue(sessionId, name);
             return content;
@@ -42,7 +42,7 @@ namespace HRIS.Web.Framework.Extensions
         public static T GetSetting<T>(this WebViewPage wvp, string name) where T : struct
         {
             var settingService = DependencyResolver.Current.GetService<ISettingService>();
-            int sessionId = int.Parse(System.Web.HttpContext.Current.User.Identity.Name.Split('-')[0]);
+            Guid sessionId = Guid.Parse(System.Web.HttpContext.Current.User.Identity.Name.Split('|')[0]);
             string content = settingService.GetValue(sessionId, name);
             try
             {

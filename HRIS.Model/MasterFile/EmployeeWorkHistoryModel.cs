@@ -13,7 +13,7 @@ namespace HRIS.Model.MasterFile
     public class EmployeeWorkHistoryModel : ModelAuditInfo
     {
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [Required]
         [DisplayName("Company Name")]

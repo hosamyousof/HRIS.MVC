@@ -14,8 +14,8 @@ namespace HRIS.Model.Sys
         public string areaName { get; set; }
         public IEnumerable<RoleMenuModel> Childs { get; set; }
         public bool mainMenu { get; set; }
-        public IEnumerable<int> parentMenuIds { get; set; }
-        public int menuId { get; set; }
+        public IEnumerable<Guid> parentMenuIds { get; set; }
+        public Guid menuId { get; set; }
         public int displayOrder { get; set; }
         public string parameter { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using HRIS.Model;
+﻿using Common;
+using HRIS.Model;
 using HRIS.Model.MasterFile;
 using HRIS.Model.Sys;
 using HRIS.Service.Configuration;
@@ -34,13 +35,13 @@ namespace HRIS.Web.Controllers
             this._employeeService = employeeService;
         }
 
-        public ActionResult _EmployeeDetails(int? employeeId)
+        public ActionResult _EmployeeDetails(Guid? employeeId)
         {
             return PartialView(employeeId);
         }
 
         [HttpPost]
-        public ActionResult AjaxUpdateEmployeeBasicInfo(EmployeeBasicInfoModel model, int employeeId)
+        public ActionResult AjaxUpdateEmployeeBasicInfo(EmployeeBasicInfoModel model, Guid employeeId)
         {
             try
             {
@@ -76,7 +77,7 @@ namespace HRIS.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    int employeeId;
+                    Guid employeeId;
                     this._employeeService.BasicInfoCreate(model, out employeeId);
                     return RedirectToAction("Edit", new { id = employeeId });
                 }
@@ -90,7 +91,7 @@ namespace HRIS.Web.Controllers
             return View(model);
         }
 
-        public ActionResult Edit(int id)
+        public ActionResult Edit(Guid id)
         {
             ViewBag.confidential = this._employeeService.EmployeeIsConfidential(id);
             return View(id);
@@ -116,7 +117,7 @@ namespace HRIS.Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmployeeBasicInfo(int id)
+        public ActionResult GetEmployeeBasicInfo(Guid id)
         {
             var model = this._employeeService.BasicInfoGetByEmployeeId(id);
             this.PrepareEmployeeBasicInfoModel(model);
@@ -171,8 +172,8 @@ namespace HRIS.Web.Controllers
 
         private void PrepareEmployee201FileModel(Employee201Model model)
         {
-            model.EmploymentStatusList = this._employmentStatusService.GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description }).ToList();
-            model.EmploymentTypeList = this._employmentTypeService.GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description }).ToList();
+            model.EmploymentStatusList = this._employmentStatusService.GetQuery().Select(x => new DataReference() { value = x.id.Value, description = x.description }).ToList();
+            model.EmploymentTypeList = this._employmentTypeService.GetQuery().Select(x => new DataReference() { value = x.id.Value, description = x.description }).ToList();
             model.PositionLevelList = this._enumReferenceService.GetQuery(ReferenceList.POSITION_LEVEL).ToList();
             model.PayRateTypeList = this._enumReferenceService.GetQuery(ReferenceList.PAY_RATE_TYPE).ToList();
             model.TaxStatusList = this._enumReferenceService.GetQuery(ReferenceList.TAX_STATUS).ToList();
@@ -188,7 +189,7 @@ namespace HRIS.Web.Controllers
         #region Employee 201 File
 
         [HttpPost]
-        public ActionResult AjaxUpdateEmployee201(Employee201Model model, int employeeId)
+        public ActionResult AjaxUpdateEmployee201(Employee201Model model, Guid employeeId)
         {
             try
             {
@@ -204,7 +205,7 @@ namespace HRIS.Web.Controllers
             return this.JsonResultWithModelStateInfo(successMsg: "Employee 201 File successfully saved.");
         }
 
-        public ActionResult GetEmployee201File(int id)
+        public ActionResult GetEmployee201File(Guid id)
         {
             var model = this._employeeService.Employee201FileGetByEmployeeId(id);
             if (model == null) model = new Employee201Model();
@@ -217,13 +218,13 @@ namespace HRIS.Web.Controllers
 
         #region Work History
 
-        public ActionResult GetEmployeeWorkHistory(int id)
+        public ActionResult GetEmployeeWorkHistory(Guid id)
         {
             return PartialView("_EmployeeWorkHistory", id);
         }
 
         [HttpPost]
-        public ActionResult GetEmployeeWorkHistoryList([DataSourceRequest] DataSourceRequest request, int employeeId)
+        public ActionResult GetEmployeeWorkHistoryList([DataSourceRequest] DataSourceRequest request, Guid employeeId)
         {
             var data = this._employeeService.WorkHistoryList(employeeId);
             var result = data.ToDataSourceResult(request);
@@ -231,9 +232,9 @@ namespace HRIS.Web.Controllers
         }
 
         public ActionResult WorkHistoryCRUD([DataSourceRequest] DataSourceRequest request
-                                           , int employeeId
-                   , UpdateType updateType
-                   , EmployeeWorkHistoryModel model)
+            , Guid employeeId
+            , UpdateType updateType
+            , EmployeeWorkHistoryModel model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -242,7 +243,7 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int workHistoryId;
+                            Guid workHistoryId;
                             this._employeeService.WorkHistoryCreate(employeeId, model, out workHistoryId);
                             model = this._employeeService.WorkHistoryList(employeeId).FirstOrDefault(x => x.id == workHistoryId);
                             break;
@@ -274,20 +275,20 @@ namespace HRIS.Web.Controllers
         #region Skill
 
         [HttpPost]
-        public ActionResult GetEmployeeSkillList([DataSourceRequest] DataSourceRequest request, int employeeId)
+        public ActionResult GetEmployeeSkillList([DataSourceRequest] DataSourceRequest request, Guid employeeId)
         {
             var data = this._employeeService.SkillList(employeeId);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmployeeSkills(int id)
+        public ActionResult GetEmployeeSkills(Guid id)
         {
             return PartialView("_EmployeeSkill", id);
         }
 
         public ActionResult SkillCRUD([DataSourceRequest] DataSourceRequest request
-                           , int employeeId
+                           , Guid employeeId
                    , UpdateType updateType
                    , EmployeeSkillModel model)
         {
@@ -325,20 +326,20 @@ namespace HRIS.Web.Controllers
         #region Training
 
         [HttpPost]
-        public ActionResult GetEmployeeTrainingList([DataSourceRequest] DataSourceRequest request, int employeeId)
+        public ActionResult GetEmployeeTrainingList([DataSourceRequest] DataSourceRequest request, Guid employeeId)
         {
             var data = this._employeeService.TrainingList(employeeId);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmployeeTrainings(int id)
+        public ActionResult GetEmployeeTrainings(Guid id)
         {
             return PartialView("_EmployeeTraining", id);
         }
 
         public ActionResult TrainingCRUD([DataSourceRequest] DataSourceRequest request
-                           , int employeeId
+                           , Guid employeeId
                    , UpdateType updateType
                    , EmployeeTrainingModel model)
         {
@@ -376,19 +377,19 @@ namespace HRIS.Web.Controllers
         #region WorkDay
 
         [HttpPost]
-        public ActionResult GetEmployeeWorkDayList([DataSourceRequest] DataSourceRequest request, int employeeId)
+        public ActionResult GetEmployeeWorkDayList([DataSourceRequest] DataSourceRequest request, Guid employeeId)
         {
             var data = this._employeeService.WorkDayList(employeeId);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmployeeWorkDays(int id)
+        public ActionResult GetEmployeeWorkDays(Guid id)
         {
             return PartialView("_EmployeeWorkDay", id);
         }
 
-        public ActionResult WorkDayUpdate([DataSourceRequest] DataSourceRequest request, int employeeId, EmployeeWorkDayModel model)
+        public ActionResult WorkDayUpdate([DataSourceRequest] DataSourceRequest request, Guid employeeId, EmployeeWorkDayModel model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -418,20 +419,20 @@ namespace HRIS.Web.Controllers
         #region IdentificationDocument
 
         [HttpPost]
-        public ActionResult GetEmployeeIdentificationDocumentList([DataSourceRequest] DataSourceRequest request, int employeeId)
+        public ActionResult GetEmployeeIdentificationDocumentList([DataSourceRequest] DataSourceRequest request, Guid employeeId)
         {
             var data = this._employeeService.IdentificationDocumentList(employeeId);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmployeeIdentificationDocuments(int id)
+        public ActionResult GetEmployeeIdentificationDocuments(Guid id)
         {
             return PartialView("_EmployeeIdentificationDocument", id);
         }
 
         public ActionResult IdentificationDocumentCRUD([DataSourceRequest] DataSourceRequest request
-                           , int employeeId
+                           , Guid employeeId
                    , UpdateType updateType
                    , EmployeeIdentificationDocumentModel model)
         {
@@ -469,19 +470,19 @@ namespace HRIS.Web.Controllers
         #region Offense
 
         [HttpPost]
-        public ActionResult GetEmployeeOffenseList([DataSourceRequest] DataSourceRequest request, int employeeId)
+        public ActionResult GetEmployeeOffenseList([DataSourceRequest] DataSourceRequest request, Guid employeeId)
         {
             var data = this._employeeService.OffenseList(employeeId);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmployeeOffenses(int id)
+        public ActionResult GetEmployeeOffenses(Guid id)
         {
             return PartialView("_EmployeeOffense", id);
         }
 
-        public ActionResult OffenseCRUD([DataSourceRequest] DataSourceRequest request, int employeeId, UpdateType updateType, EmployeeOffenseModel model)
+        public ActionResult OffenseCRUD([DataSourceRequest] DataSourceRequest request, Guid employeeId, UpdateType updateType, EmployeeOffenseModel model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -517,19 +518,19 @@ namespace HRIS.Web.Controllers
         #region Allowance
 
         [HttpPost]
-        public ActionResult GetEmployeeAllowanceList([DataSourceRequest] DataSourceRequest request, int employeeId)
+        public ActionResult GetEmployeeAllowanceList([DataSourceRequest] DataSourceRequest request, Guid employeeId)
         {
             var data = this._employeeService.AllowanceList(employeeId);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmployeeAllowances(int id)
+        public ActionResult GetEmployeeAllowances(Guid id)
         {
             return PartialView("_EmployeeAllowance", id);
         }
 
-        public ActionResult AllowanceCRUD([DataSourceRequest] DataSourceRequest request, int employeeId, UpdateType updateType, EmployeeAllowanceModel model)
+        public ActionResult AllowanceCRUD([DataSourceRequest] DataSourceRequest request, Guid employeeId, UpdateType updateType, EmployeeAllowanceModel model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -565,19 +566,19 @@ namespace HRIS.Web.Controllers
         #region Deduction
 
         [HttpPost]
-        public ActionResult GetEmployeeDeductionList([DataSourceRequest] DataSourceRequest request, int employeeId)
+        public ActionResult GetEmployeeDeductionList([DataSourceRequest] DataSourceRequest request, Guid employeeId)
         {
             var data = this._employeeService.DeductionList(employeeId);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmployeeDeductions(int id)
+        public ActionResult GetEmployeeDeductions(Guid id)
         {
             return PartialView("_EmployeeDeduction", id);
         }
 
-        public ActionResult DeductionCRUD([DataSourceRequest] DataSourceRequest request, int employeeId, UpdateType updateType, EmployeeDeductionModel model)
+        public ActionResult DeductionCRUD([DataSourceRequest] DataSourceRequest request, Guid employeeId, UpdateType updateType, EmployeeDeductionModel model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -613,19 +614,19 @@ namespace HRIS.Web.Controllers
         #region BasicPay
 
         [HttpPost]
-        public ActionResult GetEmployeeBasicPayList([DataSourceRequest] DataSourceRequest request, int employeeId)
+        public ActionResult GetEmployeeBasicPayList([DataSourceRequest] DataSourceRequest request, Guid employeeId)
         {
             var data = this._employeeService.BasicPayList(employeeId);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmployeeBasicPays(int id)
+        public ActionResult GetEmployeeBasicPays(Guid id)
         {
             return PartialView("_EmployeeBasicPay", id);
         }
 
-        public ActionResult BasicPayCRUD([DataSourceRequest] DataSourceRequest request, int employeeId, UpdateType updateType, EmployeeBasicPayModel model)
+        public ActionResult BasicPayCRUD([DataSourceRequest] DataSourceRequest request, Guid employeeId, UpdateType updateType, EmployeeBasicPayModel model)
         {
             if (model != null && ModelState.IsValid)
             {
@@ -661,19 +662,19 @@ namespace HRIS.Web.Controllers
         #region BalanceLeave
 
         [HttpPost]
-        public ActionResult GetEmployeeBalanceLeaveList([DataSourceRequest] DataSourceRequest request, int employeeId)
+        public ActionResult GetEmployeeBalanceLeaveList([DataSourceRequest] DataSourceRequest request, Guid employeeId)
         {
             var data = this._employeeService.BalanceLeaveList(employeeId);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetEmployeeBalanceLeaves(int id)
+        public ActionResult GetEmployeeBalanceLeaves(Guid id)
         {
             return PartialView("_EmployeeBalanceLeave", id);
         }
 
-        public ActionResult BalanceLeaveCRUD([DataSourceRequest] DataSourceRequest request, int employeeId, UpdateType updateType, EmployeeBalanceLeaveModel model)
+        public ActionResult BalanceLeaveCRUD([DataSourceRequest] DataSourceRequest request, Guid employeeId, UpdateType updateType, EmployeeBalanceLeaveModel model)
         {
             if (model != null && ModelState.IsValid)
             {

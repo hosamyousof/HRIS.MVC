@@ -5,10 +5,10 @@ namespace HRIS.Data.Entity
 {
     public partial class mf_EmployeeSkill : EntityBase
     {
-        public int employeeId { get; set; }
+        public Guid employeeId { get; set; }
         public string skillName { get; set; }
         public int? skillProficiencyLevel { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual mf_Employee mf_Employee { get; set; }

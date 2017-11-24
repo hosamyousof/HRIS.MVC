@@ -6,12 +6,12 @@ namespace HRIS.Data.Entity
 {
     public partial class sys_RoleMenu : EntityBase
     {
-        public int roleId { get; set; }
-        public int sourceMenuId { get; set; }
+        public Guid roleId { get; set; }
+        public Guid sourceMenuId { get; set; }
         public string description { get; set; }
-        public int? parentRoleMenuId { get; set; }
+        public Guid? parentRoleMenuId { get; set; }
         public int displayOrder { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<sys_RoleMenu> sys_RoleMenus { get; set; }

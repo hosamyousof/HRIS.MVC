@@ -1,7 +1,6 @@
 ﻿using HRIS.Model;
 using HRIS.Model.Attendance;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace HRIS.Service.Attendance
@@ -12,29 +11,30 @@ namespace HRIS.Service.Attendance
 
         bool CheckIfEmployeeAttendanceHasWorkDay(DateTime startDate, DateTime endDate);
 
-        CutOffAttendanceModel CutOffAttendanceGetById(int id);
+        CutOffAttendanceModel CutOffAttendanceGetById(Guid id);
 
-        CutOffAttendanceModel CutOffAttendanceGetBySummaryId(int cutOffAttendanceSummaryId);
+        CutOffAttendanceModel CutOffAttendanceGetBySummaryId(Guid cutOffAttendanceSummaryId);
 
         IQueryable<CutOffAttendanceListModel> CutOffAttendanceListModelGetQuery();
 
-        IQueryable<CutOffAttendanceSummaryDetailModel> CutOffAttendanceSummaryDetailGetByCutOffAttendanceSummaryId(int cutOffAttendanceSummaryId);
+        IQueryable<CutOffAttendanceSummaryDetailModel> CutOffAttendanceSummaryDetailGetByCutOffAttendanceSummaryId(Guid cutOffAttendanceSummaryId);
 
         void CutOffAttendanceSummaryDetailUpdate(CutOffAttendanceSummaryDetailModel model);
 
-        IQueryable<CutOffAttendanceSummaryModel> CutOffAttendanceSummaryGetByCutOffAttendanceId(int cutOffAttendanceId);
+        IQueryable<CutOffAttendanceSummaryModel> CutOffAttendanceSummaryGetByCutOffAttendanceId(Guid cutOffAttendanceId);
 
-        void CutOffAttendanceUpdateStatus(int id, CUT_OFF_ATTENDANCE status, string remarks);
+        void CutOffAttendanceUpdateStatus(Guid id, CUT_OFF_ATTENDANCE status, string remarks);
 
-        void GenerateCutOffAttendance(GenerateCutOffAttendance model, out int cutOffAttendanceId);
+        void GenerateCutOffAttendance(GenerateCutOffAttendance model, out Guid cutOffAttendanceId);
 
-        IQueryable<EmployeeAttendanceModel> GetEmployeeAttendance(int? payrollId, int? employeeId, DateTime? startDate, DateTime? endDate);
+        IQueryable<EmployeeAttendanceModel> GetEmployeeAttendance(Guid? payrollId, Guid? employeeId, DateTime? startDate, DateTime? endDate);
 
         IQueryable<EmployeeCutOffAttendanceListModel> GetEmployeeCutOffAttendanceList();
 
         void SaveManualTimeLog(ManualTimeLogModel model);
 
         void UpdateWorkDaysAttendance(EmployeeAttendanceModel attendance);
-        void CutOffAttendance_UpdateStatus(int id, CUT_OFF_ATTENDANCE status);
+
+        void CutOffAttendance_UpdateStatus(Guid id, CUT_OFF_ATTENDANCE status);
     }
 }

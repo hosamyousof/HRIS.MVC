@@ -1,4 +1,5 @@
-﻿using HRIS.Model.Sys;
+﻿using Common;
+using HRIS.Model.Sys;
 using Repository;
 using System;
 using System.ComponentModel;
@@ -9,11 +10,11 @@ namespace HRIS.Model.MasterFile
     public class EmployeeDeductionModel : ModelAuditInfo
     {
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [Required]
         [DisplayName("Deduction")]
-        public ReferenceModel Deduction { get; set; }
+        public DataReference Deduction { get; set; }
 
         [Required]
         [DisplayName("Amount")]

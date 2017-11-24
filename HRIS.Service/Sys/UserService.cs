@@ -21,12 +21,14 @@ namespace HRIS.Service.Sys
 
         public UserService(IUnitOfWork unitOfWork
             , IEnumReferenceService enumReferenceService
+            , IRepository<sys_Role> repoRole
             , IRepository<sys_Company> repoCompany
             , IRepository<sys_Permission> repoPermission
             , IRepository<sys_UserSession> repoUserSession
             , IRepository<sys_UserRole> repoUserRole
             , IRepository<sys_User> repoUser)
         {
+            this._repoRole = repoRole;
             this._repoUserRole = repoUserRole;
             this._repoCompany = repoCompany;
             this._repoPermission = repoPermission;
@@ -36,17 +38,17 @@ namespace HRIS.Service.Sys
             this._repoUser = repoUser;
         }
 
-        public void Create(UserModel model, out int userId)
+        public void Create(UserModel model, out Guid userId)
         {
             using (TransactionScope ts = new TransactionScope())
             {
-                int companyId = this.GetCurrentCompanyId();
+                Guid companyId = this.GetCurrentCompanyId();
                 if (this._repoUser.Query().Filter(x => x.username == model.username && x.companyId == companyId).Get().Any())
                 {
                     throw new Exception(model.username + " is already exists.");
                 }
 
-                int currentUser = this.GetCurrentUserId();
+                var currentUser = this.GetCurrentUserId();
 
                 CryptLib _crypt = new CryptLib();
                 string defaultPassword = GetSettingValue("DEFAULT_PASSWORD");
@@ -71,7 +73,7 @@ namespace HRIS.Service.Sys
             }
         }
 
-        public int CreateUserSession(int companyId, int userId)
+        public Guid CreateUserSession(Guid companyId, Guid userId)
         {
             var ins = new sys_UserSession()
             {
@@ -86,7 +88,7 @@ namespace HRIS.Service.Sys
             return ins.id;
         }
 
-        public void Delete(int userId)
+        public void Delete(Guid userId)
         {
             var data = this._repoUser.Find(userId);
             data.deleted = true;
@@ -96,7 +98,7 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public void DisableUser(int userId, bool disable = true)
+        public void DisableUser(Guid userId, bool disable = true)
         {
             var data = this._repoUser.Find(userId);
             data.status = disable ? (int)UserStatus.Disabled : (int)UserStatus.Active;
@@ -104,19 +106,19 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public UserModel GetById(int userId)
+        public UserModel GetById(Guid userId)
         {
             return this.GetQuery().First(x => x.id == userId);
         }
 
-        public int GetCompanyIdBySessionId(int sessionId)
+        public Guid GetCompanyIdBySessionId(Guid sessionId)
         {
             return this._repoUserSession.Query().Filter(x => x.id == sessionId).Get().Select(x => x.companyId).First();
         }
 
         public AccountProfileModel GetCurrentAccountProfile()
         {
-            int sessionId = this.GetCurrentSessionId();
+            Guid sessionId = this.GetCurrentSessionId();
 
             var data = this._repoUserSession
                 .Query().Filter(x => x.id == sessionId)
@@ -134,7 +136,7 @@ namespace HRIS.Service.Sys
 
         public IQueryable<UserModel> GetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoUser
                 .Query().Filter(x => !x.deleted && x.companyId == companyId)
                 .Get()
@@ -153,9 +155,9 @@ namespace HRIS.Service.Sys
             return data;
         }
 
-        public IQueryable<UserRoleModel> GetRoleUsers(int roleId)
+        public IQueryable<UserRoleModel> GetRoleUsers(Guid roleId)
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
 
             var data = this._repoUser
                 .Query().Filter(x => !x.deleted && x.companyId == companyId)
@@ -172,9 +174,9 @@ namespace HRIS.Service.Sys
             return data;
         }
 
-        public int GetUserIdByUsername(string username)
+        public Guid GetUserIdByUsername(string username)
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
 
             return this._repoUser.Query().Filter(x => x.username == username && x.companyId == companyId).Get().Select(x => x.id).First();
         }
@@ -183,7 +185,7 @@ namespace HRIS.Service.Sys
         {
             if (!this._repoPermission.Query(true).Filter(x => x.code == permissionCode).Get().Any())
             {
-                int companyId = this.GetCurrentCompanyId();
+                Guid companyId = this.GetCurrentCompanyId();
                 this.ExecuteSql("insert into sys_Permission (companyId, code, description, updatedBy) values (" + companyId + ", '" + permissionCode + "', '" + permissionCode + "', " + this.GetCurrentUserId() + ")");
             }
             var query = this._repoUser.Query().Filter(x => x.username == username)
@@ -214,7 +216,7 @@ namespace HRIS.Service.Sys
             return query.Any();
         }
 
-        public bool IsSessionValid(int sessionId, string username)
+        public bool IsSessionValid(Guid sessionId, string username)
         {
             bool isValid = this._repoUserSession
                 .Query()
@@ -229,13 +231,13 @@ namespace HRIS.Service.Sys
             return isValid;
         }
 
-        public void LoggedUser(int companyId, string username, out int sessionId)
+        public void LoggedUser(Guid companyId, string username, out Guid sessionId)
         {
-            sessionId = 0;
+            sessionId = Guid.Empty;
             using (TransactionScope ts = new TransactionScope())
             {
-                int? userId = this._repoUser.Query().Filter(x => x.username == username).Get().Select(x => x.id).FirstOrDefault();
-                if (userId == 0) throw new Exception("Invalid Username");
+                Guid? userId = this._repoUser.Query().Filter(x => x.username == username).Get().Select(x => x.id).FirstOrDefault();
+                if (userId.HasValue == false) throw new Exception("Invalid Username");
 
                 sessionId = CreateUserSession(companyId, userId.Value);
 
@@ -277,7 +279,7 @@ namespace HRIS.Service.Sys
 
         public void UpdateProfile(AccountProfileModel model)
         {
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var data = this._repoUser.Find(userId);
 
             if (!string.IsNullOrEmpty(model.password))
@@ -309,7 +311,7 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public void UpdateStatus(int userId, UserStatus status)
+        public void UpdateStatus(Guid userId, UserStatus status)
         {
             var data = this._repoUser.Find(userId);
             data.status = (int)status;
@@ -332,7 +334,7 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public void UpdateUserSessionExpiration(int sessionId)
+        public void UpdateUserSessionExpiration(Guid sessionId)
         {
             var data = this._repoUserSession.Find(sessionId);
             data.expiredDate = DateTime.Now.AddMinutes(60);
@@ -340,16 +342,16 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public string GetUsernameByUserId(int userId)
+        public string GetUsernameByUserId(Guid userId)
         {
             return this._repoUser.Query().Filter(x => x.id == userId).Get().Select(x => x.username).FirstOrDefault();
         }
 
-        public void ValidateLogin(string companyCode, string username, string password, out int sessionId)
+        public void ValidateLogin(string companyCode, string username, string password, out Guid sessionId)
         {
             using (TransactionScope ts = new TransactionScope())
             {
-                int companyId = this._repoCompany.Query().Filter(x => x.code == companyCode).Get().Select(x => x.id).FirstOrDefault();
+                Guid companyId = this._repoCompany.Query().Filter(x => x.code == companyCode).Get().Select(x => x.id).FirstOrDefault();
 
                 var checkUser = this._repoUser.Query().Filter(x => x.username == username && x.companyId == companyId).Get();
 

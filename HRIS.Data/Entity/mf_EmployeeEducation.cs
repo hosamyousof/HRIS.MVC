@@ -5,7 +5,7 @@ namespace HRIS.Data.Entity
 {
     public partial class mf_EmployeeEducation : EntityBase
     {
-        public int employeeId { get; set; }
+        public Guid employeeId { get; set; }
         public string schoolName { get; set; }
         public int? fromYear { get; set; }
         public int? toYear { get; set; }
@@ -13,7 +13,7 @@ namespace HRIS.Data.Entity
         public string course { get; set; }
         public int createdBy { get; set; }
         public DateTime createdDate { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual mf_Employee mf_Employee { get; set; }

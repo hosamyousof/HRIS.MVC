@@ -46,9 +46,9 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int HolidayTypeId;
-                            this._HolidayTypeService.Create(model, out HolidayTypeId);
-                            model.id = HolidayTypeId;
+                            Guid holidayTypeId;
+                            this._HolidayTypeService.Create(model, out holidayTypeId);
+                            model.id = holidayTypeId;
                             break;
                         case UpdateType.Update:
                             this._HolidayTypeService.Update(model);

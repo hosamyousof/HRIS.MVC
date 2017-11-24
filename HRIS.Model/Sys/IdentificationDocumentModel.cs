@@ -17,7 +17,7 @@ namespace HRIS.Model.Sys
 
         }
 
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [DisplayName("Code")]
         public string code { get; set; }

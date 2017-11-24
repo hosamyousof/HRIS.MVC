@@ -1,12 +1,8 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 
 namespace HRIS.Service.Sys
@@ -23,17 +19,17 @@ namespace HRIS.Service.Sys
             this._unitOfWork = unitOfWork;
         }
 
-        public void Create(PermissionModel model, out int userId)
+        public void Create(PermissionModel model, out Guid userId)
         {
             using (TransactionScope ts = new TransactionScope())
             {
-                int companyId = this.GetCurrentCompanyId();
+                Guid companyId = this.GetCurrentCompanyId();
                 if (this._repoPermission.Query().Filter(x => x.code == model.code && !x.deleted && x.companyId == companyId).Get().Any())
                 {
                     throw new Exception(model.code + " is already exists.");
                 }
 
-                int currentUser = this.GetCurrentUserId();
+                var currentUser = this.GetCurrentUserId();
 
                 var ins = this._repoPermission.Insert(new sys_Permission()
                 {
@@ -48,9 +44,9 @@ namespace HRIS.Service.Sys
             }
         }
 
-        public IQueryable<RolePermissionModel> GetRolePermission(int roleId)
+        public IQueryable<RolePermissionModel> GetRolePermission(Guid roleId)
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoPermission
                 .Query().Filter(x => !x.deleted && x.companyId == companyId)
                 .Get()
@@ -68,7 +64,7 @@ namespace HRIS.Service.Sys
             return data;
         }
 
-        public void Delete(int userId)
+        public void Delete(Guid userId)
         {
             var data = this._repoPermission.Find(userId);
             data.deleted = true;
@@ -78,17 +74,17 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public PermissionModel GetById(int userId)
+        public PermissionModel GetById(Guid userId)
         {
             return this.GetQuery().First(x => x.id == userId);
         }
 
         public IQueryable<PermissionModel> GetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoPermission.Query()
                 .Filter(x => x.companyId == companyId).Get()
-                .JoinSystemUser(x=> x.updatedBy)
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new PermissionModel
                 {
                     id = x.Source.id,
@@ -106,7 +102,7 @@ namespace HRIS.Service.Sys
 
             if (model.code != data.code)
             {
-                int companyId = this.GetCurrentCompanyId();
+                Guid companyId = this.GetCurrentCompanyId();
                 if (this._repoPermission.Query().Filter(x => x.code == model.code && !x.deleted && x.companyId == companyId).Get().Any())
                 {
                     throw new Exception(model.code + " is already exists.");

@@ -1,10 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository
 {
     public abstract class EntityBase : IObjectState
     {
-        public int id { get; set; }
+        public EntityBase()
+        {
+            this.id = Guid.NewGuid();
+        }
+        public Guid id { get; set; }
 
         public bool deleted { get; set; }
 

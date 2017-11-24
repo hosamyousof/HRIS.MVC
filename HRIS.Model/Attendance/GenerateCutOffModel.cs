@@ -8,7 +8,7 @@ namespace HRIS.Model.Attendance
 {
     public class GenerateCutOffModel
     {
-        public int payrollGroupId { get; set; }
+        public Guid payrollGroupId { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
         public string remarks { get; set; }

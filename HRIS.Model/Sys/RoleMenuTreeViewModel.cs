@@ -8,7 +8,7 @@ namespace HRIS.Model.Sys
 {
     public class RoleMenuTreeViewModel : TreeViewModel
     {
+        public Guid menuId { get; set; }
         public int displayOrder { get; set; }
-        public int menuId { get; set; }
     }
 }

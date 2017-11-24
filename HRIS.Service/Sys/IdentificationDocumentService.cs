@@ -21,13 +21,13 @@ namespace HRIS.Service.Sys
             this._repoIdentificationDocument = repoIdentificationDocument;
         }
 
-        public void Create(IdentificationDocumentModel model, out int IdentificationDocumentId)
+        public void Create(IdentificationDocumentModel model, out Guid identificationDocumentId)
         {
             if (this._repoIdentificationDocument.Query().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoIdentificationDocument.Insert(new sys_IdentificationDocument()
             {
                 code = model.code,
@@ -35,12 +35,12 @@ namespace HRIS.Service.Sys
                 updatedBy = currentUserId,
             });
             this._unitOfWork.Save();
-            IdentificationDocumentId = ins.id;
+            identificationDocumentId = ins.id;
         }
 
-        public void Delete(int IdentificationDocumentId)
+        public void Delete(Guid identificationDocumentId)
         {
-            var data = this._repoIdentificationDocument.Find(IdentificationDocumentId);
+            var data = this._repoIdentificationDocument.Find(identificationDocumentId);
             data.deleted = true;
             data.updatedBy = this.GetCurrentUserId();
             data.updatedDate = DateTime.Now;
@@ -48,14 +48,14 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public IdentificationDocumentModel GetById(int IdentificationDocumentId)
+        public IdentificationDocumentModel GetById(Guid identificationDocumentId)
         {
-            return this.GetQuery().First(x => x.id == IdentificationDocumentId);
+            return this.GetQuery().First(x => x.id == identificationDocumentId);
         }
 
         public IQueryable<IdentificationDocumentModel> GetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoIdentificationDocument
                 .Query().Filter(x => x.deleted == false)
                 .Get()

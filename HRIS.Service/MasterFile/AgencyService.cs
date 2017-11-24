@@ -26,14 +26,14 @@ namespace HRIS.Service.Configuration
             this._repoAgency = repoAgency;
         }
 
-        public void Create(AgencyModel model, out int agencyId)
+        public void Create(AgencyModel model, out Guid agencyId)
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             if (this._repoAgency.Query().Filter(x => x.code == model.code  && x.companyId == companyId).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var ins = this._repoAgency.Insert(new mf_Agency()
             {
                 companyId = companyId,
@@ -45,7 +45,7 @@ namespace HRIS.Service.Configuration
             agencyId = ins.id;
         }
 
-        public void Delete(int agencyId)
+        public void Delete(Guid agencyId)
         {
             var data = this._repoAgency.Find(agencyId);
             data.deleted = true;
@@ -55,14 +55,14 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public AgencyModel GetById(int agencyId)
+        public AgencyModel GetById(Guid agencyId)
         {
             return this.GetQuery().First(x => x.id == agencyId);
         }
 
         public IQueryable<AgencyModel> GetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoAgency
                 .Query().Filter(x => x.companyId == companyId)
                 .Get()
@@ -83,7 +83,7 @@ namespace HRIS.Service.Configuration
             var upt = this._repoAgency.Find(model.id);
             if (upt.code != model.code)
             {
-                int companyId = this.GetCurrentCompanyId();
+                Guid companyId = this.GetCurrentCompanyId();
                 if (this._repoAgency.Query().Filter(x => x.code == model.code && x.companyId == companyId ).Get().Any())
                 {
                     throw new Exception(model.code + " is already exists");

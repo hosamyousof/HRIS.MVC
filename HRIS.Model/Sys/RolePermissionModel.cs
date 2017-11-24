@@ -9,7 +9,7 @@ namespace HRIS.Model.Sys
 {
     public class RolePermissionModel
     {
-        public int permissionId { get; set; }
+        public Guid permissionId { get; set; }
 
         [DisplayName("Description")]
         public string description { get; set; }

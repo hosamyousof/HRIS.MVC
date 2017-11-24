@@ -239,9 +239,7 @@
       <Name>Repository</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Context\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201711240603490_initial.resx">
       <DependentUpon>201711240603490_initial.cs</DependentUpon>

@@ -1,13 +1,9 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Configuration
 {
@@ -26,13 +22,13 @@ namespace HRIS.Service.Configuration
             this._repoPosition = repoPosition;
         }
 
-        public void Create(PositionModel model, out int positionId)
+        public void Create(PositionModel model, out Guid positionId)
         {
             if (this._repoPosition.Query().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoPosition.Insert(new mf_Position()
             {
                 code = model.code,
@@ -44,7 +40,7 @@ namespace HRIS.Service.Configuration
             positionId = ins.id;
         }
 
-        public void Delete(int positionId)
+        public void Delete(Guid positionId)
         {
             var data = this._repoPosition.Find(positionId);
             data.deleted = true;
@@ -54,14 +50,14 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public PositionModel GetById(int positionId)
+        public PositionModel GetById(Guid positionId)
         {
             return this.GetQuery().First(x => x.id == positionId);
         }
 
         public IQueryable<PositionModel> GetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
 
             var data = this._repoPosition
                 .Query().FilterCurrentCompany()

@@ -22,7 +22,7 @@ namespace HRIS.Service.Sys
 
         public IQueryable<sys_EnumReference> GetEntityListByName(ReferenceList name)
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
 
             string _name = name.ToString();
             return this._repoEnumReference
@@ -33,7 +33,7 @@ namespace HRIS.Service.Sys
 
         public IQueryable<ReferenceModel> GetQuery(ReferenceList name)
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
 
             string _name = name.ToString();
 

@@ -1,11 +1,12 @@
 using Repository;
+using System;
 
 namespace HRIS.Data.Entity
 {
     public partial class pr_PayrollEmployeeEarning : EntityBase
     {
         public int payrollEmployeeId { get; set; }
-        public int? allowanceId { get; set; }
+        public Guid? allowanceId { get; set; }
         public int? paySlipDetail { get; set; }
         public double value { get; set; }
 

@@ -10,7 +10,7 @@ namespace HRIS.Model.MasterFile
     public class EmployeeTrainingModel : ModelAuditInfo
     {
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [Required]
         [DisplayName("Training Date")]

@@ -40,7 +40,7 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int userId;
+                            Guid userId;
                             this._roleService.Create(model, out userId);
                             model.id = userId;
                             break;
@@ -67,7 +67,7 @@ namespace HRIS.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult CopyMenuFromRole(int fromRoleId, int toRoleId)
+        public ActionResult CopyMenuFromRole(Guid fromRoleId, Guid toRoleId)
         {
             try
             {
@@ -87,16 +87,16 @@ namespace HRIS.Web.Controllers
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult UserRoleGetList([DataSourceRequest] DataSourceRequest request, int? roleId)
+        public ActionResult UserRoleGetList([DataSourceRequest] DataSourceRequest request, Guid? roleId)
         {
             var userService = DependencyResolver.Current.GetService<IUserService>();
-            var data = userService.GetRoleUsers(roleId ?? 0);
+            var data = userService.GetRoleUsers(roleId ?? Guid.Empty);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult UserRoleUpdate([DataSourceRequest] DataSourceRequest request, int roleId, [Bind(Prefix = "models")]IEnumerable<UserRoleModel> models)
+        public ActionResult UserRoleUpdate([DataSourceRequest] DataSourceRequest request, Guid roleId, [Bind(Prefix = "models")]IEnumerable<UserRoleModel> models)
         {
             if (models != null && ModelState.IsValid)
             {
@@ -117,12 +117,12 @@ namespace HRIS.Web.Controllers
         /// </summary>
         /// <param name="id">Role Id</param>
         /// <returns></returns>
-        public ActionResult MenuList(int id)
+        public ActionResult MenuList(Guid id)
         {
             return PartialView("MenuList", id);
         }
 
-        public ActionResult MenuChangeParent(int source, int? destination)
+        public ActionResult MenuChangeParent(Guid source, Guid? destination)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace HRIS.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult RoleMenuDelete(int id)
+        public ActionResult RoleMenuDelete(Guid id)
         {
             try
             {
@@ -149,7 +149,7 @@ namespace HRIS.Web.Controllers
             }
         }
 
-        public ActionResult RoleMenuList([DataSourceRequest] DataSourceRequest request, string id, int roleId)
+        public ActionResult RoleMenuList([DataSourceRequest] DataSourceRequest request, string id, Guid roleId)
         {
             var data = _roleService.RoleMenuList(roleId, id);
             return Json(data, JsonRequestBehavior.AllowGet);
@@ -186,16 +186,16 @@ namespace HRIS.Web.Controllers
 
         #region Role Permission
 
-        public ActionResult RolePermissionGetList([DataSourceRequest] DataSourceRequest request, int? roleId)
+        public ActionResult RolePermissionGetList([DataSourceRequest] DataSourceRequest request, Guid? roleId)
         {
             var permissionService = DependencyResolver.Current.GetService<IPermissionService>();
-            var data = permissionService.GetRolePermission(roleId ?? 0);
+            var data = permissionService.GetRolePermission(roleId ?? Guid.Empty);
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
-        public ActionResult RolePermissionUpdate([DataSourceRequest] DataSourceRequest request, int roleId, [Bind(Prefix = "models")]IEnumerable<RolePermissionModel> models)
+        public ActionResult RolePermissionUpdate([DataSourceRequest] DataSourceRequest request, Guid roleId, [Bind(Prefix = "models")]IEnumerable<RolePermissionModel> models)
         {
             if (models != null && ModelState.IsValid)
             {

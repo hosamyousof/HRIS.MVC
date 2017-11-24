@@ -22,25 +22,25 @@ namespace HRIS.Service.Configuration
             this._repoHolidayType = repoHolidayType;
         }
 
-        public void Create(HolidayTypeModel model, out int HolidayTypeId)
+        public void Create(HolidayTypeModel model, out Guid holidayTypeId)
         {
             if (this._repoHolidayType.Query().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoHolidayType.PrepareEntity(model)
                 .MatchAllDataField()
                 .SetValue(x => x.updatedBy, currentUserId)
                 .Insert()
                 .GetEntity();
             this._unitOfWork.Save();
-            HolidayTypeId = ins.id;
+            holidayTypeId = ins.id;
         }
 
-        public void Delete(int HolidayTypeId)
+        public void Delete(Guid holidayTypeId)
         {
-            var data = this._repoHolidayType.Find(HolidayTypeId);
+            var data = this._repoHolidayType.Find(holidayTypeId);
             data.deleted = true;
             data.updatedBy = this.GetCurrentUserId();
             data.updatedDate = DateTime.Now;
@@ -48,9 +48,9 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public HolidayTypeModel GetById(int HolidayTypeId)
+        public HolidayTypeModel GetById(Guid holidayTypeId)
         {
-            return this.GetQuery().First(x => x.id == HolidayTypeId);
+            return this.GetQuery().First(x => x.id == holidayTypeId);
         }
 
         public IQueryable<HolidayTypeModel> GetQuery()

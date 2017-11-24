@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="ClassExtension.cs" />
     <Compile Include="CryptLib.cs" />
+    <Compile Include="DataReference.cs" />
     <Compile Include="DataTablesAttribute.cs" />
     <Compile Include="Dynamic.cs" />
     <Compile Include="FormModel.cs" />

@@ -4,9 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace HRIS.Model.MasterFile
@@ -20,7 +17,7 @@ namespace HRIS.Model.MasterFile
             this.CountryList = new List<CountryModel>();
         }
 
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [Required]
         [DisplayName("First Name")]
@@ -70,7 +67,7 @@ namespace HRIS.Model.MasterFile
         public string address3 { get; set; }
 
         [DisplayName("Country")]
-        public int countryId { get; set; }
+        public Guid countryId { get; set; }
 
         [DisplayName("City")]
         public string city { get; set; }
@@ -89,6 +86,7 @@ namespace HRIS.Model.MasterFile
         public string clearImage { get; set; }
 
         public string pictureExtension { get; set; }
+
         public bool confidential { get; set; }
     }
 }

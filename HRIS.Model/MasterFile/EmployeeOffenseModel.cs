@@ -1,4 +1,5 @@
-﻿using HRIS.Model.Sys;
+﻿using Common;
+using HRIS.Model.Sys;
 using Repository;
 using System;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ namespace HRIS.Model.MasterFile
     public class EmployeeOffenseModel : ModelAuditInfo
     {
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         [DisplayName("Offense Date")]
@@ -22,11 +23,11 @@ namespace HRIS.Model.MasterFile
 
         [Required]
         [DisplayName("Offense")]
-        public ReferenceModel Offense { get; set; }
+        public DataReference Offense { get; set; }
 
         [Required]
         [DisplayName("Penalty Type")]
-        public ReferenceModel penaltyType { get; set; }
+        public DataReference penaltyType { get; set; }
 
         [Required]
         [DisplayName("Degree")]

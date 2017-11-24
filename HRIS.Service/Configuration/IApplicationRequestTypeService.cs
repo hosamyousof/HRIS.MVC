@@ -1,5 +1,7 @@
-﻿using HRIS.Model.Configuration;
+﻿using Common;
+using HRIS.Model.Configuration;
 using HRIS.Model.Sys;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,15 +9,15 @@ namespace HRIS.Service.Configuration
 {
     public interface IApplicationRequestTypeService
     {
-        void DepartmentSectionRequestApproverAdd(int departmentSectionId, int requestTypeId, int approverId, out int departmentSectionRequestApprover);
+        void DepartmentSectionRequestApproverAdd(Guid departmentSectionId, Guid applicationRequestTypeId, Guid approverId, out Guid departmentSectionRequestApprover);
 
-        void DepartmentsectionRequestApproverDelete(int departmentSectionId, int requestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models);
+        void DepartmentsectionRequestApproverDelete(Guid departmentSectionId, Guid applicationRequestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models);
 
-        void DepartmentSectionRequestApproverUpdate(int departmentSectionId, int requestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models);
+        void DepartmentSectionRequestApproverUpdate(Guid departmentSectionId, Guid applicationRequestTypeId, IEnumerable<DepartmentSectionRequestApproverModel> models);
 
-        IQueryable<DepartmentSectionRequestApproverModel> GetApplicationRequestApprover(int departmentSectionId, int requestTypeId);
+        IQueryable<DepartmentSectionRequestApproverModel> GetApplicationRequestApprover(Guid departmentSectionId, Guid applicationRequestTypeId);
 
-        IEnumerable<ReferenceModel> GetLeaveTypeList();
+        IEnumerable<DataReference> GetLeaveTypeList();
 
         IEnumerable<ValueText> GetValueTextList();
     }

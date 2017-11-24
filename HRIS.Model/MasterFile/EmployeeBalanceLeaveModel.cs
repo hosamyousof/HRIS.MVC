@@ -1,4 +1,5 @@
-﻿using HRIS.Model.Sys;
+﻿using Common;
+using HRIS.Model.Sys;
 using Repository;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,11 @@ namespace HRIS.Model.MasterFile
     public class EmployeeBalanceLeaveModel : ModelAuditInfo
     {
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [Required]
         [DisplayName("Leave Type")]
-        public ReferenceModel leaveType { get; set; }
+        public DataReference leaveType { get; set; }
 
         [Required]
         [DisplayName("Balance")]

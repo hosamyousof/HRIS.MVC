@@ -6,13 +6,13 @@ namespace HRIS.Data.Entity
 {
     public partial class ta_ApplicationRequest : EntityBase
     {
-        public int applicationRequestTypeId { get; set; }
+        public Guid applicationRequestTypeId { get; set; }
         public string note { get; set; }
         public int status { get; set; }
-        public int assignTo { get; set; }
-        public int requestedBy { get; set; }
+        public Guid assignTo { get; set; }
+        public Guid requestedBy { get; set; }
         public DateTime requestedDate { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<ta_ApplicationRequestApprover> ta_ApplicationRequestApprovers { get; set; }

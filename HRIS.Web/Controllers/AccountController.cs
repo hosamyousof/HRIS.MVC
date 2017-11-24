@@ -70,7 +70,7 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int userId;
+                            Guid userId;
                             this._userService.Create(model, out userId);
                             model.id = userId;
                             break;
@@ -126,7 +126,7 @@ namespace HRIS.Web.Controllers
         [AllowAnonymous]
         public ActionResult Login(string ReturnUrl)
         {
-            var model = new LoginModel(); 
+            var model = new LoginModel();
             return View(model);
         }
 
@@ -139,9 +139,9 @@ namespace HRIS.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    int sessionId = 0;
+                    Guid sessionId = Guid.Empty;
                     this._userService.ValidateLogin(model.CompanyCode, model.Username, model.Password, out sessionId);
-                    FormsAuthentication.SetAuthCookie(sessionId.ToString() + "-" + model.Username, true);
+                    FormsAuthentication.SetAuthCookie(sessionId.ToString() + "|" + model.Username, true);
                     return RedirectToUrl(Url.Content("~/"));
                 }
             }

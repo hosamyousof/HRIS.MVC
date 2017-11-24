@@ -26,13 +26,13 @@ namespace HRIS.Service.Sys
             this._repoLocation = repoLocation;
         }
 
-        public void Create(LocationModel model, out int LocationId)
+        public void Create(LocationModel model, out Guid locationId)
         {
             if (this._repoLocation.Query().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoLocation.Insert(new sys_Location()
             {
                 code = model.code,
@@ -41,12 +41,12 @@ namespace HRIS.Service.Sys
                 companyId = this.GetCurrentCompanyId(),
             });
             this._unitOfWork.Save();
-            LocationId = ins.id;
+            locationId = ins.id;
         }
 
-        public void Delete(int LocationId)
+        public void Delete(Guid locationId)
         {
-            var data = this._repoLocation.Find(LocationId);
+            var data = this._repoLocation.Find(locationId);
             data.deleted = true;
             data.updatedBy = this.GetCurrentUserId();
             data.updatedDate = DateTime.Now;
@@ -54,14 +54,14 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
-        public LocationModel GetById(int LocationId)
+        public LocationModel GetById(Guid locationId)
         {
-            return this.GetQuery().First(x => x.id == LocationId);
+            return this.GetQuery().First(x => x.id == locationId);
         }
 
         public IQueryable<LocationModel> GetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoLocation
                 .Query().Filter(x => x.deleted == false && x.companyId == companyId)
                 .Get()

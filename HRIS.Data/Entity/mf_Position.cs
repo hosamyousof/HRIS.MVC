@@ -8,7 +8,7 @@ namespace HRIS.Data.Entity
     {
         public string code { get; set; }
         public string description { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<mf_Employee201> mf_Employee201 { get; set; }

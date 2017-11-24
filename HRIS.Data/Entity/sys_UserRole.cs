@@ -5,9 +5,9 @@ namespace HRIS.Data.Entity
 {
     public partial class sys_UserRole : EntityBase
     {
-        public int roleId { get; set; }
-        public int userId { get; set; }
-        public int updatedBy { get; set; }
+        public Guid roleId { get; set; }
+        public Guid userId { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual sys_Role sys_Role { get; set; }

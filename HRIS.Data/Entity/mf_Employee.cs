@@ -16,12 +16,12 @@ namespace HRIS.Data.Entity
         public string contact1 { get; set; }
         public string contact2 { get; set; }
         public string contact3 { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
-        public int? employeeAddressId { get; set; }
-        public int? employee201Id { get; set; }
+        public Guid? employeeAddressId { get; set; }
+        public Guid? employee201Id { get; set; }
         public string pictureExtension { get; set; }
-        public int? userId { get; set; }
+        public Guid? userId { get; set; }
 
         public virtual ICollection<mf_EmployeeAllowance> mf_EmployeeAllowances { get; set; }
         public virtual ICollection<mf_EmployeeBalanceLeave> mf_EmployeeBalanceLeaves { get; set; }

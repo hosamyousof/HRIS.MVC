@@ -6,8 +6,8 @@ namespace HRIS.Data.Entity
 {
     public partial class pr_PayrollEmployee : EntityBase
     {
-        public int payrollId { get; set; }
-        public int employeeId { get; set; }
+        public Guid payrollId { get; set; }
+        public Guid employeeId { get; set; }
         public double noOfDays { get; set; }
         public double totalHours { get; set; }
         public double hourlyRates { get; set; }
@@ -15,7 +15,7 @@ namespace HRIS.Data.Entity
         public double basicRate { get; set; }
         public double totalDeduction { get; set; }
         public double totalIncome { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<pr_PayrollEmployeeDeduction> pr_PayrollEmployeeDeductions { get; set; }

@@ -26,14 +26,14 @@ namespace HRIS.Service.Configuration
             this._repoAllowance = repoAllowance;
         }
 
-        public void Create(AllowanceModel model, out int allowanceId)
+        public void Create(AllowanceModel model, out Guid allowanceId)
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             if (this._repoAllowance.Query().Filter(x => x.code == model.code && x.companyId == companyId).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int userId = this.GetCurrentUserId();
+            Guid userId = this.GetCurrentUserId();
             var ins = this._repoAllowance.Insert(new mf_Allowance()
             {
                 companyId = companyId,
@@ -46,7 +46,7 @@ namespace HRIS.Service.Configuration
             allowanceId = ins.id;
         }
 
-        public void Delete(int allowanceId)
+        public void Delete(Guid allowanceId)
         {
             var data = this._repoAllowance.Find(allowanceId);
             data.deleted = true;
@@ -56,14 +56,14 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public AllowanceModel GetById(int allowanceId)
+        public AllowanceModel GetById(Guid allowanceId)
         {
             return this.GetQuery().First(x => x.id == allowanceId);
         }
 
         public IQueryable<AllowanceModel> GetQuery()
         {
-            int companyId = this.GetCurrentCompanyId();
+            Guid companyId = this.GetCurrentCompanyId();
             var data = this._repoAllowance
                 .Query().Filter(x => x.companyId == companyId)
                 .Get()
@@ -87,7 +87,7 @@ namespace HRIS.Service.Configuration
             var upt = this._repoAllowance.Find(model.id);
             if (upt.code != model.code)
             {
-                int companyId = this.GetCurrentCompanyId();
+                Guid companyId = this.GetCurrentCompanyId();
                 if (this._repoAllowance.Query().Filter(x => x.code == model.code && x.companyId == companyId ).Get().Any())
                 {
                     throw new Exception(model.code + " is already exists");

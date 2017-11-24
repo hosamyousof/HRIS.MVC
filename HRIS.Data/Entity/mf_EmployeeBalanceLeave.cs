@@ -5,10 +5,10 @@ namespace HRIS.Data.Entity
 {
     public partial class mf_EmployeeBalanceLeave : EntityBase
     {
-        public int employeeId { get; set; }
+        public Guid employeeId { get; set; }
         public double balance { get; set; }
-        public int applicationRequestTypeId { get; set; }
-        public int updatedBy { get; set; }
+        public Guid applicationRequestTypeId { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual mf_ApplicationRequestType mf_ApplicationRequestType { get; set; }

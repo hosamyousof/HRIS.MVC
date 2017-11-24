@@ -1,16 +1,12 @@
-﻿using HRIS.Model;
+﻿using Common;
+using HRIS.Model;
 using HRIS.Model.Configuration;
-using HRIS.Model.MasterFile;
-using HRIS.Model.Sys;
 using HRIS.Service.Configuration;
-using HRIS.Service.MasterFile;
 using HRIS.Web.Framework;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HRIS.Web.Controllers
@@ -38,11 +34,14 @@ namespace HRIS.Web.Controllers
 
         public ActionResult ReferenceModelList([DataSourceRequest] DataSourceRequest request)
         {
-            var data = this._workDayService.GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description });
+            var data = this._workDayService.GetQuery().Select(x => new DataReference()
+            {
+                value = x.id.Value,
+                description = x.description
+            });
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }
-
 
         public ActionResult WorkDayCRUD([DataSourceRequest] DataSourceRequest request
             , UpdateType updateType
@@ -55,9 +54,8 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int WorkDayId;
-                            this._workDayService.Create(model, out WorkDayId);
-                            model.id = WorkDayId;
+                            _workDayService.Create(model, out Guid workDayId);
+                            model.id = workDayId;
                             break;
                         case UpdateType.Update:
                             this._workDayService.Update(model);

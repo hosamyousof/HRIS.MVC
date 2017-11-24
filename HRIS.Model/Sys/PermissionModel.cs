@@ -13,7 +13,7 @@ namespace HRIS.Model.Sys
     public class PermissionModel : ModelAuditInfo
     {
         [PrimaryKey]
-        public int? id { get; set; }
+        public Guid? id { get; set; }
 
         [Required]
         [DisplayName("code")]

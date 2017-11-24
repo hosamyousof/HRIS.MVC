@@ -8,11 +8,11 @@ namespace HRIS.Model.Sys
 {
    public class RoleMenuEntryModel
     {
-        public int id { get; set; }
-        public int menuId { get; set; }
+        public Guid id { get; set; }
+        public Guid menuId { get; set; }
         public string description { get; set; }
-        public int? parentMenuId { get; set; }
-        public int roleId { get; set; }
+        public Guid? parentMenuId { get; set; }
+        public Guid roleId { get; set; }
         public int displayOrder { get; set; }
     }
 }

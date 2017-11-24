@@ -22,13 +22,13 @@ namespace HRIS.Service.MasterFile
             this._repoEmploymentType = repoEmploymentType;
         }
 
-        public void Create(EmploymentTypeModel model, out int employmentTypeId)
+        public void Create(EmploymentTypeModel model, out Guid employmentTypeId)
         {
             if (this._repoEmploymentType.Query().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
-            int currentUserId = this.GetCurrentUserId();
+            var currentUserId = this.GetCurrentUserId();
             var ins = this._repoEmploymentType.Insert(new mf_EmploymentType()
             {
                 code = model.code,
@@ -39,7 +39,7 @@ namespace HRIS.Service.MasterFile
             employmentTypeId = ins.id;
         }
 
-        public void Delete(int employmentTypeId)
+        public void Delete(Guid employmentTypeId)
         {
             var data = this._repoEmploymentType.Find(employmentTypeId);
             data.deleted = true;
@@ -49,7 +49,7 @@ namespace HRIS.Service.MasterFile
             this._unitOfWork.Save();
         }
 
-        public EmploymentTypeModel GetById(int employmentTypeId)
+        public EmploymentTypeModel GetById(Guid employmentTypeId)
         {
             return this.GetQuery().First(x => x.id == employmentTypeId);
         }

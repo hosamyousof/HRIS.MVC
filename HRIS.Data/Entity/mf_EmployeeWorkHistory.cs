@@ -5,7 +5,7 @@ namespace HRIS.Data.Entity
 {
     public partial class mf_EmployeeWorkHistory : EntityBase
     {
-        public int employeeId { get; set; }
+        public Guid employeeId { get; set; }
         public string companyName { get; set; }
         public string position { get; set; }
         public int joinedMonth { get; set; }
@@ -13,7 +13,7 @@ namespace HRIS.Data.Entity
         public int? resignedMonth { get; set; }
         public int? resignedYear { get; set; }
         public bool? isPresent { get; set; }
-        public int updatedBy { get; set; }
+        public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual mf_Employee mf_Employee { get; set; }
