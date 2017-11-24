@@ -91,13 +91,125 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HRISContext.cs" />
+    <Compile Include="Context\HRISContext.cs" />
+    <Compile Include="Entity\mf_Agency.cs" />
+    <Compile Include="Entity\mf_Allowance.cs" />
+    <Compile Include="Entity\mf_ApplicationRequestType.cs" />
+    <Compile Include="Entity\mf_Country.cs" />
+    <Compile Include="Entity\mf_Deduction.cs" />
+    <Compile Include="Entity\mf_Department.cs" />
+    <Compile Include="Entity\mf_DepartmentSection.cs" />
+    <Compile Include="Entity\mf_DepartmentSectionRequestApprover.cs" />
+    <Compile Include="Entity\mf_Employee.cs" />
+    <Compile Include="Entity\mf_Employee201.cs" />
+    <Compile Include="Entity\mf_EmployeeAddress.cs" />
+    <Compile Include="Entity\mf_EmployeeAllowance.cs" />
+    <Compile Include="Entity\mf_EmployeeBalanceLeave.cs" />
+    <Compile Include="Entity\mf_EmployeeBasicPay.cs" />
+    <Compile Include="Entity\mf_EmployeeDeduction.cs" />
+    <Compile Include="Entity\mf_EmployeeEducation.cs" />
+    <Compile Include="Entity\mf_EmployeeIdentificationDocument.cs" />
+    <Compile Include="Entity\mf_EmployeeOffense.cs" />
+    <Compile Include="Entity\mf_EmployeeSkill.cs" />
+    <Compile Include="Entity\mf_EmployeeTraining.cs" />
+    <Compile Include="Entity\mf_EmployeeWorkDay.cs" />
+    <Compile Include="Entity\mf_EmployeeWorkHistory.cs" />
+    <Compile Include="Entity\mf_EmploymentStatu.cs" />
+    <Compile Include="Entity\mf_EmploymentType.cs" />
+    <Compile Include="Entity\mf_Holiday.cs" />
+    <Compile Include="Entity\mf_HolidayType.cs" />
+    <Compile Include="Entity\mf_Offense.cs" />
+    <Compile Include="Entity\mf_PayrollGroup.cs" />
+    <Compile Include="Entity\mf_PenaltyType.cs" />
+    <Compile Include="Entity\mf_Position.cs" />
+    <Compile Include="Entity\mf_WorkDay.cs" />
+    <Compile Include="Entity\pr_Payroll.cs" />
+    <Compile Include="Entity\pr_PayrollEmployee.cs" />
+    <Compile Include="Entity\pr_PayrollEmployeeDeduction.cs" />
+    <Compile Include="Entity\pr_PayrollEmployeeEarning.cs" />
+    <Compile Include="Entity\sys_Company.cs" />
+    <Compile Include="Entity\sys_CompanySetting.cs" />
+    <Compile Include="Entity\sys_EnumReference.cs" />
+    <Compile Include="Entity\sys_ErrorLog.cs" />
+    <Compile Include="Entity\sys_IdentificationDocument.cs" />
+    <Compile Include="Entity\sys_Location.cs" />
+    <Compile Include="Entity\sys_Menu.cs" />
+    <Compile Include="Entity\sys_Permission.cs" />
+    <Compile Include="Entity\sys_Role.cs" />
+    <Compile Include="Entity\sys_RoleMenu.cs" />
+    <Compile Include="Entity\sys_RolePermission.cs" />
+    <Compile Include="Entity\sys_Setting.cs" />
+    <Compile Include="Entity\sys_User.cs" />
+    <Compile Include="Entity\sys_UserRole.cs" />
+    <Compile Include="Entity\sys_UserSession.cs" />
+    <Compile Include="Entity\ta_ApplicationRequest.cs" />
+    <Compile Include="Entity\ta_ApplicationRequestApprover.cs" />
+    <Compile Include="Entity\ta_ApplicationRequestGatePass.cs" />
+    <Compile Include="Entity\ta_ApplicationRequestLeave.cs" />
+    <Compile Include="Entity\ta_CutOffAttendance.cs" />
+    <Compile Include="Entity\ta_CutOffAttendanceSummary.cs" />
+    <Compile Include="Entity\ta_CutOffAttendanceSummaryDetail.cs" />
+    <Compile Include="Entity\ta_EmployeeAttendance.cs" />
+    <Compile Include="MappingConfiguration\mf_AgencyConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_AllowanceConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_ApplicationRequestTypeConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_CountryConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_DeductionConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_DepartmentConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_DepartmentSectionConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_DepartmentSectionRequestApproverConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_Employee201Configuration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeAddressConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeAllowanceConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeBalanceLeaveConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeBasicPayConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeDeductionConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeEducationConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeIdentificationDocumentConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeOffenseConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeSkillConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeTrainingConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeWorkDayConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmployeeWorkHistoryConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmploymentStatuConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_EmploymentTypeConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_HolidayConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_HolidayTypeConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_OffenseConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_PayrollGroupConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_PenaltyTypeConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_PositionConfiguration.cs" />
+    <Compile Include="MappingConfiguration\mf_WorkDayConfiguration.cs" />
+    <Compile Include="MappingConfiguration\pr_PayrollConfiguration.cs" />
+    <Compile Include="MappingConfiguration\pr_PayrollEmployeeConfiguration.cs" />
+    <Compile Include="MappingConfiguration\pr_PayrollEmployeeDeductionConfiguration.cs" />
+    <Compile Include="MappingConfiguration\pr_PayrollEmployeeEarningConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_CompanyConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_CompanySettingConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_EnumReferenceConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_ErrorLogConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_IdentificationDocumentConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_LocationConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_MenuConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_PermissionConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_RoleConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_RoleMenuConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_RolePermissionConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_SettingConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_UserConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_UserRoleConfiguration.cs" />
+    <Compile Include="MappingConfiguration\sys_UserSessionConfiguration.cs" />
+    <Compile Include="MappingConfiguration\ta_ApplicationRequestApproverConfiguration.cs" />
+    <Compile Include="MappingConfiguration\ta_ApplicationRequestConfiguration.cs" />
+    <Compile Include="MappingConfiguration\ta_ApplicationRequestGatePassConfiguration.cs" />
+    <Compile Include="MappingConfiguration\ta_ApplicationRequestLeaveConfiguration.cs" />
+    <Compile Include="MappingConfiguration\ta_CutOffAttendanceConfiguration.cs" />
+    <Compile Include="MappingConfiguration\ta_CutOffAttendanceSummaryConfiguration.cs" />
+    <Compile Include="MappingConfiguration\ta_CutOffAttendanceSummaryDetailConfiguration.cs" />
+    <Compile Include="MappingConfiguration\ta_EmployeeAttendanceConfiguration.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HRIS_POCO.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>HRIS_POCO.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -106,15 +218,7 @@
     <Content Include="DatabaseBackup\toolScriptRemoveNonAlphaCharacters.sql" />
     <Content Include="DatabaseBackup\toolScript.sql" />
     <Content Include="DatabaseBackup\LatestScript.sql" />
-    <None Include="EF.Reverse.POCO.Core.ttinclude" />
-    <None Include="EF.Reverse.POCO.ttinclude" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="HRIS_POCO.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>HRIS_POCO.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -129,6 +233,7 @@
       <Name>Repository</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
