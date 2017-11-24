@@ -67,13 +67,14 @@ namespace HRIS.Service.Configuration
             var data = this._repoPenaltyType
                 .Query().FilterCurrentCompany()
                 .Get()
+                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new PenaltyTypeModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
             return data;
         }

@@ -1,12 +1,8 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Sys
 {
@@ -39,19 +35,22 @@ namespace HRIS.Service.Sys
         public IQueryable<SettingModel> GetSettingList()
         {
             int companyId = this.GetCurrentCompanyId();
+            var companySetting = this._repoCompanySetting.Query().Filter(x => x.companyId == companyId).Get();
 
-            var data = from s in this._repoSetting.Query().Get()
-                       join cs in this._repoCompanySetting.Query().Filter(x => x.companyId == companyId).Get() on s.id equals cs.settingId into css
-                       from cs in css.DefaultIfEmpty()
-                       select new SettingModel()
-                       {
-                           settingId = s.id,
-                           description = s.description,
-                           name = s.name,
-                           updatedBy = cs.sys_User.username,
-                           updatedDate = cs.updatedDate,
-                           value = cs.value,
-                       };
+            var data = this._repoSetting.Query().Get()
+                .GroupJoin(companySetting, s => s.id, cs => cs.settingId, (setting, companySettingList) => new { setting, companySettingList })
+                .SelectMany(x => x.companySettingList.DefaultIfEmpty(), (scs, compSet) => new { scs, compSet })
+                .JoinSystemUser(x => x.compSet.updatedBy)
+                .Select(x => new SettingModel()
+                {
+                    settingId = x.Source.scs.setting.id,
+                    description = x.Source.scs.setting.description,
+                    name = x.Source.scs.setting.name,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.compSet.updatedDate,
+                    value = x.Source.compSet.value,
+                })
+                ;
 
             return data;
         }
@@ -97,6 +96,5 @@ namespace HRIS.Service.Sys
             }
             this._unitOfWork.Save();
         }
-
     }
 }

@@ -11,7 +11,6 @@ namespace HRIS.Data.Entity
         public DateTime expiredDate { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }
-        
 
         public sys_UserSession()
         {

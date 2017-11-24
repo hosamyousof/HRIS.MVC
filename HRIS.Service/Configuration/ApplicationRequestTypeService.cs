@@ -1,13 +1,10 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
 using HRIS.Model.Sys;
 using Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Configuration
 {
@@ -88,17 +85,21 @@ namespace HRIS.Service.Configuration
 
         public IQueryable<DepartmentSectionRequestApproverModel> GetApplicationRequestApprover(int departmentSectionId, int requestTypeId)
         {
-            var data = this._repoDepartmentSectionRequestApprover
-                .Query().Filter(x => !x.deleted && !x.sys_User_approverId.deleted && x.departmentSectionId == departmentSectionId && x.applicationRequestTypeId == requestTypeId)
+            var query = this._repoDepartmentSectionRequestApprover
+                .Query()
+                .Filter(x => x.departmentSectionId == departmentSectionId && x.applicationRequestTypeId == requestTypeId)
                 .Get()
+                .JoinSystemUser(x => x.approverId)
+                .Where(x => x.User.deleted == false)
                 .Select(x => new DepartmentSectionRequestApproverModel()
                 {
-                    id = x.id,
-                    userId = x.approverId,
-                    username = x.sys_User_approverId.username,
-                    orderNo = x.orderNo,
+                    id = x.Source.id,
+                    userId = x.Source.approverId,
+                    username = x.User.username,
+                    orderNo = x.Source.orderNo,
                 });
-            return data;
+
+            return query;
         }
 
         public IEnumerable<ReferenceModel> GetLeaveTypeList()

@@ -1,13 +1,9 @@
 ﻿using Common;
-using HRIS.Data;
 using HRIS.Data.Entity;
 using HRIS.Model.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Sys
 {
@@ -65,16 +61,17 @@ namespace HRIS.Service.Sys
             var data = this._repoMenu
                 .Query().Filter(x => x.deleted == false)
                 .Get()
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new MenuModel()
                 {
-                    id = x.id,
-                    description = x.description ?? "",
-                    areaName = x.areaName,
-                    actionName = x.actionName,
-                    controllerName = x.controllerName,
-                    parameter = x.parameter,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    description = x.Source.description ?? "",
+                    areaName = x.Source.areaName,
+                    actionName = x.Source.actionName,
+                    controllerName = x.Source.controllerName,
+                    parameter = x.Source.parameter,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
             return data;
         }

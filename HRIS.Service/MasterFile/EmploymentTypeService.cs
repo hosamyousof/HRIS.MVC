@@ -1,13 +1,9 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.MasterFile;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.MasterFile
 {
@@ -28,7 +24,7 @@ namespace HRIS.Service.MasterFile
 
         public void Create(EmploymentTypeModel model, out int employmentTypeId)
         {
-            if (this._repoEmploymentType.Query().Filter(x => x.code == model.code ).Get().Any())
+            if (this._repoEmploymentType.Query().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
@@ -61,15 +57,16 @@ namespace HRIS.Service.MasterFile
         public IQueryable<EmploymentTypeModel> GetQuery()
         {
             var data = this._repoEmploymentType
-                .Query().Filter(x => x.deleted == false)
+                .Query()
                 .Get()
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new EmploymentTypeModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
             return data;
         }
@@ -79,7 +76,7 @@ namespace HRIS.Service.MasterFile
             var upt = this._repoEmploymentType.Find(model.id);
             if (upt.code != model.code)
             {
-                if (this._repoEmploymentType.Query().Filter(x => x.code == model.code ).Get().Any())
+                if (this._repoEmploymentType.Query().Filter(x => x.code == model.code).Get().Any())
                 {
                     throw new Exception(model.code + " is already exists");
                 }

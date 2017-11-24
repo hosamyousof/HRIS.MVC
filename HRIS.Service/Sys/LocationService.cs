@@ -65,13 +65,14 @@ namespace HRIS.Service.Sys
             var data = this._repoLocation
                 .Query().Filter(x => x.deleted == false && x.companyId == companyId)
                 .Get()
+                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new LocationModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
             return data;
         }

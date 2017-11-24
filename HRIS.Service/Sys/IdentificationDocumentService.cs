@@ -1,13 +1,8 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Sys;
-using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Sys
 {
@@ -64,13 +59,14 @@ namespace HRIS.Service.Sys
             var data = this._repoIdentificationDocument
                 .Query().Filter(x => x.deleted == false)
                 .Get()
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new IdentificationDocumentModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
             return data;
         }

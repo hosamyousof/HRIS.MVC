@@ -1,13 +1,9 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Configuration
 {
@@ -59,21 +55,19 @@ namespace HRIS.Service.Configuration
 
         public IQueryable<HolidayTypeModel> GetQuery()
         {
-
             var data = this._repoHolidayType.Query()
                 .Get()
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new HolidayTypeModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                    rateNotWork = x.rateNotWork,
-                    rateWork = x.rateWork,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
-                })
-                ;
-
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    rateNotWork = x.Source.rateNotWork,
+                    rateWork = x.Source.rateWork,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
+                });
 
             return data;
         }

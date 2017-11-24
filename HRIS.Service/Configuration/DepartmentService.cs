@@ -70,13 +70,14 @@ namespace HRIS.Service.Configuration
                 .Query()
                 .FilterCurrentCompany()
                 .Get()
+                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new DepartmentModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
             return data;
         }
@@ -136,14 +137,15 @@ namespace HRIS.Service.Configuration
             var data = this._repoDepartmentSection
                 .Query()
                 .Get()
+                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new DepartmentSectionModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    department = x.mf_Department == null ? null : new ReferenceModel() { value = x.mf_Department.id, description = x.mf_Department.description },
-                    description = x.description,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    department = x.Source.mf_Department == null ? null : new ReferenceModel() { value = x.Source.mf_Department.id, description = x.Source.mf_Department.description },
+                    description = x.Source.description,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
             return data;
         }

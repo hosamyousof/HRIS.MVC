@@ -66,13 +66,14 @@ namespace HRIS.Service.Configuration
             var data = this._repoPosition
                 .Query().FilterCurrentCompany()
                 .Get()
+                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new PositionModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
             return data;
         }

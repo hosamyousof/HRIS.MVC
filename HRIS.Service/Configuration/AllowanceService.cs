@@ -67,15 +67,17 @@ namespace HRIS.Service.Configuration
             var data = this._repoAllowance
                 .Query().Filter(x => x.companyId == companyId)
                 .Get()
+                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new AllowanceModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                    isTaxable = x.isTaxable,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    isTaxable = x.Source.isTaxable,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
+
             return data;
         }
 

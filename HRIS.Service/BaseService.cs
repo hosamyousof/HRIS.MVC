@@ -7,7 +7,7 @@ namespace HRIS.Service
 {
     public class BaseService
     {
-        public void Log(Exception ex, EventLogEntryType entryType = EventLogEntryType.Warning)
+        protected void Log(Exception ex, EventLogEntryType entryType = EventLogEntryType.Warning)
         {
             try
             {
@@ -26,12 +26,12 @@ namespace HRIS.Service
             catch { }
         }
 
-        public void Log(string msg, EventLogEntryType entryType = EventLogEntryType.Warning)
+        protected void Log(string msg, EventLogEntryType entryType = EventLogEntryType.Warning)
         {
             this.Log(new Exception(msg));
         }
 
-        public void Log(string msg, EventLogEntryType entryType = EventLogEntryType.Warning, params object[] args)
+        protected void Log(string msg, EventLogEntryType entryType = EventLogEntryType.Warning, params object[] args)
         {
             this.Log(new Exception(string.Format(msg, args)));
         }
@@ -43,12 +43,12 @@ namespace HRIS.Service
             return companyId;
         }
 
-        public void ExecuteSql(string sql)
+        protected void ExecuteSql(string sql)
         {
             DependencyResolver.Current.GetService<Data.HRISContext>().Database.ExecuteSqlCommand(sql);
         }
 
-        public int GetCurrentSessionId()
+        protected int GetCurrentSessionId()
         {
             int sessionId = int.Parse(System.Web.HttpContext.Current.User.Identity.Name.Split('-')[0]);
             return sessionId;
@@ -60,15 +60,20 @@ namespace HRIS.Service
             return DependencyResolver.Current.GetService<IUserService>().GetUserIdByUsername(username);
         }
 
-        public string GetSettingValue(string settingName)
+        protected string GetSettingValue(string settingName)
         {
             int companyId = GetCurrentCompanyId();
             return DependencyResolver.Current.GetService<ISettingService>().GetValue(companyId, settingName);
         }
 
-        public string GetSettingValue(int companyId, string settingName)
+        protected string GetSettingValue(int companyId, string settingName)
         {
             return DependencyResolver.Current.GetService<ISettingService>().GetValue(companyId, settingName);
+        }
+
+        protected string GetUsername(int userId)
+        {
+            return DependencyResolver.Current.GetService<IUserService>().GetUsernameByUserId(userId);
         }
     }
 }

@@ -86,14 +86,16 @@ namespace HRIS.Service.Sys
         public IQueryable<PermissionModel> GetQuery()
         {
             int companyId = this.GetCurrentCompanyId();
-            var data = this._repoPermission.Query().Filter(x => !x.deleted && x.companyId == companyId).Get()
+            var data = this._repoPermission.Query()
+                .Filter(x => x.companyId == companyId).Get()
+                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new PermissionModel
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate
                 });
             return data;
         }

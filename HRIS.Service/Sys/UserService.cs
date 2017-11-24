@@ -1,13 +1,9 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model;
 using HRIS.Model.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Transactions;
 
 namespace HRIS.Service.Sys
@@ -17,6 +13,8 @@ namespace HRIS.Service.Sys
         private readonly IEnumReferenceService _enumReferenceService;
         private readonly IRepository<sys_Permission> _repoPermission;
         private readonly IRepository<sys_User> _repoUser;
+        private readonly IRepository<sys_Role> _repoRole;
+        private readonly IRepository<sys_UserRole> _repoUserRole;
         private readonly IRepository<sys_UserSession> _repoUserSession;
         private readonly IRepository<sys_Company> _repoCompany;
         private readonly IUnitOfWork _unitOfWork;
@@ -26,8 +24,10 @@ namespace HRIS.Service.Sys
             , IRepository<sys_Company> repoCompany
             , IRepository<sys_Permission> repoPermission
             , IRepository<sys_UserSession> repoUserSession
+            , IRepository<sys_UserRole> repoUserRole
             , IRepository<sys_User> repoUser)
         {
+            this._repoUserRole = repoUserRole;
             this._repoCompany = repoCompany;
             this._repoPermission = repoPermission;
             this._enumReferenceService = enumReferenceService;
@@ -121,11 +121,12 @@ namespace HRIS.Service.Sys
             var data = this._repoUserSession
                 .Query().Filter(x => x.id == sessionId)
                 .Get()
+                .JoinSystemUser(ur => ur.userId)
                 .Select(x => new AccountProfileModel()
                 {
-                    username = x.sys_User.username,
-                    company = x.sys_Company.businessName,
-                    email = x.sys_User.email,
+                    username = x.User.username,
+                    company = x.Source.sys_Company.businessName,
+                    email = x.User.email,
                 })
                 .First();
             return data;
@@ -138,14 +139,15 @@ namespace HRIS.Service.Sys
                 .Query().Filter(x => !x.deleted && x.companyId == companyId)
                 .Get()
                 .Join(this._enumReferenceService.GetQuery(ReferenceList.USER_STATUS), u => u.status, r => r.value, (u, r) => new { User = u, Ref = r })
+                .LeftJoinSystemUser(u => u.User.updatedBy)
                 .Select(x => new UserModel()
                 {
-                    id = x.User.id,
-                    username = x.User.username,
-                    email = x.User.email,
-                    UserStatus = new ReferenceModel { value = x.User.status, description = x.Ref.description, },
-                    updatedBy = x.User.sys_User_updatedBy.username,
-                    updatedDate = x.User.updatedDate,
+                    id = x.Source.GroupSource.User.id,
+                    username = x.Source.GroupSource.User.username,
+                    email = x.Source.GroupSource.User.email,
+                    UserStatus = new ReferenceModel { value = x.Source.GroupSource.User.status, description = x.Source.GroupSource.Ref.description, },
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.GroupSource.User.updatedDate,
                 });
 
             return data;
@@ -158,11 +160,13 @@ namespace HRIS.Service.Sys
             var data = this._repoUser
                 .Query().Filter(x => !x.deleted && x.companyId == companyId)
                 .Get()
+                .Join(this._repoUserRole.QueryGet(), u => u.id, ur => ur.userId, (u, ur) => new { u, ur })
+                .GroupBy(x => new { x.u.id, x.u.username })
                 .Select(x => new UserRoleModel()
                 {
-                    userId = x.id,
-                    username = x.username,
-                    hasAccess = x.sys_UserRoles_userId.Any(ur => ur.roleId == roleId && !ur.deleted)
+                    userId = x.Key.id,
+                    username = x.Key.username,
+                    hasAccess = x.Any(ur => ur.ur.roleId == roleId && !ur.ur.deleted)
                 });
 
             return data;
@@ -177,50 +181,49 @@ namespace HRIS.Service.Sys
 
         public bool HasPermission(string username, RoleAccessType accessType, string permissionCode)
         {
-            var prepare = this._repoUser
-                .Query()
-                ;
-
             if (!this._repoPermission.Query(true).Filter(x => x.code == permissionCode).Get().Any())
             {
                 int companyId = this.GetCurrentCompanyId();
                 this.ExecuteSql("insert into sys_Permission (companyId, code, description, updatedBy) values (" + companyId + ", '" + permissionCode + "', '" + permissionCode + "', " + this.GetCurrentUserId() + ")");
             }
+            var query = this._repoUser.Query().Filter(x => x.username == username)
+              .Get()
+              .Join(this._repoUserRole.QueryGet(), u => u.id, ur => ur.userId, (u, ur) => new { u, ur });
 
             switch (accessType)
             {
                 case RoleAccessType.View:
-                    prepare.Filter(x => x.sys_Roles.Any(r => r.sys_RolePermissions.Any(rp => rp.viewAccess && rp.sys_Permission.code == permissionCode)));
+                    query = query.Where(x => x.ur.sys_Role.sys_RolePermissions.Any(rp => rp.viewAccess && rp.sys_Permission.code == permissionCode));
                     break;
                 case RoleAccessType.Create:
-                    prepare.Filter(x => x.sys_Roles.Any(r => r.sys_RolePermissions.Any(rp => rp.createAccess && rp.sys_Permission.code == permissionCode)));
+                    query = query.Where(x => x.ur.sys_Role.sys_RolePermissions.Any(rp => rp.createAccess && rp.sys_Permission.code == permissionCode));
                     break;
                 case RoleAccessType.Update:
-                    prepare.Filter(x => x.sys_Roles.Any(r => r.sys_RolePermissions.Any(rp => rp.updateAccess && rp.sys_Permission.code == permissionCode)));
+                    query = query.Where(x => x.ur.sys_Role.sys_RolePermissions.Any(rp => rp.updateAccess && rp.sys_Permission.code == permissionCode));
                     break;
                 case RoleAccessType.Delete:
-                    prepare.Filter(x => x.sys_Roles.Any(r => r.sys_RolePermissions.Any(rp => rp.deleteAccess && rp.sys_Permission.code == permissionCode)));
+                    query = query.Where(x => x.ur.sys_Role.sys_RolePermissions.Any(rp => rp.deleteAccess && rp.sys_Permission.code == permissionCode));
                     break;
                 case RoleAccessType.Print:
-                    prepare.Filter(x => x.sys_Roles.Any(r => r.sys_RolePermissions.Any(rp => rp.printAccess && rp.sys_Permission.code == permissionCode)));
+                    query = query.Where(x => x.ur.sys_Role.sys_RolePermissions.Any(rp => rp.printAccess && rp.sys_Permission.code == permissionCode));
                     break;
                 default:
                     break;
             }
 
-            var check = prepare.Get()
-                .Any();
-            return check;
+            return query.Any();
         }
 
         public bool IsSessionValid(int sessionId, string username)
         {
             bool isValid = this._repoUserSession
-                .Query().Filter(x =>
+                .Query()
+                .Filter(x =>
                     x.id == sessionId
-                    && x.sys_User.username == username
                     && x.expiredDate >= DateTime.Now)
                 .Get()
+                .JoinSystemUser(x => x.userId)
+                .Where(x => x.User.username == username)
                 .Any();
 
             return isValid;
@@ -337,11 +340,15 @@ namespace HRIS.Service.Sys
             this._unitOfWork.Save();
         }
 
+        public string GetUsernameByUserId(int userId)
+        {
+            return this._repoUser.Query().Filter(x => x.id == userId).Get().Select(x => x.username).FirstOrDefault();
+        }
+
         public void ValidateLogin(string companyCode, string username, string password, out int sessionId)
         {
             using (TransactionScope ts = new TransactionScope())
             {
-
                 int companyId = this._repoCompany.Query().Filter(x => x.code == companyCode).Get().Select(x => x.id).FirstOrDefault();
 
                 var checkUser = this._repoUser.Query().Filter(x => x.username == username && x.companyId == companyId).Get();

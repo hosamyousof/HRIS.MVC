@@ -25,6 +25,8 @@ namespace HRIS.Service.Sys
 
         int GetUserIdByUsername(string username);
 
+        string GetUsernameByUserId(int userId);
+
         bool HasPermission(string username, RoleAccessType accessType, string permissionCode);
 
         bool IsSessionValid(int sessionId, string username);

@@ -28,7 +28,7 @@ namespace HRIS.Service.MasterFile
 
         public void Create(EmploymentStatusModel model, out int employmentStatusId)
         {
-            if (this._repoEmploymentStatus.Query().Filter(x => x.code == model.code ).Get().Any())
+            if (this._repoEmploymentStatus.Query().Filter(x => x.code == model.code).Get().Any())
             {
                 throw new Exception(model.code + " is already exists");
             }
@@ -64,14 +64,15 @@ namespace HRIS.Service.MasterFile
             var data = this._repoEmploymentStatus
                 .Query()
                 .Get()
+                .JoinSystemUser(x=> x.updatedBy)
                 .Select(x => new EmploymentStatusModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                     allowProcessPayroll = x.allowProcessPayroll,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    allowProcessPayroll = x.Source.allowProcessPayroll,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
             return data;
         }
@@ -81,7 +82,7 @@ namespace HRIS.Service.MasterFile
             var upt = this._repoEmploymentStatus.Find(model.id);
             if (upt.code != model.code)
             {
-                if (this._repoEmploymentStatus.Query().Filter(x => x.code == model.code ).Get().Any())
+                if (this._repoEmploymentStatus.Query().Filter(x => x.code == model.code).Get().Any())
                 {
                     throw new Exception(model.code + " is already exists");
                 }

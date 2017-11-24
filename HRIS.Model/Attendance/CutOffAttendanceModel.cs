@@ -9,6 +9,8 @@ namespace HRIS.Model.Attendance
 {
     public class CutOffAttendanceModel
     {
+        public int changeStatusById { get; set; }
+
         public int id { get; set; }
 
         public string payrollGroup { get; set; }

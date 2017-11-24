@@ -26,7 +26,7 @@ namespace HRIS.Data.Mapping
             Property(x => x.remarks).HasColumnName("remarks").IsOptional().HasColumnType("nvarchar");
             Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired().HasColumnType("int");
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
-            Property(x => x.changeStatusBy).HasColumnName("changeStatusBy").IsRequired().HasColumnType("int");
+            Property(x => x.changeStatusById).HasColumnName("changeStatusById").IsRequired().HasColumnType("int");
             Property(x => x.changeStatusDate).HasColumnName("changeStatusDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
 

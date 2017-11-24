@@ -57,7 +57,7 @@ namespace HRIS.Service.Payroll
             }
 
             cutOffAttendance.status = (int)CUT_OFF_ATTENDANCE.Posted;
-            cutOffAttendance.changeStatusBy = userId;
+            cutOffAttendance.changeStatusById = userId;
             cutOffAttendance.changeStatusDate = DateTime.Now;
 
             this._repoCutOffAttendance.Update(cutOffAttendance);

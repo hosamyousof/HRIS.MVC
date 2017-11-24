@@ -1,13 +1,9 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model.Configuration;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Configuration
 {
@@ -66,20 +62,20 @@ namespace HRIS.Service.Configuration
             var data = this._repoDeduction
                 .Query().Filter(x => x.companyId == companyId)
                 .Get()
+                .JoinSystemUser(x => x.updatedBy)
                 .Select(x => new DeductionModel()
                 {
-                    id = x.id,
-                    code = x.code,
-                    description = x.description,
-                    updatedBy = x.sys_User.username,
-                    updatedDate = x.updatedDate,
+                    id = x.Source.id,
+                    code = x.Source.code,
+                    description = x.Source.description,
+                    updatedBy = x.User.username,
+                    updatedDate = x.Source.updatedDate,
                 });
             return data;
         }
 
         public void Update(DeductionModel model)
         {
-
             var upt = this._repoDeduction.Find(model.id);
             if (upt.code != model.code)
             {

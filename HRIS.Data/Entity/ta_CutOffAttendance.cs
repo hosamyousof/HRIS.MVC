@@ -14,7 +14,7 @@ namespace HRIS.Data.Entity
         public string remarks { get; set; }
         public int updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
-        public int changeStatusBy { get; set; }
+        public int changeStatusById { get; set; }
         public DateTime changeStatusDate { get; set; }
 
         public virtual ICollection<pr_Payroll> pr_Payrolls { get; set; }

@@ -11,6 +11,7 @@ namespace HRIS.Model.Attendance
 {
     public class CutOffAttendanceSummaryDetailModel : ModelAuditInfo
     {
+
         [PrimaryKey]
         public int id { get; set; }
 

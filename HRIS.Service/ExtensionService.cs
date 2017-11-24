@@ -1,10 +1,9 @@
-﻿using Repository;
+﻿using HRIS.Data.Entity;
+using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace HRIS.Service
 {
@@ -47,5 +46,30 @@ namespace HRIS.Service
             ue.SetValue(destination, userId);
             return ue;
         }
+
+        public static IQueryable<QueryJoinedSysUser<TSource>> JoinSystemUser<TSource>(this IQueryable<TSource> query, Expression<Func<TSource, int>> outerSourceKeySelector)
+        {
+            var _repoUser = DependencyResolver.Current.GetService<IRepository<sys_User>>();
+            return query
+                .Join(_repoUser.QueryGet(), outerSourceKeySelector, u => u.id, (us, u) => new QueryJoinedSysUser<TSource>() { Source = us, User = u });
+        }
+
+        public static IQueryable<TResult> JoinSystemUser<TSource, TResult>(this IQueryable<TSource> query
+            , Expression<Func<TSource, int>> outerSourceKeySelector
+            , Expression<Func<TSource, sys_User, TResult>> resultSelector)
+        {
+            var _repoUser = DependencyResolver.Current.GetService<IRepository<sys_User>>();
+            return query
+                .Join(_repoUser.QueryGet(), outerSourceKeySelector, u => u.id, resultSelector);
+        }
+
+        public static IQueryable<QueryGroupJoinedSelectManySysUser<TSource>> LeftJoinSystemUser<TSource>(this IQueryable<TSource> query, Expression<Func<TSource, int?>> outerSourceKeySelector)
+        {
+            var _repoUser = DependencyResolver.Current.GetService<IRepository<sys_User>>();
+            return query
+                .GroupJoin(_repoUser.QueryGet(), outerSourceKeySelector, u => u.id, (groupCurrentUser, u) => new QueryGroupJoinedSysUser<TSource> { GroupSource = groupCurrentUser, Users = u })
+                .SelectMany(x => x.Users.DefaultIfEmpty(), (currentUser, user) => new QueryGroupJoinedSelectManySysUser<TSource> { Source = currentUser, User = user });
+        }
+
     }
 }

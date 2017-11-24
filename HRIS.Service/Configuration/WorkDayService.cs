@@ -1,14 +1,10 @@
-﻿using HRIS.Data;
-using HRIS.Data.Entity;
+﻿using HRIS.Data.Entity;
 using HRIS.Model;
 using HRIS.Model.Configuration;
 using HRIS.Service.Sys;
 using Repository;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HRIS.Service.Configuration
 {
@@ -16,12 +12,15 @@ namespace HRIS.Service.Configuration
     {
         private readonly IEnumReferenceService _enumReferenceService;
         private readonly IRepository<mf_WorkDay> _repoWorkDay;
+        private readonly IRepository<sys_User> _repoUser;
         private readonly IUnitOfWork _unitOfWork;
 
         public WorkDayService(IUnitOfWork unitOfWork
             , IEnumReferenceService enumReferenceService
+            , IRepository<sys_User> repoUser
             , IRepository<mf_WorkDay> repoWorkDay)
         {
+            this._repoUser = repoUser;
             this._unitOfWork = unitOfWork;
             this._enumReferenceService = enumReferenceService;
             this._repoWorkDay = repoWorkDay;
@@ -52,7 +51,7 @@ namespace HRIS.Service.Configuration
                 .SetValue(x => x.deleted, true)
                 .SetCurrentUserTo(x => x.updatedBy)
                 .SetCurrentDateTo(x => x.updatedDate);
-               //.Update(); - Deleted by Sem Villar 10/12/2016 - Causes error in updating data due to required fields;    
+            //.Update(); - Deleted by Sem Villar 10/12/2016 - Causes error in updating data due to required fields;
             this._repoWorkDay.Update(data);
             this._unitOfWork.Save();
         }
@@ -64,9 +63,10 @@ namespace HRIS.Service.Configuration
 
         public IQueryable<WorkDayModel> GetQuery()
         {
-            var data = from wd in this._repoWorkDay.Query().FilterCurrentCompany().Get()
-                       join h1 in this._enumReferenceService.GetQuery(ReferenceList.HOUR) on wd.fromTimeHour equals h1.value
-                       join h2 in this._enumReferenceService.GetQuery(ReferenceList.HOUR) on wd.toTimeHour equals h2.value
+            var data = from wd in _repoWorkDay.Query().FilterCurrentCompany().Get()
+                       join h1 in _enumReferenceService.GetQuery(ReferenceList.HOUR) on wd.fromTimeHour equals h1.value
+                       join h2 in _enumReferenceService.GetQuery(ReferenceList.HOUR) on wd.toTimeHour equals h2.value
+                       join u in _repoUser.QueryGet() on wd.updatedBy equals u.id
                        select new WorkDayModel()
                        {
                            id = wd.id,
@@ -84,9 +84,8 @@ namespace HRIS.Service.Configuration
                            ToTimeHour = h2,
                            toTimeMinute = wd.toTimeMinute,
                            breakHours = wd.breakHours,
-                           updatedBy = wd.sys_User.username,
+                           updatedBy = u.username,
                            updatedDate = wd.updatedDate,
-                            
                        };
 
             return data;
@@ -114,7 +113,7 @@ namespace HRIS.Service.Configuration
             upt.sunday = model.sunday;
             upt.fromTimeHour = model.FromTimeHour.value;
             upt.fromTimeMinute = model.fromTimeMinute;
-            
+
             upt.toTimeHour = model.ToTimeHour.value;
             upt.toTimeMinute = model.toTimeMinute;
 
