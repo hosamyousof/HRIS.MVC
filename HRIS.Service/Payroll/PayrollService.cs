@@ -1,4 +1,5 @@
 ﻿using HRIS.Data;
+using HRIS.Data.Entity;
 using HRIS.Model;
 using HRIS.Model.Payroll;
 using HRIS.Service.Sys;

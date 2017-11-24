@@ -1,4 +1,5 @@
 ﻿using HRIS.Data;
+using HRIS.Data.Entity;
 using HRIS.Model.LeaveMgmt;
 using Repository;
 using System.Linq;

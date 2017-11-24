@@ -2,7 +2,7 @@ using Repository;
 using System;
 using System.Collections.Generic;
 
-namespace HRIS.Data
+namespace HRIS.Data.Entity
 {
     public partial class sys_Menu : EntityBase
     {

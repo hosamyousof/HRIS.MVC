@@ -1,7 +1,7 @@
 using Repository;
 using System.Collections.Generic;
 
-namespace HRIS.Data
+namespace HRIS.Data.Entity
 {
     public partial class sys_Setting : EntityBase
     {

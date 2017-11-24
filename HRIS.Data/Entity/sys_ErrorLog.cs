@@ -1,7 +1,7 @@
 using Repository;
 using System;
 
-namespace HRIS.Data
+namespace HRIS.Data.Entity
 {
     public partial class sys_ErrorLog : EntityBase
     {

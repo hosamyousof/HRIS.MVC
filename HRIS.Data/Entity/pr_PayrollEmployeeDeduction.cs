@@ -1,6 +1,6 @@
 using Repository;
 
-namespace HRIS.Data
+namespace HRIS.Data.Entity
 {
     public partial class pr_PayrollEmployeeDeduction : EntityBase
     {

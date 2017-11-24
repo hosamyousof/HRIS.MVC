@@ -1,4 +1,5 @@
 ﻿using HRIS.Data;
+using HRIS.Data.Entity;
 using HRIS.Model.Sys;
 using HRIS.Service.Sys;
 using Repository;

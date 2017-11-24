@@ -2,6 +2,7 @@
 using HRIS.Model.Sys;
 using HRIS.Model;
 using HRIS.Data;
+using HRIS.Data.Entity;
 
 namespace HRIS.Service.Sys
 {

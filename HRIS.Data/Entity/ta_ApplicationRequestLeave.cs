@@ -1,7 +1,7 @@
 using Repository;
 using System;
 
-namespace HRIS.Data
+namespace HRIS.Data.Entity
 {
     public partial class ta_ApplicationRequestLeave : EntityBase
     {

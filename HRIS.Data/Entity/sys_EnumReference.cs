@@ -1,6 +1,6 @@
 using Repository;
 
-namespace HRIS.Data
+namespace HRIS.Data.Entity
 {
     public partial class sys_EnumReference : EntityBaseCompany
     {

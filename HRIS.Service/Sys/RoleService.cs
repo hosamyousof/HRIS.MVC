@@ -1,5 +1,6 @@
 ﻿using Common;
 using HRIS.Data;
+using HRIS.Data.Entity;
 using HRIS.Model;
 using HRIS.Model.Sys;
 using Repository;

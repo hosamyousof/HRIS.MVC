@@ -49,12 +49,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -91,7 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Context\HRISContext.cs" />
+    <Compile Include="HRISContext.cs" />
     <Compile Include="Entity\mf_Agency.cs" />
     <Compile Include="Entity\mf_Allowance.cs" />
     <Compile Include="Entity\mf_ApplicationRequestType.cs" />
@@ -150,65 +148,64 @@
     <Compile Include="Entity\ta_CutOffAttendanceSummary.cs" />
     <Compile Include="Entity\ta_CutOffAttendanceSummaryDetail.cs" />
     <Compile Include="Entity\ta_EmployeeAttendance.cs" />
-    <Compile Include="MappingConfiguration\mf_AgencyConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_AllowanceConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_ApplicationRequestTypeConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_CountryConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_DeductionConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_DepartmentConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_DepartmentSectionConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_DepartmentSectionRequestApproverConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_Employee201Configuration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeAddressConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeAllowanceConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeBalanceLeaveConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeBasicPayConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeDeductionConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeEducationConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeIdentificationDocumentConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeOffenseConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeSkillConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeTrainingConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeWorkDayConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmployeeWorkHistoryConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmploymentStatuConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_EmploymentTypeConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_HolidayConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_HolidayTypeConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_OffenseConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_PayrollGroupConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_PenaltyTypeConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_PositionConfiguration.cs" />
-    <Compile Include="MappingConfiguration\mf_WorkDayConfiguration.cs" />
-    <Compile Include="MappingConfiguration\pr_PayrollConfiguration.cs" />
-    <Compile Include="MappingConfiguration\pr_PayrollEmployeeConfiguration.cs" />
-    <Compile Include="MappingConfiguration\pr_PayrollEmployeeDeductionConfiguration.cs" />
-    <Compile Include="MappingConfiguration\pr_PayrollEmployeeEarningConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_CompanyConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_CompanySettingConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_EnumReferenceConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_ErrorLogConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_IdentificationDocumentConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_LocationConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_MenuConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_PermissionConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_RoleConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_RoleMenuConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_RolePermissionConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_SettingConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_UserConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_UserRoleConfiguration.cs" />
-    <Compile Include="MappingConfiguration\sys_UserSessionConfiguration.cs" />
-    <Compile Include="MappingConfiguration\ta_ApplicationRequestApproverConfiguration.cs" />
-    <Compile Include="MappingConfiguration\ta_ApplicationRequestConfiguration.cs" />
-    <Compile Include="MappingConfiguration\ta_ApplicationRequestGatePassConfiguration.cs" />
-    <Compile Include="MappingConfiguration\ta_ApplicationRequestLeaveConfiguration.cs" />
-    <Compile Include="MappingConfiguration\ta_CutOffAttendanceConfiguration.cs" />
-    <Compile Include="MappingConfiguration\ta_CutOffAttendanceSummaryConfiguration.cs" />
-    <Compile Include="MappingConfiguration\ta_CutOffAttendanceSummaryDetailConfiguration.cs" />
-    <Compile Include="MappingConfiguration\ta_EmployeeAttendanceConfiguration.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Mapping\mf_AgencyConfiguration.cs" />
+    <Compile Include="Mapping\mf_AllowanceConfiguration.cs" />
+    <Compile Include="Mapping\mf_ApplicationRequestTypeConfiguration.cs" />
+    <Compile Include="Mapping\mf_CountryConfiguration.cs" />
+    <Compile Include="Mapping\mf_DeductionConfiguration.cs" />
+    <Compile Include="Mapping\mf_DepartmentConfiguration.cs" />
+    <Compile Include="Mapping\mf_DepartmentSectionConfiguration.cs" />
+    <Compile Include="Mapping\mf_DepartmentSectionRequestApproverConfiguration.cs" />
+    <Compile Include="Mapping\mf_Employee201Configuration.cs" />
+    <Compile Include="Mapping\mf_EmployeeAddressConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeAllowanceConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeBalanceLeaveConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeBasicPayConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeDeductionConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeEducationConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeIdentificationDocumentConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeOffenseConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeSkillConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeTrainingConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeWorkDayConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmployeeWorkHistoryConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmploymentStatuConfiguration.cs" />
+    <Compile Include="Mapping\mf_EmploymentTypeConfiguration.cs" />
+    <Compile Include="Mapping\mf_HolidayConfiguration.cs" />
+    <Compile Include="Mapping\mf_HolidayTypeConfiguration.cs" />
+    <Compile Include="Mapping\mf_OffenseConfiguration.cs" />
+    <Compile Include="Mapping\mf_PayrollGroupConfiguration.cs" />
+    <Compile Include="Mapping\mf_PenaltyTypeConfiguration.cs" />
+    <Compile Include="Mapping\mf_PositionConfiguration.cs" />
+    <Compile Include="Mapping\mf_WorkDayConfiguration.cs" />
+    <Compile Include="Mapping\pr_PayrollConfiguration.cs" />
+    <Compile Include="Mapping\pr_PayrollEmployeeConfiguration.cs" />
+    <Compile Include="Mapping\pr_PayrollEmployeeDeductionConfiguration.cs" />
+    <Compile Include="Mapping\pr_PayrollEmployeeEarningConfiguration.cs" />
+    <Compile Include="Mapping\sys_CompanyConfiguration.cs" />
+    <Compile Include="Mapping\sys_CompanySettingConfiguration.cs" />
+    <Compile Include="Mapping\sys_EnumReferenceConfiguration.cs" />
+    <Compile Include="Mapping\sys_ErrorLogConfiguration.cs" />
+    <Compile Include="Mapping\sys_IdentificationDocumentConfiguration.cs" />
+    <Compile Include="Mapping\sys_LocationConfiguration.cs" />
+    <Compile Include="Mapping\sys_MenuConfiguration.cs" />
+    <Compile Include="Mapping\sys_PermissionConfiguration.cs" />
+    <Compile Include="Mapping\sys_RoleConfiguration.cs" />
+    <Compile Include="Mapping\sys_RoleMenuConfiguration.cs" />
+    <Compile Include="Mapping\sys_RolePermissionConfiguration.cs" />
+    <Compile Include="Mapping\sys_SettingConfiguration.cs" />
+    <Compile Include="Mapping\sys_UserConfiguration.cs" />
+    <Compile Include="Mapping\sys_UserRoleConfiguration.cs" />
+    <Compile Include="Mapping\sys_UserSessionConfiguration.cs" />
+    <Compile Include="Mapping\ta_ApplicationRequestApproverConfiguration.cs" />
+    <Compile Include="Mapping\ta_ApplicationRequestConfiguration.cs" />
+    <Compile Include="Mapping\ta_ApplicationRequestGatePassConfiguration.cs" />
+    <Compile Include="Mapping\ta_ApplicationRequestLeaveConfiguration.cs" />
+    <Compile Include="Mapping\ta_CutOffAttendanceConfiguration.cs" />
+    <Compile Include="Mapping\ta_CutOffAttendanceSummaryConfiguration.cs" />
+    <Compile Include="Mapping\ta_CutOffAttendanceSummaryDetailConfiguration.cs" />
+    <Compile Include="Mapping\ta_EmployeeAttendanceConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -233,7 +230,9 @@
       <Name>Repository</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Context\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
