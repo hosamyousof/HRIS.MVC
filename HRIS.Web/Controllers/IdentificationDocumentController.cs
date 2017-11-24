@@ -34,9 +34,9 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int IdentificationDocumentId;
-                            this._identificationDocumentService.Create(model, out IdentificationDocumentId);
-                            model.id = IdentificationDocumentId;
+                            Guid identificationDocumentId;
+                            this._identificationDocumentService.Create(model, out identificationDocumentId);
+                            model.id = identificationDocumentId;
                             break;
                         case UpdateType.Update:
                             this._identificationDocumentService.Update(model);

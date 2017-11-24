@@ -26,7 +26,7 @@ namespace HRIS.Service.Configuration
             this._repoWorkDay = repoWorkDay;
         }
 
-        public void Create(WorkDayModel model, out Guid WorkDayId)
+        public void Create(WorkDayModel model, out Guid workDayId)
         {
             if (this._repoWorkDay.Query().FilterCurrentCompany().Filter(x => x.code == model.code).Get().Any())
             {
@@ -40,12 +40,12 @@ namespace HRIS.Service.Configuration
                 .Insert()
                 .GetEntity();
             this._unitOfWork.Save();
-            WorkDayId = ins.id;
+            workDayId = ins.id;
         }
 
-        public void Delete(Guid WorkDayId)
+        public void Delete(Guid workDayId)
         {
-            var data = this._repoWorkDay.Find(WorkDayId);
+            var data = this._repoWorkDay.Find(workDayId);
 
             this._repoWorkDay.PrepareEntity(data)
                 .SetValue(x => x.deleted, true)
@@ -56,9 +56,9 @@ namespace HRIS.Service.Configuration
             this._unitOfWork.Save();
         }
 
-        public WorkDayModel GetById(Guid WorkDayId)
+        public WorkDayModel GetById(Guid workDayId)
         {
-            return this.GetQuery().First(x => x.id == WorkDayId);
+            return this.GetQuery().First(x => x.id == workDayId);
         }
 
         public IQueryable<WorkDayModel> GetQuery()

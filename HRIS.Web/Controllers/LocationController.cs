@@ -34,9 +34,9 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int LocationId;
-                            this._LocationService.Create(model, out LocationId);
-                            model.id = LocationId;
+                            Guid locationId;
+                            this._LocationService.Create(model, out locationId);
+                            model.id = locationId;
                             break;
                         case UpdateType.Update:
                             this._LocationService.Update(model);

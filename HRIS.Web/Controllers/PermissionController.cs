@@ -2,22 +2,17 @@
 using HRIS.Model.Sys;
 using HRIS.Service.Sys;
 using HRIS.Web.Framework;
-using HRIS.Web.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
-
 
 namespace HRIS.Web.Controllers
 {
     public class PermissionController : BaseController
     {
         private readonly IPermissionService _permissionService;
+
         public PermissionController(IPermissionService permissionService)
         {
             this._permissionService = permissionService;
@@ -40,7 +35,8 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            this._permissionService.Create(model, out var userId);
+                            Guid userId;
+                            this._permissionService.Create(model, out userId);
                             model.id = userId;
                             break;
                         case UpdateType.Update:

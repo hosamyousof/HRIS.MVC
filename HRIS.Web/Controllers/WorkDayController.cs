@@ -54,7 +54,8 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            _workDayService.Create(model, out Guid workDayId);
+                            Guid workDayId;
+                            _workDayService.Create(model, out workDayId);
                             model.id = workDayId;
                             break;
                         case UpdateType.Update:

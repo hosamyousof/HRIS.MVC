@@ -1,17 +1,12 @@
-﻿using HRIS.Model;
-using HRIS.Model.Configuration;
-using HRIS.Model.MasterFile;
+﻿using Common;
+using HRIS.Model;
 using HRIS.Model.Sys;
-using HRIS.Service.Configuration;
-using HRIS.Service.MasterFile;
 using HRIS.Service.Sys;
 using HRIS.Web.Framework;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HRIS.Web.Controllers
@@ -27,7 +22,6 @@ namespace HRIS.Web.Controllers
 
         public ActionResult Index()
         {
-            
             return View();
         }
 
@@ -49,7 +43,7 @@ namespace HRIS.Web.Controllers
         public ActionResult GetReferenceModelList([DataSourceRequest] DataSourceRequest request)
         {
             var data = this._menuService.GetQuery()
-                .Select(x => new ReferenceModel()
+                .Select(x => new DataReference()
                 {
                     value = x.id.Value,
                     description = x.description,
@@ -69,19 +63,16 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            int menuId;
+                            Guid menuId;
                             this._menuService.Create(model, out menuId);
                             model.id = menuId;
                             break;
-
                         case UpdateType.Update:
                             this._menuService.Update(model);
                             break;
-
                         case UpdateType.Destroy:
                             this._menuService.Delete(model.id.Value);
                             break;
-
                         default:
                             break;
                     }

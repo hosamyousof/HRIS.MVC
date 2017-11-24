@@ -1,15 +1,10 @@
 ﻿using HRIS.Model;
 using HRIS.Model.Configuration;
-using HRIS.Model.MasterFile;
 using HRIS.Service.Configuration;
-using HRIS.Service.MasterFile;
 using HRIS.Web.Framework;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace HRIS.Web.Controllers
@@ -46,7 +41,8 @@ namespace HRIS.Web.Controllers
                     switch (updateType)
                     {
                         case UpdateType.Create:
-                            this._HolidayService.Create(model, out var holidayId);
+                            Guid holidayId;
+                            this._HolidayService.Create(model, out holidayId);
                             model.id = holidayId;
                             break;
                         case UpdateType.Update:

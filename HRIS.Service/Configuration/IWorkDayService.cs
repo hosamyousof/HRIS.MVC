@@ -6,9 +6,9 @@ namespace HRIS.Service.Configuration
 {
     public interface IWorkDayService
     {
-        void Create(WorkDayModel model, out Guid WorkDayId);
-        void Delete(Guid WorkDayId);
-        WorkDayModel GetById(Guid WorkDayId);
+        void Create(WorkDayModel model, out Guid workDayId);
+        void Delete(Guid workDayId);
+        WorkDayModel GetById(Guid workDayId);
         IQueryable<WorkDayModel> GetQuery();
         void Update(WorkDayModel model);
     }
