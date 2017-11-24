@@ -4,7 +4,7 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 
 namespace HRIS.Data.Mapping
 {
-    internal partial class mf_Employee201Configuration : EntityTypeConfiguration<mf_Employee201>
+    internal class mf_Employee201Configuration : EntityTypeConfiguration<mf_Employee201>
     {
         public mf_Employee201Configuration()
             : this("dbo")
@@ -17,11 +17,11 @@ namespace HRIS.Data.Mapping
             HasKey(x => x.id);
 
             Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.employeeCode).HasColumnName("employeeCode").IsRequired().HasColumnType("nvarchar").HasMaxLength(250);
+            Property(x => x.employeeCode).HasColumnName("employeeCode").IsRequired().HasMaxLength(250);
             Property(x => x.departmentId).HasColumnName("departmentId").IsOptional();
             Property(x => x.departmentSectionId).HasColumnName("departmentSectionId").IsOptional();
             Property(x => x.positionId).HasColumnName("positionId").IsOptional();
-            Property(x => x.email).HasColumnName("email").IsOptional().HasColumnType("nvarchar").HasMaxLength(150);
+            Property(x => x.email).HasColumnName("email").IsOptional().HasMaxLength(150);
             Property(x => x.employmentTypeId).HasColumnName("employmentTypeId").IsOptional();
             Property(x => x.employmentStatusId).HasColumnName("employmentStatusId").IsOptional();
             Property(x => x.positionLevel).HasColumnName("positionLevel").IsOptional();
@@ -47,9 +47,7 @@ namespace HRIS.Data.Mapping
             HasOptional(a => a.mf_EmploymentType).WithMany(b => b.mf_Employee201).HasForeignKey(c => c.employmentTypeId);
             HasOptional(a => a.mf_PayrollGroup).WithMany(b => b.mf_Employee201).HasForeignKey(c => c.payrollGroupId);
             HasOptional(a => a.mf_Position).WithMany(b => b.mf_Employee201).HasForeignKey(c => c.positionId);
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.mf_Employee201).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

@@ -3,7 +3,7 @@ using System;
 
 namespace HRIS.Data.Entity
 {
-    public partial class ta_EmployeeAttendance : EntityBase
+    public class ta_EmployeeAttendance : EntityBase
     {
         public Guid employeeId { get; set; }
         public int timeLogType { get; set; }
@@ -16,15 +16,12 @@ namespace HRIS.Data.Entity
 
         public virtual mf_Employee mf_Employee { get; set; }
         public virtual mf_WorkDay mf_WorkDay { get; set; }
-        
+        public virtual sys_User sys_User { get; set; }
 
         public ta_EmployeeAttendance()
         {
             updatedDate = System.DateTime.Now;
             deleted = false;
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_DepartmentSection : EntityBase
+    public class mf_DepartmentSection : EntityBase
     {
         public Guid departmentId { get; set; }
         public string code { get; set; }
@@ -16,6 +16,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_Employee201> mf_Employee201 { get; set; }
 
         public virtual mf_Department mf_Department { get; set; }
+        public virtual sys_User sys_User { get; set; }
 
         public mf_DepartmentSection()
         {
@@ -23,9 +24,6 @@ namespace HRIS.Data.Entity
             deleted = false;
             mf_DepartmentSectionRequestApprovers = new List<mf_DepartmentSectionRequestApprover>();
             mf_Employee201 = new List<mf_Employee201>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

@@ -4,7 +4,7 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 
 namespace HRIS.Data.Mapping
 {
-    internal partial class ta_EmployeeAttendanceConfiguration : EntityTypeConfiguration<ta_EmployeeAttendance>
+    internal class ta_EmployeeAttendanceConfiguration : EntityTypeConfiguration<ta_EmployeeAttendance>
     {
         public ta_EmployeeAttendanceConfiguration()
             : this("dbo")
@@ -22,16 +22,14 @@ namespace HRIS.Data.Mapping
             Property(x => x.workDate).HasColumnName("workDate").IsRequired().HasColumnType("datetime");
             Property(x => x.timeLog).HasColumnName("timeLog").IsRequired().HasColumnType("datetime");
             Property(x => x.workDayId).HasColumnName("workDayId").IsOptional();
-            Property(x => x.remarks).HasColumnName("remarks").IsOptional().HasColumnType("nvarchar");
+            Property(x => x.remarks).HasColumnName("remarks").IsOptional();
             Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasOptional(a => a.mf_WorkDay).WithMany(b => b.ta_EmployeeAttendances).HasForeignKey(c => c.workDayId);
             HasRequired(a => a.mf_Employee).WithMany(b => b.ta_EmployeeAttendances).HasForeignKey(c => c.employeeId);
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.ta_EmployeeAttendances).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

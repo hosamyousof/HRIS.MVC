@@ -1,10 +1,9 @@
-using Repository;
 using System;
 using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_WorkDay : EntityBaseCompany
+    public class mf_WorkDay : EntityBaseCompany
     {
         public string code { get; set; }
         public string description { get; set; }
@@ -27,7 +26,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<ta_EmployeeAttendance> ta_EmployeeAttendances { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }
-        
+        public virtual sys_User sys_User { get; set; }
 
         public mf_WorkDay()
         {
@@ -47,9 +46,6 @@ namespace HRIS.Data.Entity
             deleted = false;
             mf_EmployeeWorkDays = new List<mf_EmployeeWorkDay>();
             ta_EmployeeAttendances = new List<ta_EmployeeAttendance>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

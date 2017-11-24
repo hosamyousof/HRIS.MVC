@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class pr_PayrollEmployee : EntityBase
+    public class pr_PayrollEmployee : EntityBase
     {
         public Guid payrollId { get; set; }
         public Guid employeeId { get; set; }
@@ -30,9 +30,6 @@ namespace HRIS.Data.Entity
             deleted = false;
             pr_PayrollEmployeeDeductions = new List<pr_PayrollEmployeeDeduction>();
             pr_PayrollEmployeeEarnings = new List<pr_PayrollEmployeeEarning>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

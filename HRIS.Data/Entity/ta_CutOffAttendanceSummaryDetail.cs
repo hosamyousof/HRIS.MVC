@@ -3,7 +3,7 @@ using System;
 
 namespace HRIS.Data.Entity
 {
-    public partial class ta_CutOffAttendanceSummaryDetail : EntityBase
+    public class ta_CutOffAttendanceSummaryDetail : EntityBase
     {
         public Guid cutOffAttendanceSummaryId { get; set; }
         public DateTime workDate { get; set; }
@@ -18,7 +18,7 @@ namespace HRIS.Data.Entity
         public DateTime updatedDate { get; set; }
 
         public virtual mf_HolidayType mf_HolidayType { get; set; }
-        
+        public virtual sys_User sys_User { get; set; }
         public virtual ta_CutOffAttendanceSummary ta_CutOffAttendanceSummary { get; set; }
 
         public ta_CutOffAttendanceSummaryDetail()
@@ -26,9 +26,6 @@ namespace HRIS.Data.Entity
             absent = false;
             updatedDate = System.DateTime.Now;
             deleted = false;
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

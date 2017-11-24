@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class mf_EmployeeBasicPayConfiguration : EntityTypeConfiguration<mf_EmployeeBasicPay>
+    internal class mf_EmployeeBasicPayConfiguration : EntityTypeConfiguration<mf_EmployeeBasicPay>
     {
         public mf_EmployeeBasicPayConfiguration()
             : this("dbo")
@@ -25,9 +24,7 @@ namespace HRIS.Data.Mapping
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeBasicPays).HasForeignKey(c => c.employeeId);
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.mf_EmployeeBasicPays).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class mf_EmployeeDeductionConfiguration : EntityTypeConfiguration<mf_EmployeeDeduction>
+    internal class mf_EmployeeDeductionConfiguration : EntityTypeConfiguration<mf_EmployeeDeduction>
     {
         public mf_EmployeeDeductionConfiguration()
             : this("dbo")
@@ -26,9 +25,7 @@ namespace HRIS.Data.Mapping
 
             HasRequired(a => a.mf_Deduction).WithMany(b => b.mf_EmployeeDeductions).HasForeignKey(c => c.deductionId);
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeDeductions).HasForeignKey(c => c.employeeId);
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.mf_EmployeeDeductions).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

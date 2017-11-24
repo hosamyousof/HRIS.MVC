@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class mf_EmployeeBalanceLeaveConfiguration : EntityTypeConfiguration<mf_EmployeeBalanceLeave>
+    internal class mf_EmployeeBalanceLeaveConfiguration : EntityTypeConfiguration<mf_EmployeeBalanceLeave>
     {
         public mf_EmployeeBalanceLeaveConfiguration()
             : this("dbo")
@@ -26,9 +25,7 @@ namespace HRIS.Data.Mapping
 
             HasRequired(a => a.mf_ApplicationRequestType).WithMany(b => b.mf_EmployeeBalanceLeaves).HasForeignKey(c => c.applicationRequestTypeId);
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeBalanceLeaves).HasForeignKey(c => c.employeeId);
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.mf_EmployeeBalanceLeaves).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

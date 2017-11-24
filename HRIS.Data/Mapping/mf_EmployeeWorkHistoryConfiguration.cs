@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class mf_EmployeeWorkHistoryConfiguration : EntityTypeConfiguration<mf_EmployeeWorkHistory>
+    internal class mf_EmployeeWorkHistoryConfiguration : EntityTypeConfiguration<mf_EmployeeWorkHistory>
     {
         public mf_EmployeeWorkHistoryConfiguration()
             : this("dbo")
@@ -18,8 +17,8 @@ namespace HRIS.Data.Mapping
 
             Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.employeeId).HasColumnName("employeeId").IsRequired();
-            Property(x => x.companyName).HasColumnName("companyName").IsRequired().HasColumnType("nvarchar").HasMaxLength(250);
-            Property(x => x.position).HasColumnName("position").IsOptional().HasColumnType("nvarchar").HasMaxLength(250);
+            Property(x => x.companyName).HasColumnName("companyName").IsRequired().HasMaxLength(250);
+            Property(x => x.position).HasColumnName("position").IsOptional().HasMaxLength(250);
             Property(x => x.joinedMonth).HasColumnName("joinedMonth").IsRequired();
             Property(x => x.joinedYear).HasColumnName("joinedYear").IsRequired();
             Property(x => x.resignedMonth).HasColumnName("resignedMonth").IsOptional();
@@ -30,9 +29,7 @@ namespace HRIS.Data.Mapping
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeWorkHistories).HasForeignKey(c => c.employeeId);
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.mf_EmployeeWorkHistories).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

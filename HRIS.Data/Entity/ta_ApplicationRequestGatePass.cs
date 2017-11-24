@@ -3,7 +3,7 @@ using System;
 
 namespace HRIS.Data.Entity
 {
-    public partial class ta_ApplicationRequestGatePass : EntityBase
+    public class ta_ApplicationRequestGatePass : EntityBase
     {
         public Guid applicationRequestId { get; set; }
         public DateTime startDateTime { get; set; }
@@ -14,9 +14,6 @@ namespace HRIS.Data.Entity
         public ta_ApplicationRequestGatePass()
         {
             deleted = false;
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

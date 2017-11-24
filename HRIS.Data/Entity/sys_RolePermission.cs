@@ -3,7 +3,7 @@ using System;
 
 namespace HRIS.Data.Entity
 {
-    public partial class sys_RolePermission : EntityBase
+    public class sys_RolePermission : EntityBase
     {
         public Guid roleId { get; set; }
         public Guid permissionId { get; set; }
@@ -17,7 +17,7 @@ namespace HRIS.Data.Entity
 
         public virtual sys_Permission sys_Permission { get; set; }
         public virtual sys_Role sys_Role { get; set; }
-        
+        public virtual sys_User sys_User { get; set; }
 
         public sys_RolePermission()
         {
@@ -28,9 +28,6 @@ namespace HRIS.Data.Entity
             printAccess = false;
             updatedDate = System.DateTime.Now;
             deleted = false;
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

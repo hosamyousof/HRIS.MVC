@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_Employee201 : EntityBase
+    public class mf_Employee201 : EntityBase
     {
         public string employeeCode { get; set; }
         public Guid? departmentId { get; set; }
@@ -37,6 +37,7 @@ namespace HRIS.Data.Entity
         public virtual mf_EmploymentType mf_EmploymentType { get; set; }
         public virtual mf_PayrollGroup mf_PayrollGroup { get; set; }
         public virtual mf_Position mf_Position { get; set; }
+        public virtual sys_User sys_User { get; set; }
 
         public mf_Employee201()
         {
@@ -47,9 +48,6 @@ namespace HRIS.Data.Entity
             deleted = false;
             confidential = false;
             mf_Employees = new List<mf_Employee>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

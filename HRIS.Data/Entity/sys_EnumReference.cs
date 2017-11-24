@@ -1,8 +1,6 @@
-using Repository;
-
 namespace HRIS.Data.Entity
 {
-    public partial class sys_EnumReference : EntityBaseCompany
+    public class sys_EnumReference : EntityBaseCompany
     {
         public string name { get; set; }
         public int value { get; set; }
@@ -22,9 +20,6 @@ namespace HRIS.Data.Entity
             displayOrder = 0;
             hidden = false;
             deleted = false;
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

@@ -145,69 +145,6 @@ namespace HRIS.Data
             OnModelCreatingPartial(modelBuilder);
         }
 
-        public static DbModelBuilder CreateModel(DbModelBuilder modelBuilder, string schema)
-        {
-            modelBuilder.Configurations.Add(new mf_AgencyConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_AllowanceConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_ApplicationRequestTypeConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_CountryConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_DeductionConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_DepartmentConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_DepartmentSectionConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_DepartmentSectionRequestApproverConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_Employee201Configuration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeAddressConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeAllowanceConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeBalanceLeaveConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeBasicPayConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeDeductionConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeEducationConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeIdentificationDocumentConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeOffenseConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeSkillConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeTrainingConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeWorkDayConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmployeeWorkHistoryConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmploymentStatuConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_EmploymentTypeConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_HolidayConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_HolidayTypeConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_OffenseConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_PayrollGroupConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_PenaltyTypeConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_PositionConfiguration(schema));
-            modelBuilder.Configurations.Add(new mf_WorkDayConfiguration(schema));
-            modelBuilder.Configurations.Add(new pr_PayrollConfiguration(schema));
-            modelBuilder.Configurations.Add(new pr_PayrollEmployeeConfiguration(schema));
-            modelBuilder.Configurations.Add(new pr_PayrollEmployeeDeductionConfiguration(schema));
-            modelBuilder.Configurations.Add(new pr_PayrollEmployeeEarningConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_CompanyConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_CompanySettingConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_EnumReferenceConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_ErrorLogConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_IdentificationDocumentConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_LocationConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_MenuConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_PermissionConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_RoleConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_RoleMenuConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_RolePermissionConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_SettingConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_UserConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_UserRoleConfiguration(schema));
-            modelBuilder.Configurations.Add(new sys_UserSessionConfiguration(schema));
-            modelBuilder.Configurations.Add(new ta_ApplicationRequestConfiguration(schema));
-            modelBuilder.Configurations.Add(new ta_ApplicationRequestApproverConfiguration(schema));
-            modelBuilder.Configurations.Add(new ta_ApplicationRequestGatePassConfiguration(schema));
-            modelBuilder.Configurations.Add(new ta_ApplicationRequestLeaveConfiguration(schema));
-            modelBuilder.Configurations.Add(new ta_CutOffAttendanceConfiguration(schema));
-            modelBuilder.Configurations.Add(new ta_CutOffAttendanceSummaryConfiguration(schema));
-            modelBuilder.Configurations.Add(new ta_CutOffAttendanceSummaryDetailConfiguration(schema));
-            modelBuilder.Configurations.Add(new ta_EmployeeAttendanceConfiguration(schema));
-            return modelBuilder;
-        }
-
         partial void InitializePartial();
 
         partial void OnModelCreatingPartial(DbModelBuilder modelBuilder);

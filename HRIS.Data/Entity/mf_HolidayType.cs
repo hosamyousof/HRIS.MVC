@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_HolidayType : EntityBase
+    public class mf_HolidayType : EntityBase
     {
         public string code { get; set; }
         public string description { get; set; }
@@ -16,6 +16,8 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_Holiday> mf_Holidays { get; set; }
         public virtual ICollection<ta_CutOffAttendanceSummaryDetail> ta_CutOffAttendanceSummaryDetails { get; set; }
 
+        public virtual sys_User sys_User { get; set; }
+
         public mf_HolidayType()
         {
             rateNotWork = 0;
@@ -24,9 +26,6 @@ namespace HRIS.Data.Entity
             deleted = false;
             mf_Holidays = new List<mf_Holiday>();
             ta_CutOffAttendanceSummaryDetails = new List<ta_CutOffAttendanceSummaryDetail>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

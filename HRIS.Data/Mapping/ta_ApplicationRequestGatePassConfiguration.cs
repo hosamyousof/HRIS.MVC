@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class ta_ApplicationRequestGatePassConfiguration : EntityTypeConfiguration<ta_ApplicationRequestGatePass>
+    internal class ta_ApplicationRequestGatePassConfiguration : EntityTypeConfiguration<ta_ApplicationRequestGatePass>
     {
         public ta_ApplicationRequestGatePassConfiguration()
             : this("dbo")
@@ -23,9 +22,6 @@ namespace HRIS.Data.Mapping
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.ta_ApplicationRequest).WithMany(b => b.ta_ApplicationRequestGatePasses).HasForeignKey(c => c.applicationRequestId);
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

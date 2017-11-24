@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_ApplicationRequestType : EntityBase
+    public class mf_ApplicationRequestType : EntityBase
     {
         public string code { get; set; }
         public string description { get; set; }
@@ -16,6 +16,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_EmployeeBalanceLeave> mf_EmployeeBalanceLeaves { get; set; }
         public virtual ICollection<ta_ApplicationRequest> ta_ApplicationRequests { get; set; }
 
+        public virtual sys_User sys_User { get; set; }
 
         public mf_ApplicationRequestType()
         {
@@ -25,9 +26,6 @@ namespace HRIS.Data.Entity
             mf_DepartmentSectionRequestApprovers = new List<mf_DepartmentSectionRequestApprover>();
             mf_EmployeeBalanceLeaves = new List<mf_EmployeeBalanceLeave>();
             ta_ApplicationRequests = new List<ta_ApplicationRequest>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

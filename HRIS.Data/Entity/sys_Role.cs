@@ -1,10 +1,9 @@
-using Repository;
 using System;
 using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class sys_Role : EntityBaseCompany
+    public class sys_Role : EntityBaseCompany
     {
         public string code { get; set; }
         public string description { get; set; }
@@ -16,7 +15,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<sys_UserRole> sys_UserRoles { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }
-        
+        public virtual sys_User sys_User { get; set; }
 
         public sys_Role()
         {
@@ -25,9 +24,6 @@ namespace HRIS.Data.Entity
             sys_RoleMenus = new List<sys_RoleMenu>();
             sys_RolePermissions = new List<sys_RolePermission>();
             sys_UserRoles = new List<sys_UserRole>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

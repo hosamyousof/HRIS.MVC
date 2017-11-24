@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class mf_DepartmentSectionRequestApproverConfiguration : EntityTypeConfiguration<mf_DepartmentSectionRequestApprover>
+    internal class mf_DepartmentSectionRequestApproverConfiguration : EntityTypeConfiguration<mf_DepartmentSectionRequestApprover>
     {
         public mf_DepartmentSectionRequestApproverConfiguration()
             : this("dbo")
@@ -27,9 +26,8 @@ namespace HRIS.Data.Mapping
 
             HasRequired(a => a.mf_ApplicationRequestType).WithMany(b => b.mf_DepartmentSectionRequestApprovers).HasForeignKey(c => c.applicationRequestTypeId);
             HasRequired(a => a.mf_DepartmentSection).WithMany(b => b.mf_DepartmentSectionRequestApprovers).HasForeignKey(c => c.departmentSectionId);
-            InitializePartial();
+            HasRequired(a => a.sys_User_approverId).WithMany(b => b.mf_DepartmentSectionRequestApprovers_approverId).HasForeignKey(c => c.approverId);
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.mf_DepartmentSectionRequestApprovers_updatedBy).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

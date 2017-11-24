@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class ta_CutOffAttendanceSummaryConfiguration : EntityTypeConfiguration<ta_CutOffAttendanceSummary>
+    internal class ta_CutOffAttendanceSummaryConfiguration : EntityTypeConfiguration<ta_CutOffAttendanceSummary>
     {
         public ta_CutOffAttendanceSummaryConfiguration()
             : this("dbo")
@@ -24,10 +23,8 @@ namespace HRIS.Data.Mapping
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.mf_Employee).WithMany(b => b.ta_CutOffAttendanceSummaries).HasForeignKey(c => c.employeeId);
+            HasRequired(a => a.sys_User).WithMany(b => b.ta_CutOffAttendanceSummaries).HasForeignKey(c => c.updatedBy);
             HasRequired(a => a.ta_CutOffAttendance).WithMany(b => b.ta_CutOffAttendanceSummaries).HasForeignKey(c => c.cutOffAttendanceId);
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

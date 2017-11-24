@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class mf_EmployeeWorkDayConfiguration : EntityTypeConfiguration<mf_EmployeeWorkDay>
+    internal class mf_EmployeeWorkDayConfiguration : EntityTypeConfiguration<mf_EmployeeWorkDay>
     {
         public mf_EmployeeWorkDayConfiguration()
             : this("dbo")
@@ -25,9 +24,7 @@ namespace HRIS.Data.Mapping
 
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeWorkDays).HasForeignKey(c => c.employeeId);
             HasRequired(a => a.mf_WorkDay).WithMany(b => b.mf_EmployeeWorkDays).HasForeignKey(c => c.workDayId);
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.mf_EmployeeWorkDays).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

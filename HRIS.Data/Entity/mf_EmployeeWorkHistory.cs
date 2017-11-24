@@ -3,7 +3,7 @@ using System;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_EmployeeWorkHistory : EntityBase
+    public class mf_EmployeeWorkHistory : EntityBase
     {
         public Guid employeeId { get; set; }
         public string companyName { get; set; }
@@ -17,15 +17,12 @@ namespace HRIS.Data.Entity
         public DateTime updatedDate { get; set; }
 
         public virtual mf_Employee mf_Employee { get; set; }
-        
+        public virtual sys_User sys_User { get; set; }
 
         public mf_EmployeeWorkHistory()
         {
             updatedDate = System.DateTime.Now;
             deleted = false;
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

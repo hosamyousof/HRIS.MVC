@@ -1,10 +1,9 @@
-using Repository;
 using System;
 using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_Deduction : EntityBaseCompany
+    public class mf_Deduction : EntityBaseCompany
     {
         public string code { get; set; }
         public string description { get; set; }
@@ -15,6 +14,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<pr_PayrollEmployeeDeduction> pr_PayrollEmployeeDeductions { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }
+        public virtual sys_User sys_User { get; set; }
 
         public mf_Deduction()
         {
@@ -22,9 +22,6 @@ namespace HRIS.Data.Entity
             deleted = false;
             mf_EmployeeDeductions = new List<mf_EmployeeDeduction>();
             pr_PayrollEmployeeDeductions = new List<pr_PayrollEmployeeDeduction>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class sys_Menu : EntityBase
+    public class sys_Menu : EntityBase
     {
         public string description { get; set; }
         public string controllerName { get; set; }
@@ -16,16 +16,13 @@ namespace HRIS.Data.Entity
 
         public virtual ICollection<sys_RoleMenu> sys_RoleMenus { get; set; }
 
-        
+        public virtual sys_User sys_User { get; set; }
 
         public sys_Menu()
         {
             updatedDate = System.DateTime.Now;
             deleted = false;
             sys_RoleMenus = new List<sys_RoleMenu>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

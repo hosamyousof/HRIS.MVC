@@ -4,7 +4,7 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 
 namespace HRIS.Data.Mapping
 {
-    internal partial class mf_AgencyConfiguration : EntityTypeConfiguration<mf_Agency>
+    internal class mf_AgencyConfiguration : EntityTypeConfiguration<mf_Agency>
     {
         public mf_AgencyConfiguration()
             : this("dbo")
@@ -15,19 +15,17 @@ namespace HRIS.Data.Mapping
         {
             ToTable(schema + ".mf_Agency");
             HasKey(x => x.id);
-            
+
             Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.companyId).HasColumnName("companyId").IsRequired();
-            Property(x => x.code).HasColumnName("code").IsRequired().HasColumnType("nvarchar").HasMaxLength(50);
-            Property(x => x.description).HasColumnName("description").IsRequired().HasColumnType("nvarchar").HasMaxLength(250);
+            Property(x => x.code).HasColumnName("code").IsRequired().HasMaxLength(50);
+            Property(x => x.description).HasColumnName("description").IsRequired().HasMaxLength(250);
             Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.sys_Company).WithMany(b => b.mf_Agencies).HasForeignKey(c => c.companyId);
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.mf_Agencies).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

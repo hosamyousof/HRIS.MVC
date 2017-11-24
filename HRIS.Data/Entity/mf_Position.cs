@@ -1,10 +1,9 @@
-using Repository;
 using System;
 using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_Position : EntityBaseCompany
+    public class mf_Position : EntityBaseCompany
     {
         public string code { get; set; }
         public string description { get; set; }
@@ -14,16 +13,13 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_Employee201> mf_Employee201 { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }
-        
+        public virtual sys_User sys_User { get; set; }
 
         public mf_Position()
         {
             updatedDate = System.DateTime.Now;
             deleted = false;
             mf_Employee201 = new List<mf_Employee201>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

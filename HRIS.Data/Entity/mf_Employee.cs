@@ -1,10 +1,9 @@
-using Repository;
 using System;
 using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_Employee : EntityBaseCompany
+    public class mf_Employee : EntityBaseCompany
     {
         public string firstName { get; set; }
         public string lastName { get; set; }
@@ -21,7 +20,6 @@ namespace HRIS.Data.Entity
         public Guid? employeeAddressId { get; set; }
         public Guid? employee201Id { get; set; }
         public string pictureExtension { get; set; }
-        public Guid? userId { get; set; }
 
         public virtual ICollection<mf_EmployeeAllowance> mf_EmployeeAllowances { get; set; }
         public virtual ICollection<mf_EmployeeBalanceLeave> mf_EmployeeBalanceLeaves { get; set; }
@@ -35,13 +33,14 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_EmployeeWorkDay> mf_EmployeeWorkDays { get; set; }
         public virtual ICollection<mf_EmployeeWorkHistory> mf_EmployeeWorkHistories { get; set; }
         public virtual ICollection<pr_PayrollEmployee> pr_PayrollEmployees { get; set; }
-
+        public virtual ICollection<sys_User> sys_Users { get; set; }
         public virtual ICollection<ta_CutOffAttendanceSummary> ta_CutOffAttendanceSummaries { get; set; }
         public virtual ICollection<ta_EmployeeAttendance> ta_EmployeeAttendances { get; set; }
 
         public virtual mf_Employee201 mf_Employee201 { get; set; }
         public virtual mf_EmployeeAddress mf_EmployeeAddress { get; set; }
         public virtual sys_Company sys_Company { get; set; }
+        public virtual sys_User sys_User { get; set; }
 
         public mf_Employee()
         {
@@ -59,11 +58,9 @@ namespace HRIS.Data.Entity
             mf_EmployeeWorkDays = new List<mf_EmployeeWorkDay>();
             mf_EmployeeWorkHistories = new List<mf_EmployeeWorkHistory>();
             pr_PayrollEmployees = new List<pr_PayrollEmployee>();
+            sys_Users = new List<sys_User>();
             ta_CutOffAttendanceSummaries = new List<ta_CutOffAttendanceSummary>();
             ta_EmployeeAttendances = new List<ta_EmployeeAttendance>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

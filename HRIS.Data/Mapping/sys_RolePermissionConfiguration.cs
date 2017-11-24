@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class sys_RolePermissionConfiguration : EntityTypeConfiguration<sys_RolePermission>
+    internal class sys_RolePermissionConfiguration : EntityTypeConfiguration<sys_RolePermission>
     {
         public sys_RolePermissionConfiguration()
             : this("dbo")
@@ -30,9 +29,7 @@ namespace HRIS.Data.Mapping
 
             HasRequired(a => a.sys_Permission).WithMany(b => b.sys_RolePermissions).HasForeignKey(c => c.permissionId);
             HasRequired(a => a.sys_Role).WithMany(b => b.sys_RolePermissions).HasForeignKey(c => c.roleId);
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.sys_RolePermissions).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

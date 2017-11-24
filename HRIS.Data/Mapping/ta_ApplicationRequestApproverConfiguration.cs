@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class ta_ApplicationRequestApproverConfiguration : EntityTypeConfiguration<ta_ApplicationRequestApprover>
+    internal class ta_ApplicationRequestApproverConfiguration : EntityTypeConfiguration<ta_ApplicationRequestApprover>
     {
         public ta_ApplicationRequestApproverConfiguration()
             : this("dbo")
@@ -24,10 +23,9 @@ namespace HRIS.Data.Mapping
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
+            HasRequired(a => a.sys_User_approverId).WithMany(b => b.ta_ApplicationRequestApprovers_approverId).HasForeignKey(c => c.approverId);
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.ta_ApplicationRequestApprovers_updatedBy).HasForeignKey(c => c.updatedBy);
             HasRequired(a => a.ta_ApplicationRequest).WithMany(b => b.ta_ApplicationRequestApprovers).HasForeignKey(c => c.applicationRequestId);
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

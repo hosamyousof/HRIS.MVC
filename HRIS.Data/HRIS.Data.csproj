@@ -89,6 +89,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityBaseCompany.cs" />
     <Compile Include="HRISContext.cs" />
     <Compile Include="Entity\mf_Agency.cs" />
     <Compile Include="Entity\mf_Allowance.cs" />
@@ -206,9 +207,9 @@
     <Compile Include="Mapping\ta_CutOffAttendanceSummaryConfiguration.cs" />
     <Compile Include="Mapping\ta_CutOffAttendanceSummaryDetailConfiguration.cs" />
     <Compile Include="Mapping\ta_EmployeeAttendanceConfiguration.cs" />
-    <Compile Include="Migrations\201711241517055_initial.cs" />
-    <Compile Include="Migrations\201711241517055_initial.Designer.cs">
-      <DependentUpon>201711241517055_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201711241659409_initial.cs" />
+    <Compile Include="Migrations\201711241659409_initial.Designer.cs">
+      <DependentUpon>201711241659409_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -231,8 +232,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711241517055_initial.resx">
-      <DependentUpon>201711241517055_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711241659409_initial.resx">
+      <DependentUpon>201711241659409_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

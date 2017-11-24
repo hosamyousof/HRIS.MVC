@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class mf_EmployeeOffenseConfiguration : EntityTypeConfiguration<mf_EmployeeOffense>
+    internal class mf_EmployeeOffenseConfiguration : EntityTypeConfiguration<mf_EmployeeOffense>
     {
         public mf_EmployeeOffenseConfiguration()
             : this("dbo")
@@ -26,7 +25,7 @@ namespace HRIS.Data.Mapping
             Property(x => x.degree).HasColumnName("degree").IsRequired();
             Property(x => x.startDate).HasColumnName("startDate").IsOptional().HasColumnType("datetime");
             Property(x => x.endDate).HasColumnName("endDate").IsOptional().HasColumnType("datetime");
-            Property(x => x.remarks).HasColumnName("remarks").IsRequired().HasColumnType("nvarchar");
+            Property(x => x.remarks).HasColumnName("remarks").IsRequired();
             Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
@@ -34,9 +33,7 @@ namespace HRIS.Data.Mapping
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeOffenses).HasForeignKey(c => c.employeeId);
             HasRequired(a => a.mf_Offense).WithMany(b => b.mf_EmployeeOffenses).HasForeignKey(c => c.offenseId);
             HasRequired(a => a.mf_PenaltyType).WithMany(b => b.mf_EmployeeOffenses).HasForeignKey(c => c.penaltyTypeId);
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.mf_EmployeeOffenses).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

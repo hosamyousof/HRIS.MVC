@@ -4,7 +4,7 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 
 namespace HRIS.Data.Mapping
 {
-    internal partial class pr_PayrollEmployeeConfiguration : EntityTypeConfiguration<pr_PayrollEmployee>
+    internal class pr_PayrollEmployeeConfiguration : EntityTypeConfiguration<pr_PayrollEmployee>
     {
         public pr_PayrollEmployeeConfiguration()
             : this("dbo")
@@ -32,9 +32,6 @@ namespace HRIS.Data.Mapping
 
             HasRequired(a => a.mf_Employee).WithMany(b => b.pr_PayrollEmployees).HasForeignKey(c => c.employeeId);
             HasRequired(a => a.pr_Payroll).WithMany(b => b.pr_PayrollEmployees).HasForeignKey(c => c.payrollId);
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

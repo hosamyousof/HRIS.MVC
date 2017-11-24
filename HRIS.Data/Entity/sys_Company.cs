@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class sys_Company : EntityBase
+    public class sys_Company : EntityBase
     {
         public string code { get; set; }
         public string businessName { get; set; }
@@ -41,7 +41,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<ta_CutOffAttendance> ta_CutOffAttendances { get; set; }
 
         public virtual mf_Country mf_Country { get; set; }
-        
+        public virtual sys_User sys_User { get; set; }
 
         public sys_Company()
         {
@@ -65,9 +65,6 @@ namespace HRIS.Data.Entity
             sys_Users = new List<sys_User>();
             sys_UserSessions = new List<sys_UserSession>();
             ta_CutOffAttendances = new List<ta_CutOffAttendance>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

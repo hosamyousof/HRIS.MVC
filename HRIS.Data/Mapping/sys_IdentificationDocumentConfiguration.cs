@@ -1,10 +1,9 @@
-using HRIS.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption;
 
-namespace HRIS.Data.Mapping
+namespace HRIS.Data.Entity
 {
-    internal partial class sys_IdentificationDocumentConfiguration : EntityTypeConfiguration<sys_IdentificationDocument>
+    internal class sys_IdentificationDocumentConfiguration : EntityTypeConfiguration<sys_IdentificationDocument>
     {
         public sys_IdentificationDocumentConfiguration()
             : this("dbo")
@@ -17,15 +16,13 @@ namespace HRIS.Data.Mapping
             HasKey(x => x.id);
 
             Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.code).HasColumnName("code").IsRequired().HasColumnType("nvarchar").HasMaxLength(50);
-            Property(x => x.description).HasColumnName("description").IsRequired().HasColumnType("nvarchar").HasMaxLength(250);
+            Property(x => x.code).HasColumnName("code").IsRequired().HasMaxLength(50);
+            Property(x => x.description).HasColumnName("description").IsRequired().HasMaxLength(250);
             Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
-            InitializePartial();
+            HasRequired(a => a.sys_User).WithMany(b => b.sys_IdentificationDocuments).HasForeignKey(c => c.updatedBy);
         }
-
-        partial void InitializePartial();
     }
 }

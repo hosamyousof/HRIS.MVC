@@ -3,7 +3,7 @@ using System;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_EmployeeIdentificationDocument : EntityBase
+    public class mf_EmployeeIdentificationDocument : EntityBase
     {
         public Guid employeeId { get; set; }
         public Guid identificationDocumentId { get; set; }
@@ -13,15 +13,12 @@ namespace HRIS.Data.Entity
 
         public virtual mf_Employee mf_Employee { get; set; }
         public virtual sys_IdentificationDocument sys_IdentificationDocument { get; set; }
-        
+        public virtual sys_User sys_User { get; set; }
 
         public mf_EmployeeIdentificationDocument()
         {
             updatedDate = System.DateTime.Now;
             deleted = false;
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

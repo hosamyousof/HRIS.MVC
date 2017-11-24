@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class ta_ApplicationRequest : EntityBase
+    public class ta_ApplicationRequest : EntityBase
     {
         public Guid applicationRequestTypeId { get; set; }
         public string note { get; set; }
@@ -20,6 +20,9 @@ namespace HRIS.Data.Entity
         public virtual ICollection<ta_ApplicationRequestLeave> ta_ApplicationRequestLeaves { get; set; }
 
         public virtual mf_ApplicationRequestType mf_ApplicationRequestType { get; set; }
+        public virtual sys_User sys_User_assignTo { get; set; }
+        public virtual sys_User sys_User_requestedBy { get; set; }
+        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public ta_ApplicationRequest()
         {
@@ -29,9 +32,6 @@ namespace HRIS.Data.Entity
             ta_ApplicationRequestApprovers = new List<ta_ApplicationRequestApprover>();
             ta_ApplicationRequestGatePasses = new List<ta_ApplicationRequestGatePass>();
             ta_ApplicationRequestLeaves = new List<ta_ApplicationRequestLeave>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

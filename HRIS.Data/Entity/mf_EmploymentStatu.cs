@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_EmploymentStatu : EntityBase
+    public class mf_EmploymentStatu : EntityBase
     {
         public string code { get; set; }
         public string description { get; set; }
@@ -14,7 +14,7 @@ namespace HRIS.Data.Entity
 
         public virtual ICollection<mf_Employee201> mf_Employee201 { get; set; }
 
-        
+        public virtual sys_User sys_User { get; set; }
 
         public mf_EmploymentStatu()
         {
@@ -22,9 +22,6 @@ namespace HRIS.Data.Entity
             updatedDate = System.DateTime.Now;
             deleted = false;
             mf_Employee201 = new List<mf_Employee201>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

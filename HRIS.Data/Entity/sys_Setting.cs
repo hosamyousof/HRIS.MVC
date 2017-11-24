@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class sys_Setting : EntityBase
+    public class sys_Setting : EntityBase
     {
         public string name { get; set; }
         public string description { get; set; }
@@ -14,9 +14,6 @@ namespace HRIS.Data.Entity
         {
             deleted = false;
             sys_CompanySettings = new List<sys_CompanySetting>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

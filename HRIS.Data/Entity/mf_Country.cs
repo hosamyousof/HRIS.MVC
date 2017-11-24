@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_Country : EntityBase
+    public class mf_Country : EntityBase
     {
         public string code { get; set; }
         public string description { get; set; }
@@ -14,6 +14,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_EmployeeAddress> mf_EmployeeAddresses { get; set; }
         public virtual ICollection<sys_Company> sys_Companies { get; set; }
 
+        public virtual sys_User sys_User { get; set; }
 
         public mf_Country()
         {
@@ -21,9 +22,6 @@ namespace HRIS.Data.Entity
             deleted = false;
             mf_EmployeeAddresses = new List<mf_EmployeeAddress>();
             sys_Companies = new List<sys_Company>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

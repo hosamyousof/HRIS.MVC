@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class sys_RoleMenu : EntityBase
+    public class sys_RoleMenu : EntityBase
     {
         public Guid roleId { get; set; }
         public Guid sourceMenuId { get; set; }
@@ -19,7 +19,7 @@ namespace HRIS.Data.Entity
         public virtual sys_Menu sys_Menu { get; set; }
         public virtual sys_Role sys_Role { get; set; }
         public virtual sys_RoleMenu sys_RoleMenu_parentRoleMenuId { get; set; }
-        
+        public virtual sys_User sys_User { get; set; }
 
         public sys_RoleMenu()
         {
@@ -27,9 +27,6 @@ namespace HRIS.Data.Entity
             updatedDate = System.DateTime.Now;
             deleted = false;
             sys_RoleMenus = new List<sys_RoleMenu>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }

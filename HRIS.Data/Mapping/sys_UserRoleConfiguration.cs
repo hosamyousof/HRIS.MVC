@@ -4,7 +4,7 @@ using DatabaseGeneratedOption = System.ComponentModel.DataAnnotations.Schema.Dat
 
 namespace HRIS.Data.Mapping
 {
-    internal partial class sys_UserRoleConfiguration : EntityTypeConfiguration<sys_UserRole>
+    internal class sys_UserRoleConfiguration : EntityTypeConfiguration<sys_UserRole>
     {
         public sys_UserRoleConfiguration()
             : this("dbo")
@@ -24,9 +24,8 @@ namespace HRIS.Data.Mapping
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.sys_Role).WithMany(b => b.sys_UserRoles).HasForeignKey(c => c.roleId);
-            InitializePartial();
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.sys_UserRoles_updatedBy).HasForeignKey(c => c.updatedBy);
+            HasRequired(a => a.sys_User_userId).WithMany(b => b.sys_UserRoles_userId).HasForeignKey(c => c.userId);
         }
-
-        partial void InitializePartial();
     }
 }

@@ -1,10 +1,9 @@
-using Repository;
 using System;
 using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public partial class mf_Allowance : EntityBaseCompany
+    public class mf_Allowance : EntityBaseCompany
     {
         public string code { get; set; }
         public bool isTaxable { get; set; }
@@ -16,6 +15,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<pr_PayrollEmployeeEarning> pr_PayrollEmployeeEarnings { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }
+        public virtual sys_User sys_User { get; set; }
 
         public mf_Allowance()
         {
@@ -24,9 +24,6 @@ namespace HRIS.Data.Entity
             deleted = false;
             mf_EmployeeAllowances = new List<mf_EmployeeAllowance>();
             pr_PayrollEmployeeEarnings = new List<pr_PayrollEmployeeEarning>();
-            InitializePartial();
         }
-
-        partial void InitializePartial();
     }
 }
