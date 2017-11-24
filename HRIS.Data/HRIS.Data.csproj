@@ -206,9 +206,9 @@
     <Compile Include="Mapping\ta_CutOffAttendanceSummaryConfiguration.cs" />
     <Compile Include="Mapping\ta_CutOffAttendanceSummaryDetailConfiguration.cs" />
     <Compile Include="Mapping\ta_EmployeeAttendanceConfiguration.cs" />
-    <Compile Include="Migrations\201711240522531_initial.cs" />
-    <Compile Include="Migrations\201711240522531_initial.Designer.cs">
-      <DependentUpon>201711240522531_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201711240603490_initial.cs" />
+    <Compile Include="Migrations\201711240603490_initial.Designer.cs">
+      <DependentUpon>201711240603490_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -239,8 +239,8 @@
     <Folder Include="Context\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711240522531_initial.resx">
-      <DependentUpon>201711240522531_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711240603490_initial.resx">
+      <DependentUpon>201711240603490_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -13,7 +13,7 @@ namespace HRIS.Data.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201711240522531_initial"; }
+            get { return "201711240603490_initial"; }
         }
         
         string IMigrationMetadata.Source

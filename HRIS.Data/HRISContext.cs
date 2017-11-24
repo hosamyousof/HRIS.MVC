@@ -1,6 +1,7 @@
 using HRIS.Data.Entity;
 using HRIS.Data.Mapping;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace HRIS.Data
 {
@@ -138,6 +139,8 @@ namespace HRIS.Data
             modelBuilder.Configurations.Add(new ta_CutOffAttendanceSummaryConfiguration());
             modelBuilder.Configurations.Add(new ta_CutOffAttendanceSummaryDetailConfiguration());
             modelBuilder.Configurations.Add(new ta_EmployeeAttendanceConfiguration());
+
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
             OnModelCreatingPartial(modelBuilder);
         }
