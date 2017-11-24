@@ -22,8 +22,6 @@ namespace HRIS.Data.Entity
 
         public virtual mf_PayrollGroup mf_PayrollGroup { get; set; }
         public virtual sys_Company sys_Company { get; set; }
-        public virtual sys_User sys_User_changeStatusBy { get; set; }
-        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public ta_CutOffAttendance()
         {

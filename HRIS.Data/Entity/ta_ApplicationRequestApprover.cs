@@ -11,8 +11,6 @@ namespace HRIS.Data.Entity
         public int updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
-        public virtual sys_User sys_User_approverId { get; set; }
-        public virtual sys_User sys_User_updatedBy { get; set; }
         public virtual ta_ApplicationRequest ta_ApplicationRequest { get; set; }
 
         public ta_ApplicationRequestApprover()

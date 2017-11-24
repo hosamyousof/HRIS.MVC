@@ -210,6 +210,10 @@
     <Compile Include="Migrations\201711240603490_initial.Designer.cs">
       <DependentUpon>201711240603490_initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201711240606479_remove-user-link-to-table.cs" />
+    <Compile Include="Migrations\201711240606479_remove-user-link-to-table.Designer.cs">
+      <DependentUpon>201711240606479_remove-user-link-to-table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -241,6 +245,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201711240603490_initial.resx">
       <DependentUpon>201711240603490_initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711240606479_remove-user-link-to-table.resx">
+      <DependentUpon>201711240606479_remove-user-link-to-table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
