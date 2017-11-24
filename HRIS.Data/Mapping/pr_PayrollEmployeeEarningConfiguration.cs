@@ -16,10 +16,10 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".pr_PayrollEmployeeEarnings");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.payrollEmployeeId).HasColumnName("payrollEmployeeId").IsRequired().HasColumnType("int");
-            Property(x => x.allowanceId).HasColumnName("allowanceId").IsOptional().HasColumnType("int");
-            Property(x => x.paySlipDetail).HasColumnName("paySlipDetail").IsOptional().HasColumnType("int");
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.payrollEmployeeId).HasColumnName("payrollEmployeeId").IsRequired();
+            Property(x => x.allowanceId).HasColumnName("allowanceId").IsOptional();
+            //Property(x => x.paySlipDetail).HasColumnName("paySlipDetail").IsOptional();
             Property(x => x.value).HasColumnName("value").IsRequired().HasColumnType("float");
 
             HasOptional(a => a.mf_Allowance).WithMany(b => b.pr_PayrollEmployeeEarnings).HasForeignKey(c => c.allowanceId);

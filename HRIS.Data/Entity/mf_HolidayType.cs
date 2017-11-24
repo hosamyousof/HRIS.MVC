@@ -16,8 +16,6 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_Holiday> mf_Holidays { get; set; }
         public virtual ICollection<ta_CutOffAttendanceSummaryDetail> ta_CutOffAttendanceSummaryDetails { get; set; }
 
-        
-
         public mf_HolidayType()
         {
             rateNotWork = 0;

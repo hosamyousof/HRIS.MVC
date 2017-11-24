@@ -16,14 +16,14 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".mf_HolidayType");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.code).HasColumnName("code").IsRequired().HasColumnType("nvarchar").HasMaxLength(50);
             Property(x => x.description).HasColumnName("description").IsRequired().HasColumnType("nvarchar").HasMaxLength(250);
             Property(x => x.rateNotWork).HasColumnName("rateNotWork").IsRequired().HasColumnType("float");
             Property(x => x.rateWork).HasColumnName("rateWork").IsRequired().HasColumnType("float");
-            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired().HasColumnType("int");
+            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
-            Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
+            Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             InitializePartial();
         }

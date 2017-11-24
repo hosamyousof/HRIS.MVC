@@ -6,10 +6,10 @@ namespace HRIS.Data.Entity
     public partial class mf_EmployeeOffense : EntityBase
     {
         public Guid employeeId { get; set; }
-        public int offenseId { get; set; }
+        public Guid offenseId { get; set; }
         public DateTime offenseDate { get; set; }
         public DateTime? memoDate { get; set; }
-        public int penaltyTypeId { get; set; }
+        public Guid penaltyTypeId { get; set; }
         public int frequency { get; set; }
         public int degree { get; set; }
         public DateTime? startDate { get; set; }

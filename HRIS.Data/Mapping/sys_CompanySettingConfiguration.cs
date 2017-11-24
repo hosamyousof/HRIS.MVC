@@ -16,13 +16,13 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".sys_CompanySetting");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.settingId).HasColumnName("settingId").IsRequired().HasColumnType("int");
-            Property(x => x.companyId).HasColumnName("companyId").IsOptional().HasColumnType("int");
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.settingId).HasColumnName("settingId").IsRequired();
+            Property(x => x.companyId).HasColumnName("companyId").IsOptional();
             Property(x => x.value).HasColumnName("value").IsRequired().HasColumnType("nvarchar");
-            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired().HasColumnType("int");
+            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
-            Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
+            Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasOptional(a => a.sys_Company).WithMany(b => b.sys_CompanySettings).HasForeignKey(c => c.companyId);
             HasRequired(a => a.sys_Setting).WithMany(b => b.sys_CompanySettings).HasForeignKey(c => c.settingId);

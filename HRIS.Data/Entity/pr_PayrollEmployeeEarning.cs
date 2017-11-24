@@ -5,9 +5,9 @@ namespace HRIS.Data.Entity
 {
     public partial class pr_PayrollEmployeeEarning : EntityBase
     {
-        public int payrollEmployeeId { get; set; }
+        public Guid payrollEmployeeId { get; set; }
         public Guid? allowanceId { get; set; }
-        public int? paySlipDetail { get; set; }
+        //public Guid? paySlipDetail { get; set; }
         public double value { get; set; }
 
         public virtual mf_Allowance mf_Allowance { get; set; }

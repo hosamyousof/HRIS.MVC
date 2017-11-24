@@ -1,12 +1,13 @@
 using Repository;
+using System;
 
 namespace HRIS.Data.Entity
 {
     public partial class pr_PayrollEmployeeDeduction : EntityBase
     {
-        public int payrollEmployeeId { get; set; }
-        public int? deductionId { get; set; }
-        public int? paySlipDetail { get; set; }
+        public Guid payrollEmployeeId { get; set; }
+        public Guid? deductionId { get; set; }
+        //public Guid? paySlipDetail { get; set; }
         public double value { get; set; }
 
         public virtual mf_Deduction mf_Deduction { get; set; }

@@ -16,15 +16,15 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".sys_Menu");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.description).HasColumnName("description").IsRequired().HasColumnType("nvarchar").HasMaxLength(250);
             Property(x => x.controllerName).HasColumnName("controllerName").IsOptional().HasColumnType("nvarchar").HasMaxLength(250);
             Property(x => x.actionName).HasColumnName("actionName").IsOptional().HasColumnType("nvarchar").HasMaxLength(150);
             Property(x => x.areaName).HasColumnName("areaName").IsOptional().HasColumnType("nvarchar").HasMaxLength(150);
             Property(x => x.parameter).HasColumnName("parameter").IsOptional().HasColumnType("nvarchar").HasMaxLength(250);
-            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired().HasColumnType("int");
+            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
-            Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
+            Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             InitializePartial();
         }

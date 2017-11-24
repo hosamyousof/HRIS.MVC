@@ -16,14 +16,14 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".sys_ErrorLogs");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.message).HasColumnName("message").IsOptional().HasColumnType("nvarchar");
             Property(x => x.innerException).HasColumnName("innerException").IsOptional().HasColumnType("nvarchar");
-            Property(x => x.loggedType).HasColumnName("loggedType").IsRequired().HasColumnType("int");
+            Property(x => x.loggedType).HasColumnName("loggedType").IsRequired();
             Property(x => x.controllerName).HasColumnName("controllerName").IsOptional().HasColumnType("nvarchar").HasMaxLength(250);
             Property(x => x.actionName).HasColumnName("actionName").IsOptional().HasColumnType("nvarchar").HasMaxLength(250);
             Property(x => x.areaName).HasColumnName("areaName").IsOptional().HasColumnType("nvarchar").HasMaxLength(250);
-            Property(x => x.createdBy).HasColumnName("createdBy").IsOptional().HasColumnType("int");
+            Property(x => x.createdBy).HasColumnName("createdBy").IsOptional();
             Property(x => x.createdDate).HasColumnName("createdDate").IsRequired().HasColumnType("datetime");
 
             InitializePartial();

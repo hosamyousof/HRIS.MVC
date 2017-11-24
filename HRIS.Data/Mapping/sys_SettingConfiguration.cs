@@ -16,10 +16,10 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".sys_Setting");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.name).HasColumnName("name").IsRequired().HasColumnType("nvarchar").HasMaxLength(150);
             Property(x => x.description).HasColumnName("description").IsOptional().HasColumnType("nvarchar").HasMaxLength(500);
-            Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
+            Property(x => x.deleted).HasColumnName("deleted").IsRequired();
             InitializePartial();
         }
 

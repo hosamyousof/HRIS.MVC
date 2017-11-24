@@ -1,5 +1,6 @@
 namespace HRIS.Data.Migrations
 {
+    using HRIS.Data.Entity;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -18,6 +19,16 @@ namespace HRIS.Data.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
+
+            //if (context.sys_Companies.Any()) return;
+
+            //var user_admin = new sys_User()
+            //{
+                 
+            //};
+            //context.sys_Users.Add(user_admin);
+
+
         }
     }
 }

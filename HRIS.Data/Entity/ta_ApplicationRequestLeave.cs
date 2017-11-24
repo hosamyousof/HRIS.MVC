@@ -5,7 +5,7 @@ namespace HRIS.Data.Entity
 {
     public partial class ta_ApplicationRequestLeave : EntityBase
     {
-        public int applicationRequestId { get; set; }
+        public Guid applicationRequestId { get; set; }
         public DateTime startDate { get; set; }
         public DateTime endDate { get; set; }
 

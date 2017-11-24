@@ -16,13 +16,13 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".mf_EmployeeSkill");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.employeeId).HasColumnName("employeeId").IsRequired().HasColumnType("int");
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.employeeId).HasColumnName("employeeId").IsRequired();
             Property(x => x.skillName).HasColumnName("skillName").IsRequired().HasColumnType("nvarchar").HasMaxLength(250);
-            Property(x => x.skillProficiencyLevel).HasColumnName("skillProficiencyLevel").IsOptional().HasColumnType("int");
-            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired().HasColumnType("int");
+            Property(x => x.skillProficiencyLevel).HasColumnName("skillProficiencyLevel").IsOptional();
+            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
-            Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
+            Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeSkills).HasForeignKey(c => c.employeeId);
             InitializePartial();

@@ -16,16 +16,16 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".ta_EmployeeAttendance");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.employeeId).HasColumnName("employeeId").IsRequired().HasColumnType("int");
-            Property(x => x.timeLogType).HasColumnName("timeLogType").IsRequired().HasColumnType("int");
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.employeeId).HasColumnName("employeeId").IsRequired();
+            Property(x => x.timeLogType).HasColumnName("timeLogType").IsRequired();
             Property(x => x.workDate).HasColumnName("workDate").IsRequired().HasColumnType("datetime");
             Property(x => x.timeLog).HasColumnName("timeLog").IsRequired().HasColumnType("datetime");
-            Property(x => x.workDayId).HasColumnName("workDayId").IsOptional().HasColumnType("int");
+            Property(x => x.workDayId).HasColumnName("workDayId").IsOptional();
             Property(x => x.remarks).HasColumnName("remarks").IsOptional().HasColumnType("nvarchar");
-            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired().HasColumnType("int");
+            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
-            Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
+            Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasOptional(a => a.mf_WorkDay).WithMany(b => b.ta_EmployeeAttendances).HasForeignKey(c => c.workDayId);
             HasRequired(a => a.mf_Employee).WithMany(b => b.ta_EmployeeAttendances).HasForeignKey(c => c.employeeId);

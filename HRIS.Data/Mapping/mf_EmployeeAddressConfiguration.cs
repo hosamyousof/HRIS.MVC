@@ -16,16 +16,16 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".mf_EmployeeAddress");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.address1).HasColumnName("address1").IsOptional().HasColumnType("nvarchar");
             Property(x => x.address2).HasColumnName("address2").IsOptional().HasColumnType("nvarchar");
             Property(x => x.address3).HasColumnName("address3").IsOptional().HasColumnType("nvarchar");
-            Property(x => x.countryId).HasColumnName("countryId").IsRequired().HasColumnType("int");
+            Property(x => x.countryId).HasColumnName("countryId").IsRequired();
             Property(x => x.city).HasColumnName("city").IsOptional().HasColumnType("nvarchar").HasMaxLength(150);
             Property(x => x.postalCode).HasColumnName("postalCode").IsOptional().HasColumnType("nvarchar").HasMaxLength(50);
-            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired().HasColumnType("int");
+            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
-            Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
+            Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.mf_Country).WithMany(b => b.mf_EmployeeAddresses).HasForeignKey(c => c.countryId);
             InitializePartial();

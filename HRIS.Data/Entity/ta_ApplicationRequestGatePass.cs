@@ -5,7 +5,7 @@ namespace HRIS.Data.Entity
 {
     public partial class ta_ApplicationRequestGatePass : EntityBase
     {
-        public int applicationRequestId { get; set; }
+        public Guid applicationRequestId { get; set; }
         public DateTime startDateTime { get; set; }
         public DateTime endDateTime { get; set; }
 

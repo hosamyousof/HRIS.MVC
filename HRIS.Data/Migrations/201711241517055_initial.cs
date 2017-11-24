@@ -11,12 +11,12 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_Agency",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -27,14 +27,14 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_Employee201",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         employeeCode = c.String(nullable: false, maxLength: 250),
-                        departmentId = c.Int(),
-                        departmentSectionId = c.Int(),
-                        positionId = c.Int(),
+                        departmentId = c.Guid(),
+                        departmentSectionId = c.Guid(),
+                        positionId = c.Guid(),
                         email = c.String(maxLength: 150),
-                        employmentTypeId = c.Int(),
-                        employmentStatusId = c.Int(),
+                        employmentTypeId = c.Guid(),
+                        employmentStatusId = c.Guid(),
                         positionLevel = c.Int(),
                         dateHired = c.DateTime(),
                         resignedDate = c.DateTime(),
@@ -44,9 +44,9 @@ namespace HRIS.Data.Migrations
                         entitledUnworkSpecialHoliday = c.Boolean(),
                         entitledOvertime = c.Boolean(),
                         entitledHolidayPay = c.Boolean(),
-                        payrollGroupId = c.Int(),
-                        agencyId = c.Int(),
-                        updatedBy = c.Int(nullable: false),
+                        payrollGroupId = c.Guid(),
+                        agencyId = c.Guid(),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         confidential = c.Boolean(nullable: false),
                         deleted = c.Boolean(nullable: false),
@@ -71,12 +71,12 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_Department",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -87,11 +87,11 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_DepartmentSection",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        departmentId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        departmentId = c.Guid(nullable: false),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -103,12 +103,12 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_DepartmentSectionRequestApprover",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        approverId = c.Int(nullable: false),
-                        departmentSectionId = c.Int(nullable: false),
-                        applicationRequestTypeId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        approverId = c.Guid(nullable: false),
+                        departmentSectionId = c.Guid(nullable: false),
+                        applicationRequestTypeId = c.Guid(nullable: false),
                         orderNo = c.Int(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -122,11 +122,11 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_ApplicationRequestType",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
                         requiredLeavePoints = c.Boolean(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -136,11 +136,11 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeBalanceLeave",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
                         balance = c.Double(nullable: false),
-                        applicationRequestTypeId = c.Int(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        applicationRequestTypeId = c.Guid(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -154,7 +154,7 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_Employee",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         firstName = c.String(nullable: false, maxLength: 50),
                         lastName = c.String(nullable: false, maxLength: 50),
                         middleName = c.String(maxLength: 50),
@@ -165,12 +165,13 @@ namespace HRIS.Data.Migrations
                         contact1 = c.String(maxLength: 50),
                         contact2 = c.String(maxLength: 50),
                         contact3 = c.String(maxLength: 50),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        employeeAddressId = c.Int(),
-                        employee201Id = c.Int(),
+                        employeeAddressId = c.Guid(),
+                        employee201Id = c.Guid(),
                         pictureExtension = c.String(maxLength: 50),
-                        companyId = c.Int(nullable: false),
+                        userId = c.Guid(),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -185,14 +186,14 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeAddress",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         address1 = c.String(maxLength: 4000),
                         address2 = c.String(maxLength: 4000),
                         address3 = c.String(maxLength: 4000),
-                        countryId = c.Int(nullable: false),
+                        countryId = c.Guid(nullable: false),
                         city = c.String(maxLength: 150),
                         postalCode = c.String(maxLength: 50),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -204,10 +205,10 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_Country",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -217,20 +218,20 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_Company",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         businessName = c.String(nullable: false, maxLength: 250),
                         address1 = c.String(maxLength: 4000),
                         address2 = c.String(maxLength: 4000),
                         address3 = c.String(maxLength: 4000),
-                        countryId = c.Int(nullable: false),
+                        countryId = c.Guid(nullable: false),
                         city = c.String(maxLength: 150),
                         postalCode = c.String(maxLength: 50),
                         email = c.String(maxLength: 50),
                         telephone = c.String(maxLength: 50),
                         mobile = c.String(maxLength: 50),
                         fax = c.String(maxLength: 50),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -242,13 +243,13 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_Allowance",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         isTaxable = c.Boolean(nullable: false),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -259,11 +260,11 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeAllowance",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
-                        allowanceId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
+                        allowanceId = c.Guid(nullable: false),
                         amount = c.Double(),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -277,10 +278,9 @@ namespace HRIS.Data.Migrations
                 "dbo.pr_PayrollEmployeeEarnings",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        payrollEmployeeId = c.Int(nullable: false),
-                        allowanceId = c.Int(),
-                        paySlipDetail = c.Int(),
+                        id = c.Guid(nullable: false, identity: true),
+                        payrollEmployeeId = c.Guid(nullable: false),
+                        allowanceId = c.Guid(),
                         value = c.Double(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -294,9 +294,9 @@ namespace HRIS.Data.Migrations
                 "dbo.pr_PayrollEmployee",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        payrollId = c.Int(nullable: false),
-                        employeeId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        payrollId = c.Guid(nullable: false),
+                        employeeId = c.Guid(nullable: false),
                         noOfDays = c.Double(nullable: false),
                         totalHours = c.Double(nullable: false),
                         hourlyRates = c.Double(nullable: false),
@@ -304,7 +304,7 @@ namespace HRIS.Data.Migrations
                         basicRate = c.Double(nullable: false),
                         totalDeduction = c.Double(nullable: false),
                         totalIncome = c.Double(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -318,15 +318,15 @@ namespace HRIS.Data.Migrations
                 "dbo.pr_Payroll",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        cutOffAttendanceId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        cutOffAttendanceId = c.Guid(nullable: false),
                         status = c.Int(nullable: false),
                         includeLegalDeduction = c.Boolean(nullable: false),
-                        generatedBy = c.Int(nullable: false),
+                        generatedBy = c.Guid(nullable: false),
                         generatedDate = c.DateTime(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -339,78 +339,47 @@ namespace HRIS.Data.Migrations
                 "dbo.ta_CutOffAttendance",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        payrollGroupId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        payrollGroupId = c.Guid(nullable: false),
                         generatedDate = c.DateTime(nullable: false),
                         startDate = c.DateTime(nullable: false),
                         endDate = c.DateTime(nullable: false),
                         status = c.Int(nullable: false),
                         remarks = c.String(maxLength: 4000),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        changeStatusBy = c.Int(nullable: false),
+                        changeStatusById = c.Guid(nullable: false),
                         changeStatusDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
-                        sys_User_changeStatusBy_id = c.Int(),
-                        sys_User_updatedBy_id = c.Int(),
                     })
                 .PrimaryKey(t => t.id)
                 .ForeignKey("dbo.mf_PayrollGroup", t => t.payrollGroupId)
                 .ForeignKey("dbo.sys_Company", t => t.companyId)
-                .ForeignKey("dbo.sys_User", t => t.sys_User_changeStatusBy_id)
-                .ForeignKey("dbo.sys_User", t => t.sys_User_updatedBy_id)
                 .Index(t => t.payrollGroupId)
-                .Index(t => t.companyId)
-                .Index(t => t.sys_User_changeStatusBy_id)
-                .Index(t => t.sys_User_updatedBy_id);
+                .Index(t => t.companyId);
             
             CreateTable(
                 "dbo.mf_PayrollGroup",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id);
             
             CreateTable(
-                "dbo.sys_User",
-                c => new
-                    {
-                        id = c.Int(nullable: false, identity: true),
-                        username = c.String(nullable: false, maxLength: 50),
-                        password = c.String(maxLength: 4000),
-                        hashKey = c.String(maxLength: 4000),
-                        vector = c.String(maxLength: 4000),
-                        email = c.String(maxLength: 50),
-                        employeeId = c.Int(),
-                        status = c.Int(nullable: false),
-                        updatedBy = c.Int(),
-                        updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
-                        deleted = c.Boolean(nullable: false),
-                        sys_Company_id = c.Int(),
-                        mf_Employee_id = c.Int(),
-                    })
-                .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.sys_Company", t => t.sys_Company_id)
-                .ForeignKey("dbo.mf_Employee", t => t.mf_Employee_id)
-                .Index(t => t.sys_Company_id)
-                .Index(t => t.mf_Employee_id);
-            
-            CreateTable(
                 "dbo.ta_CutOffAttendanceSummary",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        cutOffAttendanceId = c.Int(nullable: false),
-                        employeeId = c.Int(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        cutOffAttendanceId = c.Guid(nullable: false),
+                        employeeId = c.Guid(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -424,17 +393,17 @@ namespace HRIS.Data.Migrations
                 "dbo.ta_CutOffAttendanceSummaryDetail",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        cutOffAttendanceSummaryId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        cutOffAttendanceSummaryId = c.Guid(nullable: false),
                         workDate = c.DateTime(nullable: false),
                         workHours = c.Double(nullable: false),
                         undertimeHours = c.Double(nullable: false),
                         lateHours = c.Double(nullable: false),
                         overtimeHours = c.Double(nullable: false),
                         workHolidayHours = c.Double(),
-                        holidayTypeId = c.Int(),
+                        holidayTypeId = c.Guid(),
                         absent = c.Boolean(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -448,12 +417,12 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_HolidayType",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
                         rateNotWork = c.Double(nullable: false),
                         rateWork = c.Double(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -463,11 +432,11 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_Holidays",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         holidayDate = c.DateTime(nullable: false),
                         description = c.String(nullable: false, maxLength: 250),
-                        holidayTypeId = c.Int(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        holidayTypeId = c.Guid(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -479,10 +448,9 @@ namespace HRIS.Data.Migrations
                 "dbo.pr_PayrollEmployeeDeductions",
                 c => new
                     {
-                        id = c.Int(nullable: false),
-                        payrollEmployeeId = c.Int(nullable: false),
-                        deductionId = c.Int(),
-                        paySlipDetail = c.Int(),
+                        id = c.Guid(nullable: false),
+                        payrollEmployeeId = c.Guid(nullable: false),
+                        deductionId = c.Guid(),
                         value = c.Double(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -496,12 +464,12 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_Deduction",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -512,11 +480,11 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeDeduction",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
-                        deductionId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
+                        deductionId = c.Guid(nullable: false),
                         amount = c.Double(),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -530,12 +498,12 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_Offense",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -546,18 +514,18 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeOffense",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
-                        offenseId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
+                        offenseId = c.Guid(nullable: false),
                         offenseDate = c.DateTime(nullable: false),
                         memoDate = c.DateTime(),
-                        penaltyTypeId = c.Int(nullable: false),
+                        penaltyTypeId = c.Guid(nullable: false),
                         frequency = c.Int(nullable: false),
                         degree = c.Int(nullable: false),
                         startDate = c.DateTime(),
                         endDate = c.DateTime(),
                         remarks = c.String(nullable: false, maxLength: 4000),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -573,12 +541,12 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_PenaltyType",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -589,12 +557,12 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_Position",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -605,7 +573,7 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_WorkDays",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
                         monday = c.Boolean(nullable: false),
@@ -620,9 +588,9 @@ namespace HRIS.Data.Migrations
                         toTimeHour = c.Int(nullable: false),
                         toTimeMinute = c.Int(nullable: false),
                         breakHours = c.Double(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -633,10 +601,10 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeWorkDays",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
-                        workDayId = c.Int(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
+                        workDayId = c.Guid(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -650,14 +618,14 @@ namespace HRIS.Data.Migrations
                 "dbo.ta_EmployeeAttendance",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
                         timeLogType = c.Int(nullable: false),
                         workDate = c.DateTime(nullable: false),
                         timeLog = c.DateTime(nullable: false),
-                        workDayId = c.Int(),
+                        workDayId = c.Guid(),
                         remarks = c.String(maxLength: 4000),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -671,11 +639,11 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_CompanySetting",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        settingId = c.Int(nullable: false),
-                        companyId = c.Int(),
+                        id = c.Guid(nullable: false, identity: true),
+                        settingId = c.Guid(nullable: false),
+                        companyId = c.Guid(),
                         value = c.String(nullable: false, maxLength: 4000),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -689,7 +657,7 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_Setting",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         name = c.String(nullable: false, maxLength: 150),
                         description = c.String(maxLength: 500),
                         deleted = c.Boolean(nullable: false),
@@ -700,7 +668,7 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_EnumReference",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         name = c.String(nullable: false, maxLength: 50),
                         value = c.Int(nullable: false),
                         description = c.String(nullable: false, maxLength: 250),
@@ -711,7 +679,7 @@ namespace HRIS.Data.Migrations
                         field3 = c.String(maxLength: 250),
                         field4 = c.String(maxLength: 250),
                         field5 = c.String(maxLength: 250),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -722,12 +690,12 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_Location",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -738,12 +706,12 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_Permission",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -754,15 +722,15 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_RolePermission",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        roleId = c.Int(nullable: false),
-                        permissionId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        roleId = c.Guid(nullable: false),
+                        permissionId = c.Guid(nullable: false),
                         viewAccess = c.Boolean(nullable: false),
                         createAccess = c.Boolean(nullable: false),
                         updateAccess = c.Boolean(nullable: false),
                         deleteAccess = c.Boolean(nullable: false),
                         printAccess = c.Boolean(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -776,12 +744,12 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_Role",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -792,13 +760,13 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_RoleMenu",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        roleId = c.Int(nullable: false),
-                        sourceMenuId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        roleId = c.Guid(nullable: false),
+                        sourceMenuId = c.Guid(nullable: false),
                         description = c.String(nullable: false, maxLength: 250),
-                        parentRoleMenuId = c.Int(),
+                        parentRoleMenuId = c.Guid(),
                         displayOrder = c.Int(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -814,13 +782,13 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_Menu",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         description = c.String(nullable: false, maxLength: 250),
                         controllerName = c.String(maxLength: 250),
                         actionName = c.String(maxLength: 150),
                         areaName = c.String(maxLength: 150),
                         parameter = c.String(maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -830,10 +798,10 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_UserRole",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        roleId = c.Int(nullable: false),
-                        userId = c.Int(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        roleId = c.Guid(nullable: false),
+                        userId = c.Guid(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -842,15 +810,37 @@ namespace HRIS.Data.Migrations
                 .Index(t => t.roleId);
             
             CreateTable(
+                "dbo.sys_User",
+                c => new
+                    {
+                        id = c.Guid(nullable: false, identity: true),
+                        username = c.String(nullable: false, maxLength: 50),
+                        password = c.String(maxLength: 4000),
+                        hashKey = c.String(maxLength: 4000),
+                        vector = c.String(maxLength: 4000),
+                        email = c.String(maxLength: 50),
+                        employeeId = c.Guid(),
+                        status = c.Int(nullable: false),
+                        updatedBy = c.Guid(),
+                        updatedDate = c.DateTime(nullable: false),
+                        companyId = c.Guid(nullable: false),
+                        deleted = c.Boolean(nullable: false),
+                        sys_Company_id = c.Guid(),
+                    })
+                .PrimaryKey(t => t.id)
+                .ForeignKey("dbo.sys_Company", t => t.sys_Company_id)
+                .Index(t => t.sys_Company_id);
+            
+            CreateTable(
                 "dbo.sys_UserSession",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        userId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        userId = c.Guid(nullable: false),
                         loggedDate = c.DateTime(nullable: false),
                         ipAddress = c.String(nullable: false, maxLength: 50),
                         expiredDate = c.DateTime(nullable: false),
-                        companyId = c.Int(nullable: false),
+                        companyId = c.Guid(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
@@ -861,11 +851,11 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeBasicPay",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
                         basicPay = c.Double(nullable: false),
                         rateType = c.Int(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -877,8 +867,8 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeEducation",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
                         schoolName = c.String(nullable: false, maxLength: 250),
                         fromYear = c.Int(),
                         toYear = c.Int(),
@@ -886,7 +876,7 @@ namespace HRIS.Data.Migrations
                         course = c.String(maxLength: 250),
                         createdBy = c.Int(nullable: false),
                         createdDate = c.DateTime(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -898,11 +888,11 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeIdentificationDocument",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
-                        identificationDocumentId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
+                        identificationDocumentId = c.Guid(nullable: false),
                         idNumber = c.String(nullable: false, maxLength: 150),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -916,10 +906,10 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_IdentificationDocument",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -929,11 +919,11 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeSkill",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
                         skillName = c.String(nullable: false, maxLength: 250),
                         skillProficiencyLevel = c.Int(),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -945,14 +935,14 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeTraining",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
                         trainingDate = c.DateTime(nullable: false),
                         trainingName = c.String(nullable: false, maxLength: 250),
                         description = c.String(maxLength: 4000),
                         startDate = c.DateTime(),
                         endDate = c.DateTime(),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -964,8 +954,8 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmployeeWorkHistory",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        employeeId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        employeeId = c.Guid(nullable: false),
                         companyName = c.String(nullable: false, maxLength: 250),
                         position = c.String(maxLength: 250),
                         joinedMonth = c.Int(nullable: false),
@@ -973,7 +963,7 @@ namespace HRIS.Data.Migrations
                         resignedMonth = c.Int(),
                         resignedYear = c.Int(),
                         isPresent = c.Boolean(),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -985,14 +975,14 @@ namespace HRIS.Data.Migrations
                 "dbo.ta_ApplicationRequest",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        applicationRequestTypeId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        applicationRequestTypeId = c.Guid(nullable: false),
                         note = c.String(nullable: false, maxLength: 4000),
                         status = c.Int(nullable: false),
-                        assignTo = c.Int(nullable: false),
-                        requestedBy = c.Int(nullable: false),
+                        assignTo = c.Guid(nullable: false),
+                        requestedBy = c.Guid(nullable: false),
                         requestedDate = c.DateTime(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -1004,30 +994,24 @@ namespace HRIS.Data.Migrations
                 "dbo.ta_ApplicationRequestApprover",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        applicationRequestId = c.Int(nullable: false),
-                        approverId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        applicationRequestId = c.Guid(nullable: false),
+                        approverId = c.Guid(nullable: false),
                         status = c.Int(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
-                        sys_User_approverId_id = c.Int(),
-                        sys_User_updatedBy_id = c.Int(),
                     })
                 .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.sys_User", t => t.sys_User_approverId_id)
-                .ForeignKey("dbo.sys_User", t => t.sys_User_updatedBy_id)
                 .ForeignKey("dbo.ta_ApplicationRequest", t => t.applicationRequestId)
-                .Index(t => t.applicationRequestId)
-                .Index(t => t.sys_User_approverId_id)
-                .Index(t => t.sys_User_updatedBy_id);
+                .Index(t => t.applicationRequestId);
             
             CreateTable(
                 "dbo.ta_ApplicationRequestGatePass",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        applicationRequestId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        applicationRequestId = c.Guid(nullable: false),
                         startDateTime = c.DateTime(nullable: false),
                         endDateTime = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
@@ -1040,8 +1024,8 @@ namespace HRIS.Data.Migrations
                 "dbo.ta_ApplicationRequestLeave",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
-                        applicationRequestId = c.Int(nullable: false),
+                        id = c.Guid(nullable: false, identity: true),
+                        applicationRequestId = c.Guid(nullable: false),
                         startDate = c.DateTime(nullable: false),
                         endDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
@@ -1054,11 +1038,11 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmploymentStatus",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
                         allowProcessPayroll = c.Boolean(nullable: false),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -1068,10 +1052,10 @@ namespace HRIS.Data.Migrations
                 "dbo.mf_EmploymentType",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         code = c.String(nullable: false, maxLength: 50),
                         description = c.String(nullable: false, maxLength: 250),
-                        updatedBy = c.Int(nullable: false),
+                        updatedBy = c.Guid(nullable: false),
                         updatedDate = c.DateTime(nullable: false),
                         deleted = c.Boolean(nullable: false),
                     })
@@ -1081,7 +1065,7 @@ namespace HRIS.Data.Migrations
                 "dbo.sys_ErrorLogs",
                 c => new
                     {
-                        id = c.Int(nullable: false, identity: true),
+                        id = c.Guid(nullable: false, identity: true),
                         message = c.String(maxLength: 4000),
                         innerException = c.String(maxLength: 4000),
                         loggedType = c.Int(nullable: false),
@@ -1111,11 +1095,8 @@ namespace HRIS.Data.Migrations
             DropForeignKey("dbo.ta_ApplicationRequestLeave", "applicationRequestId", "dbo.ta_ApplicationRequest");
             DropForeignKey("dbo.ta_ApplicationRequestGatePass", "applicationRequestId", "dbo.ta_ApplicationRequest");
             DropForeignKey("dbo.ta_ApplicationRequestApprover", "applicationRequestId", "dbo.ta_ApplicationRequest");
-            DropForeignKey("dbo.ta_ApplicationRequestApprover", "sys_User_updatedBy_id", "dbo.sys_User");
-            DropForeignKey("dbo.ta_ApplicationRequestApprover", "sys_User_approverId_id", "dbo.sys_User");
             DropForeignKey("dbo.ta_ApplicationRequest", "applicationRequestTypeId", "dbo.mf_ApplicationRequestType");
             DropForeignKey("dbo.mf_EmployeeBalanceLeave", "employeeId", "dbo.mf_Employee");
-            DropForeignKey("dbo.sys_User", "mf_Employee_id", "dbo.mf_Employee");
             DropForeignKey("dbo.mf_Employee", "companyId", "dbo.sys_Company");
             DropForeignKey("dbo.mf_EmployeeWorkHistory", "employeeId", "dbo.mf_Employee");
             DropForeignKey("dbo.mf_EmployeeTraining", "employeeId", "dbo.mf_Employee");
@@ -1166,8 +1147,6 @@ namespace HRIS.Data.Migrations
             DropForeignKey("dbo.mf_Holidays", "holidayTypeId", "dbo.mf_HolidayType");
             DropForeignKey("dbo.ta_CutOffAttendanceSummary", "cutOffAttendanceId", "dbo.ta_CutOffAttendance");
             DropForeignKey("dbo.ta_CutOffAttendanceSummary", "employeeId", "dbo.mf_Employee");
-            DropForeignKey("dbo.ta_CutOffAttendance", "sys_User_updatedBy_id", "dbo.sys_User");
-            DropForeignKey("dbo.ta_CutOffAttendance", "sys_User_changeStatusBy_id", "dbo.sys_User");
             DropForeignKey("dbo.ta_CutOffAttendance", "companyId", "dbo.sys_Company");
             DropForeignKey("dbo.ta_CutOffAttendance", "payrollGroupId", "dbo.mf_PayrollGroup");
             DropForeignKey("dbo.pr_Payroll", "companyId", "dbo.sys_Company");
@@ -1181,8 +1160,6 @@ namespace HRIS.Data.Migrations
             DropForeignKey("dbo.mf_Employee201", "agencyId", "dbo.mf_Agency");
             DropIndex("dbo.ta_ApplicationRequestLeave", new[] { "applicationRequestId" });
             DropIndex("dbo.ta_ApplicationRequestGatePass", new[] { "applicationRequestId" });
-            DropIndex("dbo.ta_ApplicationRequestApprover", new[] { "sys_User_updatedBy_id" });
-            DropIndex("dbo.ta_ApplicationRequestApprover", new[] { "sys_User_approverId_id" });
             DropIndex("dbo.ta_ApplicationRequestApprover", new[] { "applicationRequestId" });
             DropIndex("dbo.ta_ApplicationRequest", new[] { "applicationRequestTypeId" });
             DropIndex("dbo.mf_EmployeeWorkHistory", new[] { "employeeId" });
@@ -1193,6 +1170,7 @@ namespace HRIS.Data.Migrations
             DropIndex("dbo.mf_EmployeeEducation", new[] { "employeeId" });
             DropIndex("dbo.mf_EmployeeBasicPay", new[] { "employeeId" });
             DropIndex("dbo.sys_UserSession", new[] { "companyId" });
+            DropIndex("dbo.sys_User", new[] { "sys_Company_id" });
             DropIndex("dbo.sys_UserRole", new[] { "roleId" });
             DropIndex("dbo.sys_RoleMenu", new[] { "parentRoleMenuId" });
             DropIndex("dbo.sys_RoleMenu", new[] { "sourceMenuId" });
@@ -1226,10 +1204,6 @@ namespace HRIS.Data.Migrations
             DropIndex("dbo.ta_CutOffAttendanceSummaryDetail", new[] { "cutOffAttendanceSummaryId" });
             DropIndex("dbo.ta_CutOffAttendanceSummary", new[] { "employeeId" });
             DropIndex("dbo.ta_CutOffAttendanceSummary", new[] { "cutOffAttendanceId" });
-            DropIndex("dbo.sys_User", new[] { "mf_Employee_id" });
-            DropIndex("dbo.sys_User", new[] { "sys_Company_id" });
-            DropIndex("dbo.ta_CutOffAttendance", new[] { "sys_User_updatedBy_id" });
-            DropIndex("dbo.ta_CutOffAttendance", new[] { "sys_User_changeStatusBy_id" });
             DropIndex("dbo.ta_CutOffAttendance", new[] { "companyId" });
             DropIndex("dbo.ta_CutOffAttendance", new[] { "payrollGroupId" });
             DropIndex("dbo.pr_Payroll", new[] { "companyId" });
@@ -1275,6 +1249,7 @@ namespace HRIS.Data.Migrations
             DropTable("dbo.mf_EmployeeEducation");
             DropTable("dbo.mf_EmployeeBasicPay");
             DropTable("dbo.sys_UserSession");
+            DropTable("dbo.sys_User");
             DropTable("dbo.sys_UserRole");
             DropTable("dbo.sys_Menu");
             DropTable("dbo.sys_RoleMenu");
@@ -1299,7 +1274,6 @@ namespace HRIS.Data.Migrations
             DropTable("dbo.mf_HolidayType");
             DropTable("dbo.ta_CutOffAttendanceSummaryDetail");
             DropTable("dbo.ta_CutOffAttendanceSummary");
-            DropTable("dbo.sys_User");
             DropTable("dbo.mf_PayrollGroup");
             DropTable("dbo.ta_CutOffAttendance");
             DropTable("dbo.pr_Payroll");

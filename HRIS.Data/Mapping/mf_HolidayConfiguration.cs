@@ -16,13 +16,13 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".mf_Holidays");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.holidayDate).HasColumnName("holidayDate").IsRequired().HasColumnType("datetime");
             Property(x => x.description).HasColumnName("description").IsRequired().HasColumnType("nvarchar").HasMaxLength(250);
-            Property(x => x.holidayTypeId).HasColumnName("holidayTypeId").IsRequired().HasColumnType("int");
-            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired().HasColumnType("int");
+            Property(x => x.holidayTypeId).HasColumnName("holidayTypeId").IsRequired();
+            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
-            Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
+            Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.mf_HolidayType).WithMany(b => b.mf_Holidays).HasForeignKey(c => c.holidayTypeId);
             InitializePartial();

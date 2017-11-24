@@ -43,7 +43,7 @@ namespace HRIS.Service.Sys
             using (TransactionScope ts = new TransactionScope())
             {
                 Guid companyId = this.GetCurrentCompanyId();
-                if (this._repoUser.Query().Filter(x => x.username == model.username && x.companyId == companyId).Get().Any())
+                if (this._repoUser.Query().Filter(x => x.username == model.username).Get().Any())
                 {
                     throw new Exception(model.username + " is already exists.");
                 }
@@ -176,9 +176,7 @@ namespace HRIS.Service.Sys
 
         public Guid GetUserIdByUsername(string username)
         {
-            Guid companyId = this.GetCurrentCompanyId();
-
-            return this._repoUser.Query().Filter(x => x.username == username && x.companyId == companyId).Get().Select(x => x.id).First();
+            return this._repoUser.Query().Filter(x => x.username == username).Get().Select(x => x.id).First();
         }
 
         public bool HasPermission(string username, RoleAccessType accessType, string permissionCode)

@@ -12,7 +12,7 @@ namespace HRIS.Data.Entity
         public double lateHours { get; set; }
         public double overtimeHours { get; set; }
         public double? workHolidayHours { get; set; }
-        public int? holidayTypeId { get; set; }
+        public Guid? holidayTypeId { get; set; }
         public bool absent { get; set; }
         public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }

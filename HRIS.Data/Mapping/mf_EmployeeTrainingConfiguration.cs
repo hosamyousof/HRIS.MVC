@@ -16,16 +16,16 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".mf_EmployeeTraining");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.employeeId).HasColumnName("employeeId").IsRequired().HasColumnType("int");
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.employeeId).HasColumnName("employeeId").IsRequired();
             Property(x => x.trainingDate).HasColumnName("trainingDate").IsRequired().HasColumnType("datetime");
             Property(x => x.trainingName).HasColumnName("trainingName").IsRequired().HasColumnType("nvarchar").HasMaxLength(250);
             Property(x => x.description).HasColumnName("description").IsOptional().HasColumnType("nvarchar");
             Property(x => x.startDate).HasColumnName("startDate").IsOptional().HasColumnType("datetime");
             Property(x => x.endDate).HasColumnName("endDate").IsOptional().HasColumnType("datetime");
-            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired().HasColumnType("int");
+            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
-            Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
+            Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeTrainings).HasForeignKey(c => c.employeeId);
             InitializePartial();

@@ -6,7 +6,7 @@ namespace HRIS.Data.Entity
     public partial class mf_EmployeeDeduction : EntityBase
     {
         public Guid employeeId { get; set; }
-        public int deductionId { get; set; }
+        public Guid deductionId { get; set; }
         public double? amount { get; set; }
         public Guid updatedBy { get; set; }
         public DateTime updatedDate { get; set; }

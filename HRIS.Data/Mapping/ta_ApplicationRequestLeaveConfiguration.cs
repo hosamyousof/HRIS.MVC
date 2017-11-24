@@ -16,11 +16,11 @@ namespace HRIS.Data.Mapping
             ToTable(schema + ".ta_ApplicationRequestLeave");
             HasKey(x => x.id);
 
-            Property(x => x.id).HasColumnName("id").IsRequired().HasColumnType("int").HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.applicationRequestId).HasColumnName("applicationRequestId").IsRequired().HasColumnType("int");
+            Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.applicationRequestId).HasColumnName("applicationRequestId").IsRequired();
             Property(x => x.startDate).HasColumnName("startDate").IsRequired().HasColumnType("datetime");
             Property(x => x.endDate).HasColumnName("endDate").IsRequired().HasColumnType("datetime");
-            Property(x => x.deleted).HasColumnName("deleted").IsRequired().HasColumnType("bit");
+            Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.ta_ApplicationRequest).WithMany(b => b.ta_ApplicationRequestLeaves).HasForeignKey(c => c.applicationRequestId);
             InitializePartial();
