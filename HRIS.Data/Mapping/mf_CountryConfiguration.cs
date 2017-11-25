@@ -22,7 +22,7 @@ namespace HRIS.Data.Entity
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
-            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.mf_Countries).HasForeignKey(c => c.updatedBy);
+            HasOptional(a => a.sys_User_updatedBy).WithMany(b => b.mf_Countries).HasForeignKey(c => c.updatedBy);
         }
     }
 }
