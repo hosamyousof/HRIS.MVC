@@ -3,7 +3,7 @@
 @using HRIS.Model.Sys;
 @using HRIS.Model.MasterFile;
 @using HRIS.Service.Configuration;
-@model int?
+@model Guid?
 
 @{
 
@@ -34,7 +34,7 @@
                 {
                     m.Id(f => f.id);
 
-                    var deduction = DependencyResolver.Current.GetService<IDeductionService>().GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description, }).FirstOrDefaultInstance();
+                    var deduction = DependencyResolver.Current.GetService<IDeductionService>().GetQuery().Select(x => new DataReference() { value = x.id.Value, description = x.description, }).FirstOrDefaultInstance();
 
                     m.Field(f => f.Deduction).DefaultValue(deduction);
                     m.Field(f => f.amount).DefaultValue(0);

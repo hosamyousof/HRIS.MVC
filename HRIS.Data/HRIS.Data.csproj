@@ -207,11 +207,6 @@
     <Compile Include="Mapping\ta_CutOffAttendanceSummaryConfiguration.cs" />
     <Compile Include="Mapping\ta_CutOffAttendanceSummaryDetailConfiguration.cs" />
     <Compile Include="Mapping\ta_EmployeeAttendanceConfiguration.cs" />
-    <Compile Include="Migrations\201711241659409_initial.cs" />
-    <Compile Include="Migrations\201711241659409_initial.Designer.cs">
-      <DependentUpon>201711241659409_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -230,11 +225,6 @@
       <Project>{87cb7be2-7203-421a-a4f4-991343c5cc68}</Project>
       <Name>Repository</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711241659409_initial.resx">
-      <DependentUpon>201711241659409_initial.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

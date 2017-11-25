@@ -1,7 +1,7 @@
 ﻿@using HRIS.Model.Sys;
 @using HRIS.Model.MasterFile;
 @using HRIS.Service.Sys;
-@model int?
+@model Guid?
 
 @{
 
@@ -34,7 +34,7 @@
                     m.Id(f => f.id);
 
                     var data = DependencyResolver.Current.GetService<IIdentificationDocumentService>().GetQuery().ToList()
-                      .Select(x => new ReferenceModel()
+                      .Select(x => new DataReference()
                       {
                           value = x.id.Value,
                           description = x.code + ": " + x.description,

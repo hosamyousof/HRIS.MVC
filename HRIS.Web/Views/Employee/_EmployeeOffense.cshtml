@@ -3,7 +3,7 @@
 @using HRIS.Model.Sys;
 @using HRIS.Model.MasterFile;
 @using HRIS.Service.Configuration;
-@model int?
+@model Guid?
 
 @{
 
@@ -41,9 +41,9 @@
                 {
                     m.Id(f => f.id);
 
-                    var offense = DependencyResolver.Current.GetService<IOffenseService>().GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description, }).FirstOrDefaultInstance();
+                    var offense = DependencyResolver.Current.GetService<IOffenseService>().GetQuery().Select(x => new DataReference() { value = x.id.Value, description = x.description, }).FirstOrDefaultInstance();
                     var degree = DependencyResolver.Current.GetService<IEnumReferenceService>().GetQuery(ReferenceList.PENALTY_DEGREE).FirstOrDefaultInstance();
-                    var penaltyType = DependencyResolver.Current.GetService<IPenaltyTypeService>().GetQuery().Select(x => new ReferenceModel() { value = x.id.Value, description = x.description, }).FirstOrDefaultInstance();
+                    var penaltyType = DependencyResolver.Current.GetService<IPenaltyTypeService>().GetQuery().Select(x => new DataReference() { value = x.id.Value, description = x.description, }).FirstOrDefaultInstance();
 
                     m.Field(f => f.offenseDate).DefaultValue(DateTime.Now.Date);
                     m.Field(f => f.Offense).DefaultValue(offense);
