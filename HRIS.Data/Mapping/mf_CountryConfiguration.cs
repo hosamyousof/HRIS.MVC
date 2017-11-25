@@ -18,7 +18,7 @@ namespace HRIS.Data.Entity
             Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.code).HasColumnName("code").IsRequired().HasMaxLength(50);
             Property(x => x.description).HasColumnName("description").IsRequired().HasMaxLength(250);
-            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
+            Property(x => x.updatedBy).HasColumnName("updatedBy").IsOptional();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 

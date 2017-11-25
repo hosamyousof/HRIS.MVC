@@ -33,9 +33,8 @@ namespace HRIS.Model.Sys
         [DisplayName("Address 3")]
         public string address3 { get; set; }
 
-        [Required]
         [DisplayName("Company")]
-        public Guid countryId { get; set; }
+        public Guid? countryId { get; set; }
 
         [DisplayName("City")]
         public string city { get; set; }

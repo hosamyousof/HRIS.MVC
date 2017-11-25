@@ -7,6 +7,7 @@ namespace HRIS.Data
 {
     public partial class HRISContext : Repository.Providers.EntityFramework.DataContext
     {
+        #region Tables
         public DbSet<mf_Agency> mf_Agencies { get; set; }
         public DbSet<mf_Allowance> mf_Allowances { get; set; }
         public DbSet<mf_ApplicationRequestType> mf_ApplicationRequestTypes { get; set; }
@@ -65,6 +66,7 @@ namespace HRIS.Data
         public DbSet<ta_CutOffAttendanceSummary> ta_CutOffAttendanceSummaries { get; set; }
         public DbSet<ta_CutOffAttendanceSummaryDetail> ta_CutOffAttendanceSummaryDetails { get; set; }
         public DbSet<ta_EmployeeAttendance> ta_EmployeeAttendances { get; set; }
+        #endregion
 
         public HRISContext()
             : base("Name=HRIS")

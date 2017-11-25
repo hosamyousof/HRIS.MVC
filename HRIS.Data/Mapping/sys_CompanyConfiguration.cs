@@ -21,19 +21,19 @@ namespace HRIS.Data.Entity
             Property(x => x.address1).HasColumnName("address1").IsOptional();
             Property(x => x.address2).HasColumnName("address2").IsOptional();
             Property(x => x.address3).HasColumnName("address3").IsOptional();
-            Property(x => x.countryId).HasColumnName("countryId").IsRequired();
+            Property(x => x.countryId).HasColumnName("countryId").IsOptional();
             Property(x => x.city).HasColumnName("city").IsOptional().HasMaxLength(150);
             Property(x => x.postalCode).HasColumnName("postalCode").IsOptional().HasMaxLength(50);
             Property(x => x.email).HasColumnName("email").IsOptional().HasMaxLength(50);
             Property(x => x.telephone).HasColumnName("telephone").IsOptional().HasMaxLength(50);
             Property(x => x.mobile).HasColumnName("mobile").IsOptional().HasMaxLength(50);
             Property(x => x.fax).HasColumnName("fax").IsOptional().HasMaxLength(50);
-            Property(x => x.updatedBy).HasColumnName("updatedBy").IsRequired();
+            Property(x => x.updatedBy).HasColumnName("updatedBy").IsOptional();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
-            HasRequired(a => a.mf_Country).WithMany(b => b.sys_Companies).HasForeignKey(c => c.countryId);
-            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.sys_Companies).HasForeignKey(c => c.updatedBy);
+            HasOptional(a => a.mf_Country).WithMany(b => b.sys_Companies).HasForeignKey(c => c.countryId);
+            HasOptional(a => a.sys_User_updatedBy).WithMany(b => b.sys_Companies).HasForeignKey(c => c.updatedBy);
         }
     }
 }

@@ -17,7 +17,7 @@ namespace HRIS.Data.Mapping
             HasKey(x => x.id);
 
             Property(x => x.id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.companyId).HasColumnName("companyId").IsRequired();
+            Property(x => x.companyId).HasColumnName("companyId").IsOptional();
             Property(x => x.username).HasColumnName("username").IsRequired().HasMaxLength(50);
             Property(x => x.password).HasColumnName("password").IsOptional();
             Property(x => x.hashKey).HasColumnName("hashKey").IsOptional();
@@ -31,7 +31,7 @@ namespace HRIS.Data.Mapping
 
             HasOptional(a => a.mf_Employee).WithMany(b => b.sys_Users).HasForeignKey(c => c.employeeId);
             HasOptional(a => a.sys_User_updatedBy).WithMany(b => b.sys_Users).HasForeignKey(c => c.updatedBy);
-            HasRequired(a => a.sys_Company).WithMany(b => b.sys_Users).HasForeignKey(c => c.companyId);
+            HasOptional(a => a.sys_Company).WithMany(b => b.sys_Users).HasForeignKey(c => c.companyId);
         }
     }
 }

@@ -149,6 +149,7 @@
     <Compile Include="Entity\ta_CutOffAttendanceSummary.cs" />
     <Compile Include="Entity\ta_CutOffAttendanceSummaryDetail.cs" />
     <Compile Include="Entity\ta_EmployeeAttendance.cs" />
+    <Compile Include="HRISDBInitializer.cs" />
     <Compile Include="Mapping\mf_AgencyConfiguration.cs" />
     <Compile Include="Mapping\mf_AllowanceConfiguration.cs" />
     <Compile Include="Mapping\mf_ApplicationRequestTypeConfiguration.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="Mapping\ta_CutOffAttendanceSummaryConfiguration.cs" />
     <Compile Include="Mapping\ta_CutOffAttendanceSummaryDetailConfiguration.cs" />
     <Compile Include="Mapping\ta_EmployeeAttendanceConfiguration.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

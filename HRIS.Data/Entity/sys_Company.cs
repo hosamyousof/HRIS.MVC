@@ -11,14 +11,14 @@ namespace HRIS.Data.Entity
         public string address1 { get; set; }
         public string address2 { get; set; }
         public string address3 { get; set; }
-        public Guid countryId { get; set; }
+        public Guid? countryId { get; set; }
         public string city { get; set; }
         public string postalCode { get; set; }
         public string email { get; set; }
         public string telephone { get; set; }
         public string mobile { get; set; }
         public string fax { get; set; }
-        public Guid updatedBy { get; set; }
+        public Guid? updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
 
         public virtual ICollection<mf_Agency> mf_Agencies { get; set; }

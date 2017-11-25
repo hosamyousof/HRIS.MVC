@@ -1,10 +1,12 @@
+using Repository;
 using System;
 using System.Collections.Generic;
 
 namespace HRIS.Data.Entity
 {
-    public class sys_User : EntityBaseCompany
+    public class sys_User : EntityBase
     {
+        public Guid? companyId { get; set; }
         public string username { get; set; }
         public string password { get; set; }
         public string hashKey { get; set; }
