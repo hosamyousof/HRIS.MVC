@@ -24,7 +24,7 @@ namespace HRIS.Data.Entity
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeBasicPays).HasForeignKey(c => c.employeeId);
-            HasRequired(a => a.sys_User).WithMany(b => b.mf_EmployeeBasicPays).HasForeignKey(c => c.updatedBy);
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.mf_EmployeeBasicPays).HasForeignKey(c => c.updatedBy);
         }
     }
 }

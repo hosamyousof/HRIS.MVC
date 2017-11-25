@@ -13,7 +13,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_EmployeeOffense> mf_EmployeeOffenses { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public mf_Offense()
         {

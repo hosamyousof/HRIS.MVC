@@ -19,7 +19,7 @@ namespace HRIS.Data.Entity
         public virtual sys_Menu sys_Menu { get; set; }
         public virtual sys_Role sys_Role { get; set; }
         public virtual sys_RoleMenu sys_RoleMenu_parentRoleMenuId { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public sys_RoleMenu()
         {

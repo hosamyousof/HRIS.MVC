@@ -150,7 +150,7 @@ namespace HRIS.Service.Attendance
                     undertimeHours = x.undertimeHours,
                     lateHours = x.lateHours,
                     overtimeHours = x.overtimeHours,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
             return data;
@@ -180,7 +180,7 @@ namespace HRIS.Service.Attendance
                     totalUndertimeHours = x.ta_CutOffAttendanceSummaryDetails.Sum(s => s.undertimeHours),
                     totalLateHours = x.ta_CutOffAttendanceSummaryDetails.Sum(s => s.lateHours),
                     totalOvertimeHours = x.ta_CutOffAttendanceSummaryDetails.Sum(s => s.overtimeHours),
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
             return data;

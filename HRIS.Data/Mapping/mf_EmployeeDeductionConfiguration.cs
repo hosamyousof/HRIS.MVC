@@ -25,7 +25,7 @@ namespace HRIS.Data.Entity
 
             HasRequired(a => a.mf_Deduction).WithMany(b => b.mf_EmployeeDeductions).HasForeignKey(c => c.deductionId);
             HasRequired(a => a.mf_Employee).WithMany(b => b.mf_EmployeeDeductions).HasForeignKey(c => c.employeeId);
-            HasRequired(a => a.sys_User).WithMany(b => b.mf_EmployeeDeductions).HasForeignKey(c => c.updatedBy);
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.mf_EmployeeDeductions).HasForeignKey(c => c.updatedBy);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace HRIS.Data.Entity
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.mf_Employee).WithMany(b => b.ta_CutOffAttendanceSummaries).HasForeignKey(c => c.employeeId);
-            HasRequired(a => a.sys_User).WithMany(b => b.ta_CutOffAttendanceSummaries).HasForeignKey(c => c.updatedBy);
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.ta_CutOffAttendanceSummaries).HasForeignKey(c => c.updatedBy);
             HasRequired(a => a.ta_CutOffAttendance).WithMany(b => b.ta_CutOffAttendanceSummaries).HasForeignKey(c => c.cutOffAttendanceId);
         }
     }

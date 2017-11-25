@@ -18,7 +18,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<mf_Employee> mf_Employees { get; set; }
 
         public virtual mf_Country mf_Country { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public mf_EmployeeAddress()
         {

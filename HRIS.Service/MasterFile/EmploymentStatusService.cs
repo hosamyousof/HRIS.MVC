@@ -66,7 +66,7 @@ namespace HRIS.Service.MasterFile
                     code = x.code,
                     description = x.description,
                     allowProcessPayroll = x.allowProcessPayroll,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
             return data;

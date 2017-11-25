@@ -33,7 +33,7 @@ namespace HRIS.Data.Entity
             Property(x => x.deleted).HasColumnName("deleted").IsRequired();
 
             HasRequired(a => a.mf_Country).WithMany(b => b.sys_Companies).HasForeignKey(c => c.countryId);
-            HasRequired(a => a.sys_User).WithMany(b => b.sys_Companies).HasForeignKey(c => c.updatedBy);
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.sys_Companies).HasForeignKey(c => c.updatedBy);
         }
     }
 }

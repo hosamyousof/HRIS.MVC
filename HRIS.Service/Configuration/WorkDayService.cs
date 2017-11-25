@@ -80,7 +80,7 @@ namespace HRIS.Service.Configuration
                            ToTimeHour = h2,
                            toTimeMinute = wd.toTimeMinute,
                            breakHours = wd.breakHours,
-                           updatedBy = wd.sys_User.username,
+                           updatedBy = wd.sys_User_updatedBy.username,
                            updatedDate = wd.updatedDate,
                        };
 

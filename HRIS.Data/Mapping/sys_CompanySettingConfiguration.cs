@@ -25,7 +25,7 @@ namespace HRIS.Data.Entity
 
             HasOptional(a => a.sys_Company).WithMany(b => b.sys_CompanySettings).HasForeignKey(c => c.companyId);
             HasRequired(a => a.sys_Setting).WithMany(b => b.sys_CompanySettings).HasForeignKey(c => c.settingId);
-            HasRequired(a => a.sys_User).WithMany(b => b.sys_CompanySettings).HasForeignKey(c => c.updatedBy);
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.sys_CompanySettings).HasForeignKey(c => c.updatedBy);
         }
     }
 }

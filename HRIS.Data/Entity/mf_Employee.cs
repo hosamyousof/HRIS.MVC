@@ -40,7 +40,7 @@ namespace HRIS.Data.Entity
         public virtual mf_Employee201 mf_Employee201 { get; set; }
         public virtual mf_EmployeeAddress mf_EmployeeAddress { get; set; }
         public virtual sys_Company sys_Company { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public mf_Employee()
         {

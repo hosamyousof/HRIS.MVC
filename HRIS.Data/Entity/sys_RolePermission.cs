@@ -17,7 +17,7 @@ namespace HRIS.Data.Entity
 
         public virtual sys_Permission sys_Permission { get; set; }
         public virtual sys_Role sys_Role { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public sys_RolePermission()
         {

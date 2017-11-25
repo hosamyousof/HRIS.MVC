@@ -64,7 +64,7 @@ namespace HRIS.Service.Configuration
                     description = x.description,
                     rateNotWork = x.rateNotWork,
                     rateWork = x.rateWork,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 })
                 ;

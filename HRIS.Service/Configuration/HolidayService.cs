@@ -66,7 +66,7 @@ namespace HRIS.Service.Configuration
                         value = x.mf_HolidayType.id,
                         description = x.mf_HolidayType.description
                     },
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 })
                 ;

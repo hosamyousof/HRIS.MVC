@@ -14,7 +14,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<pr_PayrollEmployeeDeduction> pr_PayrollEmployeeDeductions { get; set; }
 
         public virtual sys_Company sys_Company { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public mf_Deduction()
         {

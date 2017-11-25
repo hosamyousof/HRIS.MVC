@@ -41,7 +41,7 @@ namespace HRIS.Data.Entity
         public virtual ICollection<ta_CutOffAttendance> ta_CutOffAttendances { get; set; }
 
         public virtual mf_Country mf_Country { get; set; }
-        public virtual sys_User sys_User { get; set; }
+        public virtual sys_User sys_User_updatedBy { get; set; }
 
         public sys_Company()
         {

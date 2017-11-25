@@ -68,7 +68,7 @@ namespace HRIS.Service.Configuration
                     id = x.id,
                     code = x.code,
                     description = x.description,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
             return data;

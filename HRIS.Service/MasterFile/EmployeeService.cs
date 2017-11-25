@@ -394,7 +394,7 @@ namespace HRIS.Service.MasterFile
                     employeeCode = x.mf_Employee201.employeeCode,
                     department = x.mf_Employee201.mf_Department.description,
                     position = x.mf_Employee201.mf_Position.description,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
             return data;
@@ -413,7 +413,7 @@ namespace HRIS.Service.MasterFile
                     employeeCode = x.mf_Employee201.employeeCode,
                     department = x.mf_Employee201.mf_Department.description,
                     position = x.mf_Employee201.mf_Position.description,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
             return data;
@@ -439,7 +439,7 @@ namespace HRIS.Service.MasterFile
                     employeeCode = x.mf_Employee201.employeeCode,
                     department = x.mf_Employee201.mf_Department.description,
                     position = x.mf_Employee201.mf_Position.description,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
             return data;
@@ -531,7 +531,7 @@ namespace HRIS.Service.MasterFile
                     id = x.Skill.id,
                     skillName = x.Skill.skillName,
                     skillProficiencyLevel = x.PL,
-                    updatedBy = x.Skill.sys_User.username,
+                    updatedBy = x.Skill.sys_User_updatedBy.username,
                     updatedDate = x.Skill.updatedDate,
                 });
             return data;
@@ -590,7 +590,7 @@ namespace HRIS.Service.MasterFile
                     description = x.description,
                     startDate = x.startDate,
                     endDate = x.endDate,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
             return data;
@@ -666,7 +666,7 @@ namespace HRIS.Service.MasterFile
                     position = x.position,
                     joined = x.joinedMonth + "/" + x.joinedYear,
                     until = x.isPresent == true ? "Present" : (x.resignedMonth + "/" + x.resignedYear),
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                     isPresent = x.isPresent,
                     joinedMonth = x.joinedMonth,
@@ -717,7 +717,7 @@ namespace HRIS.Service.MasterFile
                         description = x.sys_IdentificationDocument.code + ": " + x.sys_IdentificationDocument.description,
                     },
                     idNumber = x.idNumber,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
             return data;
@@ -788,7 +788,7 @@ namespace HRIS.Service.MasterFile
                             startDate = eo.startDate,
                             endDate = eo.endDate,
                             remarks = eo.remarks,
-                            updatedBy = eo.sys_User.username,
+                            updatedBy = eo.sys_User_updatedBy.username,
                             updatedDate = eo.updatedDate,
                         };
 
@@ -852,7 +852,7 @@ namespace HRIS.Service.MasterFile
                         description = x.mf_Allowance.description,
                     },
                     amount = x.amount,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
 
@@ -914,7 +914,7 @@ namespace HRIS.Service.MasterFile
                         description = x.mf_Deduction.description,
                     },
                     amount = x.amount,
-                    updatedBy = x.sys_User.username,
+                    updatedBy = x.sys_User_updatedBy.username,
                     updatedDate = x.updatedDate,
                 });
 
@@ -974,7 +974,7 @@ namespace HRIS.Service.MasterFile
                             id = bp.id,
                             basicPay = bp.basicPay,
                             rateType = prt,
-                            updatedBy = bp.sys_User.username,
+                            updatedBy = bp.sys_User_updatedBy.username,
                             updatedDate = bp.updatedDate,
                         };
 
@@ -1040,7 +1040,7 @@ namespace HRIS.Service.MasterFile
                             id = bp.id,
                             balance = bp.balance,
                             leaveType = prt,
-                            updatedBy = bp.sys_User.username,
+                            updatedBy = bp.sys_User_updatedBy.username,
                             updatedDate = bp.updatedDate,
                         };
 

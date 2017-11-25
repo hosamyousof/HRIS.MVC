@@ -29,7 +29,7 @@ namespace HRIS.Data.Mapping
 
             HasOptional(a => a.mf_WorkDay).WithMany(b => b.ta_EmployeeAttendances).HasForeignKey(c => c.workDayId);
             HasRequired(a => a.mf_Employee).WithMany(b => b.ta_EmployeeAttendances).HasForeignKey(c => c.employeeId);
-            HasRequired(a => a.sys_User).WithMany(b => b.ta_EmployeeAttendances).HasForeignKey(c => c.updatedBy);
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.ta_EmployeeAttendances).HasForeignKey(c => c.updatedBy);
         }
     }
 }

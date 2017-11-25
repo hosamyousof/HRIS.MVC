@@ -29,7 +29,7 @@ namespace HRIS.Data.Entity
 
             HasRequired(a => a.sys_Permission).WithMany(b => b.sys_RolePermissions).HasForeignKey(c => c.permissionId);
             HasRequired(a => a.sys_Role).WithMany(b => b.sys_RolePermissions).HasForeignKey(c => c.roleId);
-            HasRequired(a => a.sys_User).WithMany(b => b.sys_RolePermissions).HasForeignKey(c => c.updatedBy);
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.sys_RolePermissions).HasForeignKey(c => c.updatedBy);
         }
     }
 }

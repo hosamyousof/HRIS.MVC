@@ -28,7 +28,7 @@ namespace HRIS.Data.Entity
             HasOptional(a => a.sys_RoleMenu_parentRoleMenuId).WithMany(b => b.sys_RoleMenus).HasForeignKey(c => c.parentRoleMenuId);
             HasRequired(a => a.sys_Menu).WithMany(b => b.sys_RoleMenus).HasForeignKey(c => c.sourceMenuId);
             HasRequired(a => a.sys_Role).WithMany(b => b.sys_RoleMenus).HasForeignKey(c => c.roleId);
-            HasRequired(a => a.sys_User).WithMany(b => b.sys_RoleMenus).HasForeignKey(c => c.updatedBy);
+            HasRequired(a => a.sys_User_updatedBy).WithMany(b => b.sys_RoleMenus).HasForeignKey(c => c.updatedBy);
         }
     }
 }
