@@ -110,7 +110,7 @@
                         col.Bound(x => x.startDate).Width(120).Format("{0: MM/dd/yyyy}");
                         col.Bound(x => x.employeeCount).Width(120).HtmlAttributes(new { @class = "center" }).Filterable(false);
                         col.Bound(x => x.statusDescr).Width(120).HtmlAttributes(new { @class = "center" }).Filterable(false);
-                        col.Bound(x => x.id).Title("").ClientTemplate("<button type='button' class='col-md-12 k-button' onclick='viewSummary(this,#= id #)'><i class='fa fa-edit'></i> View</button>").Width(120);
+                        col.Bound(x => x.id).Title("").ClientTemplate("<button type='button' class='col-md-12 k-button' onclick='viewSummary(this)' selected-id='#= id #'><i class='fa fa-edit'></i> View</button>").Width(120);
                     })
                     .SetDefaultSettings()
                     .DataSource(source =>
@@ -170,6 +170,9 @@
 <script type="text/javascript">
     function viewSummary(ctrl, id) {
         var btn = null;
+        if (id == undefined){
+            id = $(ctrl).attr("selected-id");
+        }
         if (ctrl != null) {
             btn = $(ctrl);
             btn.attr("disabled", "disabled");

@@ -91,7 +91,7 @@
                                 var totalOvertimeHours = col.Bound(x => x.totalOvertimeHours).Width(120);
                                 var totalUndertimeHours = col.Bound(x => x.totalUndertimeHours).Width(120);
 
-                                col.Bound(x => x.id).Title("").ClientTemplate("<button type='button' class='col-md-12 k-button' onclick='viewSummaryDetails(this,#= id #)'><i class='fa fa-edit'></i> View Details</button>").Width(120);
+                                col.Bound(x => x.id).Title("").ClientTemplate("<button type='button' class='col-md-12 k-button' onclick='viewSummaryDetails(this)' selected-id='#= id #'><i class='fa fa-edit'></i> View Details</button>").Width(120);
                             })
                             .SetDefaultSettings()
                             .DataSource(source =>
@@ -135,8 +135,10 @@
 }
 
 <script type="text/javascript">
-    function viewSummaryDetails(ctrl, id) {
+    function viewSummaryDetails(ctrl) {
+
         var btn = $(ctrl);
+        var id = btn.attr("selected-id");
         btn.attr("disabled", "disabled");
 
         $("#winSummaryDetails").data("kendoWindow").open();

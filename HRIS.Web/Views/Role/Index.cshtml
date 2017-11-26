@@ -20,7 +20,7 @@
                 x.Custom("cmd-permission-role").Text("<i class='fa fa-check-circle-o'></i> Permission").Click("showRolePermissions");
                 x.Destroy();
             }).Width(240);
-            col.Bound(x => x.id).Title("").ClientTemplate("<button class='k-button' type='button' onclick='showRoleMenu(#= id #)'><i class='fa fa-list'></i> Menu</button>").Width(80);
+            col.Bound(x => x.id).Title("").ClientTemplate("<button class='k-button' type='button' onclick='showRoleMenu(this)' role-id='#= id #' ><i class='fa fa-list'></i> Menu</button>").Width(80);
 
         })
     .ToolBar(tb =>
@@ -84,7 +84,8 @@
 
     }
 
-    function showRoleMenu(roleId) {
+    function showRoleMenu(the) {
+        var roleId = $(the).attr('role-id');
         if (roleId == null || roleId == undefined) {
             alert('Please Save Changes first before you proceed Menu Designer.');
             return;
