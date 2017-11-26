@@ -13,6 +13,7 @@ namespace HRIS.Data.Entity
         public string vector { get; set; }
         public string email { get; set; }
         public Guid? employeeId { get; set; }
+        public bool superAdmin { get; set; }
         public int status { get; set; }
         public Guid? updatedBy { get; set; }
         public DateTime updatedDate { get; set; }
@@ -84,6 +85,7 @@ namespace HRIS.Data.Entity
         {
             updatedDate = System.DateTime.Now;
             deleted = false;
+            superAdmin = false;
             mf_Agencies = new List<mf_Agency>();
             mf_Allowances = new List<mf_Allowance>();
             mf_ApplicationRequestTypes = new List<mf_ApplicationRequestType>();

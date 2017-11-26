@@ -24,6 +24,7 @@ namespace HRIS.Data.Mapping
             Property(x => x.vector).HasColumnName("vector").IsOptional();
             Property(x => x.email).HasColumnName("email").IsOptional().HasMaxLength(50);
             Property(x => x.employeeId).HasColumnName("employeeId").IsOptional();
+            Property(x => x.superAdmin).HasColumnName("superAdmin").IsRequired();
             Property(x => x.status).HasColumnName("status").IsRequired();
             Property(x => x.updatedBy).HasColumnName("updatedBy").IsOptional();
             Property(x => x.updatedDate).HasColumnName("updatedDate").IsRequired().HasColumnType("datetime");

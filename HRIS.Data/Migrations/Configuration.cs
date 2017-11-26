@@ -32,15 +32,7 @@ namespace HRIS.Data.Migrations
             var philippines = new mf_Country() { code = "PH", description = "Philippines" };
             repo.Country.Insert(philippines);
 
-            var user_admin = new sys_User()
-            {
-                username = "admin",
-                password = "JYZAJ9KCpK80FCErnsksqw==",
-                hashKey = "29b373cae1fb59b32052386063fb100",
-                vector = "R9_XFXT2U7CaaP_5",
-                email = "mynrd@live.com",
-                status = 1,
-            };
+            var user_admin = new sys_User() { username = "admin", password = "JYZAJ9KCpK80FCErnsksqw==", hashKey = "29b373cae1fb59b32052386063fb100", vector = "R9_XFXT2U7CaaP_5", email = "mynrd@live.com", status = 1, superAdmin = true, };
             repo.User.Insert(user_admin);
             unitOfWork.Save();
 
@@ -51,12 +43,7 @@ namespace HRIS.Data.Migrations
             repo.User.Update(user_admin);
             unitOfWork.Save();
 
-            var company = new sys_Company()
-            {
-                code = "TEST-001",
-                businessName = "Test Company",
-                updatedBy = user_admin.id,
-            };
+            var company = new sys_Company() { code = "TEST-001", businessName = "Test Company", updatedBy = user_admin.id, };
             repo.Company.Insert(company);
             unitOfWork.Save();
 
@@ -69,77 +56,143 @@ namespace HRIS.Data.Migrations
             unitOfWork.Save();
 
             AddEnumReference(unitOfWork, context, company.id);
-            PrepareMenu(unitOfWork, context, user_admin.id);
             PreparePermission(unitOfWork, context, company.id, user_admin.id);
             PrepareRole(unitOfWork, context, company.id, user_admin.id);
         }
 
-        private void PrepareRole(UnitOfWork unitOfWork, HRISContext context, Guid companyId, Guid userId)
+        private void PrepareRole(UnitOfWork unitOfWork, HRISContext context, Guid companyId, Guid adminUserId)
         {
-            var repo = new Repository<sys_Role>(context);
-            repo.Insert(new sys_Role() { code = "ADMIN", description = "Administrators", companyId = companyId, updatedBy = userId });
+            var repoRole = new Repository<sys_Role>(context);
+            var repoUserRole = new Repository<sys_UserRole>(context);
+            var role = repoRole.Insert(new sys_Role() { code = "ADMIN", description = "Administrators", companyId = companyId, updatedBy = adminUserId });
             unitOfWork.Save();
+
+            repoUserRole.Insert(new sys_UserRole() { roleId = role.id, userId = adminUserId, updatedBy = adminUserId, });
+            unitOfWork.Save();
+
+            PrepareMenu(unitOfWork, context, role.id, adminUserId);
         }
 
-        private void PreparePermission(UnitOfWork unitOfWork, HRISContext context, Guid companyId, Guid userId)
+        private void PreparePermission(UnitOfWork unitOfWork, HRISContext context, Guid companyId, Guid adminUserId)
         {
             var repo = new Repository<sys_Permission>(context);
-            repo.Insert(new sys_Permission() { code = "VIEW_CONFIDENTIAL_EMPLOYEE", description = "View Confidential Employee", companyId = companyId, updatedBy = userId });
-            repo.Insert(new sys_Permission() { code = "VIEW_EMPLOYEE_SALARY", description = "View Employee Salary", companyId = companyId, updatedBy = userId });
-            repo.Insert(new sys_Permission() { code = "VIEW_ADMIN_PANEL", description = "View Admin Panel", companyId = companyId, updatedBy = userId });
-            repo.Insert(new sys_Permission() { code = "EMPLOYEE_QUICK_UPDATE", description = "EMPLOYEE_QUICK_UPDATE", companyId = companyId, updatedBy = userId });
-            repo.Insert(new sys_Permission() { code = "DEVELOPER", description = "DEVELOPER", companyId = companyId, updatedBy = userId });
-            repo.Insert(new sys_Permission() { code = "EMPLOYEE_MAINTENANCE", description = "EMPLOYEE_MAINTENANCE", companyId = companyId, updatedBy = userId });
+            repo.Insert(new sys_Permission() { code = "VIEW_CONFIDENTIAL_EMPLOYEE", description = "View Confidential Employee", companyId = companyId, updatedBy = adminUserId });
+            repo.Insert(new sys_Permission() { code = "VIEW_EMPLOYEE_SALARY", description = "View Employee Salary", companyId = companyId, updatedBy = adminUserId });
+            repo.Insert(new sys_Permission() { code = "VIEW_ADMIN_PANEL", description = "View Admin Panel", companyId = companyId, updatedBy = adminUserId });
+            repo.Insert(new sys_Permission() { code = "EMPLOYEE_QUICK_UPDATE", description = "EMPLOYEE_QUICK_UPDATE", companyId = companyId, updatedBy = adminUserId });
+            repo.Insert(new sys_Permission() { code = "DEVELOPER", description = "DEVELOPER", companyId = companyId, updatedBy = adminUserId });
+            repo.Insert(new sys_Permission() { code = "EMPLOYEE_MAINTENANCE", description = "EMPLOYEE_MAINTENANCE", companyId = companyId, updatedBy = adminUserId });
 
             unitOfWork.Save();
         }
 
-        private void PrepareMenu(UnitOfWork unitOfWork, HRISContext context, Guid id)
+        private void PrepareMenu(UnitOfWork unitOfWork, HRISContext context, Guid roleId, Guid adminUserId)
         {
-            var repo = new Repository<sys_Menu>(context);
+            var repoMenu = new Repository<sys_Menu>(context);
+            var repoRoleMenu = new Repository<sys_RoleMenu>(context);
 
-            repo.Insert(CreateMenu("-- Free Text Menu --", null, null, id));
-            CreateMenu("Home", "Home", "Index", id);
-            CreateMenu("Employee Quick update", "Employee", "QuickUpdate", id);
-            CreateMenu("Employee List (Confidential)", "Employee", "EmployeeConfi", id);
-            CreateMenu("Employee List (Non-Confidential)", "Employee", "EmployeeNonConfi", id);
-            CreateMenu("Employee Attendance", "Attendance", "Index", id);
-            CreateMenu("User", "Account", "UserMaintenance", id);
-            CreateMenu("Role", "Role", "Index", id);
-            CreateMenu("Permission", "Permission", "Index", id);
-            CreateMenu("Company Information", "Company", "Index", id);
-            CreateMenu("Location", "Location", "Index", id);
-            CreateMenu("Application Approver", "ApplicationRequest", "DepartmentSectionApprover", id);
-            CreateMenu("Work Days", "WorkDay", "Index", id);
-            CreateMenu("Holiday Type", "HolidayType", "Index", id);
-            CreateMenu("Holidays", "Holiday", "Index", id);
-            CreateMenu("Payroll Group", "PayrollGroup", "Index", id);
-            CreateMenu("Employment Status", "EmploymentStatus", "Index", id);
-            CreateMenu("Employment Type", "EmploymentType", "Index", id);
-            CreateMenu("Identification Document", "IdentificationDocument", "Index", id);
-            CreateMenu("Department", "Department", "Index", id);
-            CreateMenu("Position", "Position", "Index", id);
-            CreateMenu("Allowance", "Allowance", "Index", id);
-            CreateMenu("Offense", "Offense", "Index", id);
-            CreateMenu("Penalty Type", "PenaltyType", "Index", id);
-            CreateMenu("Update WorkDay Attendance", "Attendance", "UpdateWorkDayAttendance", id);
-            CreateMenu("Section", "Department", "Section", id);
-            CreateMenu("Cut Off Attendance", "Attendance", "CutOffAttendance", id);
-            CreateMenu("My Approval", "ApplicationRequest", "MyApproval", id);
-            CreateMenu("Request Leave", "ApplicationRequest", "RequestLeave", id);
-            CreateMenu("Deduction", "Deduction", "Index", id);
+            var freeMenu = repoMenu.Insert(CreateMenu("-- Free Text Menu --", null, null, adminUserId));
+            var home = repoMenu.Insert(CreateMenu("Home", "Home", "Index", adminUserId));
+            var empQuickUpdate = repoMenu.Insert(CreateMenu("Employee Quick update", "Employee", "QuickUpdate", adminUserId));
+            var empListConfi = repoMenu.Insert(CreateMenu("Employee List (Confidential)", "Employee", "EmployeeConfi", adminUserId));
+            var empListNonConfi = repoMenu.Insert(CreateMenu("Employee List (Non-Confidential)", "Employee", "EmployeeNonConfi", adminUserId));
+            var empAttendance = repoMenu.Insert(CreateMenu("Employee Attendance", "Attendance", "Index", adminUserId));
+            var user = repoMenu.Insert(CreateMenu("User", "Account", "UserMaintenance", adminUserId));
+            var role = repoMenu.Insert(CreateMenu("Role", "Role", "Index", adminUserId));
+            var permission = repoMenu.Insert(CreateMenu("Permission", "Permission", "Index", adminUserId));
+            var company = repoMenu.Insert(CreateMenu("Company Information", "Company", "Index", adminUserId));
+            var location = repoMenu.Insert(CreateMenu("Location", "Location", "Index", adminUserId));
+            var appApprover = repoMenu.Insert(CreateMenu("Application Approver", "ApplicationRequest", "DepartmentSectionApprover", adminUserId));
+            var workDays = repoMenu.Insert(CreateMenu("Work Days", "WorkDay", "Index", adminUserId));
+            var holidayType = repoMenu.Insert(CreateMenu("Holiday Type", "HolidayType", "Index", adminUserId));
+            var holidays = repoMenu.Insert(CreateMenu("Holidays", "Holiday", "Index", adminUserId));
+            var payrollGroup = repoMenu.Insert(CreateMenu("Payroll Group", "PayrollGroup", "Index", adminUserId));
+            var empStatus = repoMenu.Insert(CreateMenu("Employment Status", "EmploymentStatus", "Index", adminUserId));
+            var empType = repoMenu.Insert(CreateMenu("Employment Type", "EmploymentType", "Index", adminUserId));
+            var identificationDoc = repoMenu.Insert(CreateMenu("Identification Document", "IdentificationDocument", "Index", adminUserId));
+            var department = repoMenu.Insert(CreateMenu("Department", "Department", "Index", adminUserId));
+            var position = repoMenu.Insert(CreateMenu("Position", "Position", "Index", adminUserId));
+            var allowance = repoMenu.Insert(CreateMenu("Allowance", "Allowance", "Index", adminUserId));
+            var offence = repoMenu.Insert(CreateMenu("Offense", "Offense", "Index", adminUserId));
+            var penaltyType = repoMenu.Insert(CreateMenu("Penalty Type", "PenaltyType", "Index", adminUserId));
+            var updateWorkDayAtt = repoMenu.Insert(CreateMenu("Update WorkDay Attendance", "Attendance", "UpdateWorkDayAttendance", adminUserId));
+            var departmentSection = repoMenu.Insert(CreateMenu("Department Section", "Department", "Section", adminUserId));
+            var cutOffAttendance = repoMenu.Insert(CreateMenu("Cut Off Attendance", "Attendance", "CutOffAttendance", adminUserId));
+            var myApproval = repoMenu.Insert(CreateMenu("My Approval", "ApplicationRequest", "MyApproval", adminUserId));
+            var requestLeave = repoMenu.Insert(CreateMenu("Request Leave", "ApplicationRequest", "RequestLeave", adminUserId));
+            var deduction = repoMenu.Insert(CreateMenu("Deduction", "Deduction", "Index", adminUserId));
+            unitOfWork.Save();
+
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, home.id, "Home", 1, adminUserId));
+            var c_empMaintenance = repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Employee Maintenance", 3, adminUserId));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, empListConfi.id, "Employee List (Confidential)", 1, adminUserId, c_empMaintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, empListNonConfi.id, "Employee List (Non-Confidential)", 2, adminUserId, c_empMaintenance.id));
+            var c_administrator = repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Administrator", 6, adminUserId));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, empQuickUpdate.id, "Employee Quick Update", 3, adminUserId, c_empMaintenance.id));
+            var c_ta = repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Time and Attendance", 4, adminUserId, c_empMaintenance.id));
+            var c_ta_maintenance = repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Maintenance", 3, adminUserId, c_ta.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, workDays.id, "Work Days", 1, adminUserId, c_ta_maintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, holidays.id, "Holidays", 1, adminUserId, c_ta_maintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, holidayType.id, "Holiday Type", 1, adminUserId, c_ta_maintenance.id));
+
+            var c_empMaintenanceMaintenance = repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Maintenance", 4, adminUserId, c_empMaintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, empStatus.id, "Employment Status", 1, adminUserId, c_empMaintenanceMaintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, empType.id, "Employment Type", 1, adminUserId, c_empMaintenanceMaintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, payrollGroup.id, "Payroll Group", 4, adminUserId, c_empMaintenanceMaintenance.id));
+            var c_departmentConfig = repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Department Configuration", 88, adminUserId, c_empMaintenanceMaintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, position.id, "Position", 1, adminUserId, c_empMaintenanceMaintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, allowance.id, "Allowance", 1, adminUserId, c_empMaintenanceMaintenance.id));
+            var c_offenseConfig = repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Offense Configuration", 88, adminUserId, c_empMaintenanceMaintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, identificationDoc.id, "Identification Document", 1, adminUserId, c_empMaintenanceMaintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, offence.id, "Offense", 1, adminUserId, c_offenseConfig.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, penaltyType.id, "Penalty Type", 1, adminUserId, c_offenseConfig.id));
+
+            var c_accountMaintenance = repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Account Maintenance", 2, adminUserId, c_administrator.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, user.id, "User", 1, adminUserId, c_accountMaintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, role.id, "Role", 2, adminUserId, c_accountMaintenance.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, permission.id, "Permission", 2, adminUserId, c_accountMaintenance.id));
+
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, empAttendance.id, "Employee Attendance", 2, adminUserId, c_ta.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, updateWorkDayAtt.id, "Update Work Day Attendance", 2, adminUserId, c_ta.id));
+
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, department.id, "Department", 1, adminUserId, c_departmentConfig.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, appApprover.id, "Application Approver", 1, adminUserId, c_departmentConfig.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, departmentSection.id, "Department Section", 1, adminUserId, c_departmentConfig.id));
+
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, cutOffAttendance.id, "Cut Off Attenance", 1, adminUserId, c_ta.id));
+
+            var c_system = repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "System", 1, adminUserId, c_administrator.id));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, company.id, "Company Information", 1, adminUserId, c_system.id));
+
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Application Request", 2, adminUserId));
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Payroll", 5, adminUserId));
+
+            repoRoleMenu.Insert(CreateRoleMenu(roleId, deduction.id, "Deduction", 1, adminUserId, c_empMaintenanceMaintenance.id));
 
             unitOfWork.Save();
         }
 
-        private sys_Menu CreateMenu(string description, string controllerName, string actionName, Guid updatedBy)
+        private sys_RoleMenu CreateRoleMenu(Guid roleId, Guid sourceMenuId, string description, int displayOrder, Guid adminUserId, Guid? parentRoleMenuId = null)
+        {
+            return new sys_RoleMenu()
+            {
+                roleId = roleId,
+                sourceMenuId = sourceMenuId,
+                description = description,
+                displayOrder = displayOrder,
+                parentRoleMenuId = parentRoleMenuId,
+                updatedBy = adminUserId
+            };
+        }
+
+        private sys_Menu CreateMenu(string description, string controllerName, string actionName, Guid adminUserId)
         {
             return new sys_Menu()
             {
                 description = description,
                 controllerName = controllerName,
                 actionName = actionName,
-                updatedBy = updatedBy,
+                updatedBy = adminUserId,
             };
         }
 

@@ -211,7 +211,7 @@ namespace HRIS.Service.Sys
                     break;
             }
 
-            return query.Any();
+            return query.Any(x => x.u.superAdmin) || query.Any();
         }
 
         public bool IsSessionValid(Guid sessionId, string username)

@@ -3,7 +3,7 @@ namespace HRIS.Data.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Init : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -313,6 +313,7 @@ namespace HRIS.Data.Migrations
                         vector = c.String(),
                         email = c.String(maxLength: 50),
                         employeeId = c.Guid(),
+                        superAdmin = c.Boolean(nullable: false),
                         status = c.Int(nullable: false),
                         updatedBy = c.Guid(),
                         updatedDate = c.DateTime(nullable: false),
