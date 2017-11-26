@@ -11,7 +11,7 @@
             col.Bound(x => x.skillName);
             col.Bound(x => x.skillProficiencyLevel).ClientTemplate("#= skillProficiencyLevel.description #").Width(150).EditorTemplateName("DropDownSkillProficiency");
             col.Bound(x => x.updatedBy).Width(90);
-            col.Bound(x => x.updatedDate).Width(120);
+            col.Bound(x => x.updatedDate).Width(130);
             col.Command(x =>
             {
                 x.Destroy();

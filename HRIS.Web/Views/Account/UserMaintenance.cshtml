@@ -32,11 +32,11 @@
                 .Filterable(filter =>filter.UI("statusFilter"))
                 .EditorTemplateName("DropDownUserStatus");
             col.Bound(x => x.updatedBy).Width(90).Title("Updated By");
-            col.Bound(x => x.updatedDate).Width(120).Filterable(filter => filter.UI(GridFilterUIRole.DateTimePicker));
+            col.Bound(x => x.updatedDate).Width(130).Filterable(filter => filter.UI(GridFilterUIRole.DateTimePicker));
             col.Command(x =>
             {
                 x.Destroy();
-            }).Width(50);
+            }).Width(90);
         })
         .ToolBar(tb =>
         {

@@ -12,7 +12,7 @@
             col.Bound(x => x.idNumber).Width(150);
             col.Bound(x => x.IdentificationDocument).ClientTemplate("#= IdentificationDocument.description #").EditorTemplateName("DropDownIdentificationDocument");
             col.Bound(x => x.updatedBy).Width(90);
-            col.Bound(x => x.updatedDate).Width(120);
+            col.Bound(x => x.updatedDate).Width(130);
             col.Command(x =>
             {
                 x.Destroy();
