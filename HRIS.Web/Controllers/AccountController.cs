@@ -6,9 +6,7 @@ using HRIS.Web.Models;
 using Kendo.Mvc.Extensions;
 using Kendo.Mvc.UI;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 
@@ -127,6 +125,9 @@ namespace HRIS.Web.Controllers
         public ActionResult Login(string ReturnUrl)
         {
             var model = new LoginModel();
+#if DEBUG
+            model = new LoginModel() { Username = "admin", Password = "admin" };
+#endif
             return View(model);
         }
 
