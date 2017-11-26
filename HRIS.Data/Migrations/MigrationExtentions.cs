@@ -19,10 +19,10 @@ namespace HRIS.Data.Migrations
             return parent;
         }
 
-        public static List<sys_RoleMenu> AddListReturnValue(this List<sys_RoleMenu> the, sys_RoleMenu data)
+        public static sys_RoleMenu AddListReturnValue(this List<sys_RoleMenu> the, sys_RoleMenu data)
         {
             the.Add(data);
-            return the;
+            return data;
         }
     }
 }
