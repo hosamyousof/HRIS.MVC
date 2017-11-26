@@ -11,10 +11,6 @@ Begin
     Return @Temp
 End
 
-
-
-
-
 CREATE Function [dbo].[RemoveSpecialCharacters](@Temp VarChar(1000))
 Returns VarChar(1000)
 AS
