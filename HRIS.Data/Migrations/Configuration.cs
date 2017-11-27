@@ -158,7 +158,7 @@ namespace HRIS.Data.Migrations
                             c_account.Add(CreateRoleMenu(roleId, permission.id, "Permission", 3, adminUserId));
                         });
 
-                    c_companyConfig.AddListReturnValue(CreateRoleMenu(roleId, freeMenu.id, "Employee", 3, adminUserId))
+                    c_companyConfig.AddListReturnValue(CreateRoleMenu(roleId, freeMenu.id, "Organizational Structure", 3, adminUserId))
                         .AddChild(repoRoleMenu, c_employee =>
                         {
                             c_employee.Add(CreateRoleMenu(roleId, empStatus.id, "Employment Status", 1, adminUserId));
