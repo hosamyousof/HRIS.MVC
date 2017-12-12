@@ -126,16 +126,16 @@ namespace HRIS.Data.Migrations
             repoRoleMenu.Insert(CreateRoleMenu(roleId, home.id, "Home", 1, adminUserId));
 
             repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Employees", 2, adminUserId))
-                    .AddChild(repoRoleMenu, c_employees =>
-                    {
-                        c_employees.AddListReturnValue(CreateRoleMenu(roleId, freeMenu.id, "Employee List", 1, adminUserId))
-                            .AddChild(repoRoleMenu, empList =>
-                            {
-                                empList.Add(CreateRoleMenu(roleId, empListConfi.id, "Employee List (Confidential)", 1, adminUserId));
-                                empList.Add(CreateRoleMenu(roleId, empListNonConfi.id, "Employee List (Non-Confidential)", 2, adminUserId));
-                                empList.Add(CreateRoleMenu(roleId, empQuickUpdate.id, "Employee Quick Update", 3, adminUserId));
-                            });
-                    });
+                .AddChild(repoRoleMenu, c_employees =>
+                {
+                    c_employees.AddListReturnValue(CreateRoleMenu(roleId, freeMenu.id, "Employee List", 1, adminUserId))
+                        .AddChild(repoRoleMenu, empList =>
+                        {
+                            empList.Add(CreateRoleMenu(roleId, empListConfi.id, "Employee List (Confidential)", 1, adminUserId));
+                            empList.Add(CreateRoleMenu(roleId, empListNonConfi.id, "Employee List (Non-Confidential)", 2, adminUserId));
+                            empList.Add(CreateRoleMenu(roleId, empQuickUpdate.id, "Employee Quick Update", 3, adminUserId));
+                        });
+                });
 
             repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Time and Attendance", 3, adminUserId))
                 .AddChild(repoRoleMenu, c_timeAndAttendance =>
@@ -199,26 +199,12 @@ namespace HRIS.Data.Migrations
 
         private sys_RoleMenu CreateRoleMenu(Guid roleId, Guid sourceMenuId, string description, int displayOrder, Guid adminUserId, Guid? parentRoleMenuId = null)
         {
-            return new sys_RoleMenu()
-            {
-                roleId = roleId,
-                sourceMenuId = sourceMenuId,
-                description = description,
-                displayOrder = displayOrder,
-                parentRoleMenuId = parentRoleMenuId,
-                updatedBy = adminUserId
-            };
+            return new sys_RoleMenu() { roleId = roleId, sourceMenuId = sourceMenuId, description = description, displayOrder = displayOrder, parentRoleMenuId = parentRoleMenuId, updatedBy = adminUserId };
         }
 
         private sys_Menu CreateMenu(string description, string controllerName, string actionName, Guid adminUserId)
         {
-            return new sys_Menu()
-            {
-                description = description,
-                controllerName = controllerName,
-                actionName = actionName,
-                updatedBy = adminUserId,
-            };
+            return new sys_Menu() { description = description, controllerName = controllerName, actionName = actionName, updatedBy = adminUserId, };
         }
 
         private void AddEnumReference(UnitOfWork unitOfWork, HRISContext context, Guid companyId)
