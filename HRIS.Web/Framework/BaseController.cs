@@ -17,29 +17,36 @@ namespace HRIS.Web.Framework
     {
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            if (filterContext.RequestContext.HttpContext.User.Identity.IsAuthenticated)
+            if (filterContext.RequestContext.HttpContext.Request.Browser.IsMobileDevice)
             {
-                bool isValid = false;
-                try
+                filterContext.Result = new RedirectResult(Url.Content("~/InvalidDevice"));
+            }
+            else
+            {
+                if (filterContext.RequestContext.HttpContext.User.Identity.IsAuthenticated)
                 {
-                    var loggedUser = filterContext.RequestContext.HttpContext.User.Identity.Name.Split('|');
-                    Guid sessionId = Guid.Parse(loggedUser[0]);
-                    string username = loggedUser[1];
+                    bool isValid = false;
+                    try
+                    {
+                        var loggedUser = filterContext.RequestContext.HttpContext.User.Identity.Name.Split('|');
+                        Guid sessionId = Guid.Parse(loggedUser[0]);
+                        string username = loggedUser[1];
 
-                    var userService = DependencyResolver.Current.GetService<IUserService>();
-                    isValid = userService.IsSessionValid(sessionId, username);
-                    if (isValid)
-                        userService.UpdateUserSessionExpiration(sessionId);
-                }
-                catch (Exception)
-                {
-                    isValid = false;
-                }
+                        var userService = DependencyResolver.Current.GetService<IUserService>();
+                        isValid = userService.IsSessionValid(sessionId, username);
+                        if (isValid)
+                            userService.UpdateUserSessionExpiration(sessionId);
+                    }
+                    catch (Exception)
+                    {
+                        isValid = false;
+                    }
 
-                if (isValid == false)
-                {
-                    FormsAuthentication.SignOut();
-                    filterContext.Result = new RedirectResult(Url.Content("~/Login"));
+                    if (isValid == false)
+                    {
+                        FormsAuthentication.SignOut();
+                        filterContext.Result = new RedirectResult(Url.Content("~/Login"));
+                    }
                 }
             }
 

@@ -94,8 +94,7 @@ namespace HRIS.Data.Migrations
             var freeMenu = repoMenu.Insert(CreateMenu("-- Free Text Menu --", null, null, adminUserId));
             var home = repoMenu.Insert(CreateMenu("Home", "Home", "Index", adminUserId));
             var empQuickUpdate = repoMenu.Insert(CreateMenu("Employee Quick update", "Employee", "QuickUpdate", adminUserId));
-            var empListConfi = repoMenu.Insert(CreateMenu("Employee List (Confidential)", "Employee", "EmployeeConfi", adminUserId));
-            var empListNonConfi = repoMenu.Insert(CreateMenu("Employee List (Non-Confidential)", "Employee", "EmployeeNonConfi", adminUserId));
+            var empListConfi = repoMenu.Insert(CreateMenu("Employee List", "Employee", "EmployeeConfi", adminUserId));
             var empAttendance = repoMenu.Insert(CreateMenu("Employee Attendance", "Attendance", "Index", adminUserId));
             var user = repoMenu.Insert(CreateMenu("User", "Account", "UserMaintenance", adminUserId));
             var role = repoMenu.Insert(CreateMenu("Role", "Role", "Index", adminUserId));
@@ -128,13 +127,8 @@ namespace HRIS.Data.Migrations
             repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Employees", 2, adminUserId))
                 .AddChild(repoRoleMenu, c_employees =>
                 {
-                    c_employees.AddListReturnValue(CreateRoleMenu(roleId, freeMenu.id, "Employee List", 1, adminUserId))
-                        .AddChild(repoRoleMenu, empList =>
-                        {
-                            empList.Add(CreateRoleMenu(roleId, empListConfi.id, "Employee List (Confidential)", 1, adminUserId));
-                            empList.Add(CreateRoleMenu(roleId, empListNonConfi.id, "Employee List (Non-Confidential)", 2, adminUserId));
-                            empList.Add(CreateRoleMenu(roleId, empQuickUpdate.id, "Employee Quick Update", 3, adminUserId));
-                        });
+                    c_employees.AddListReturnValue(CreateRoleMenu(roleId, empListConfi.id, "Employee Entry", 1, adminUserId));
+                    c_employees.AddListReturnValue(CreateRoleMenu(roleId, empQuickUpdate.id, "Employee Quick Update", 1, adminUserId));
                 });
 
             repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Time and Attendance", 3, adminUserId))

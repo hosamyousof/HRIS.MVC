@@ -49,69 +49,7 @@
     @RenderSection("header", false)
 </head>
 <body>
-    <div id="splitter-vertical">
-        <div class="hris-header">
-            <div class="logo">
-                <a href="@Url.Content("~/")">
-                    <img src="@Html.GetFileUrl("~/assets/images/logo.tran.gif")" class="logo-img" />
-                    Web HRIS
-                </a>
-            </div>
-            <div style="width: 30%; float: right; text-align: right; padding: 10px;">
-                @if (User.Identity.IsAuthenticated)
-                {
-
-                    var userService = DependencyResolver.Current.GetService<HRIS.Service.Sys.IUserService>();
-                    var profile = userService.GetCurrentAccountProfile();
-
-                    <p>Hello, <strong>@(profile.username.ToUpper() + " [" + profile.company + "]")</strong></p>
-                    <p><a href="@Url.Content("~/MyProfile")">My Profile</a> | <a href="@Url.Content("~/LogOff")">Log off</a></p>
-                }
-            </div>
-
-            <div class="clearfix"></div>
-        </div>
-        <div style="background-color: #f1f1f1;">
-            <div class="main-container-vertical">
-                <div class="col-md-2 panelBarMenuVertical-container">
-                    <div class="row">
-                        @Html.Action("GetRoleMenu", new { isVertical = true })
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="col-md-offset-2 col-md-10 render-body" style="padding-bottom: 10px;">
-                    @RenderBody()
-                    <div class="clearfix"></div>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-        <div class="hris-footer">
-            <p>
-                HRIS @@ Active Apps 2016 (<strong>Ver: @ViewContext.Controller.GetType().Assembly.GetName().Version</strong>)
-            </p>
-        </div>
-    </div>
-    <script>
-        $(function () {
-            $("#splitter-vertical").kendoSplitter({
-                orientation: "vertical",
-                panes: [
-                    { collapsible: false, resizable: false, size: "70px" },
-                    { collapsible: false },
-                    { collapsible: false, resizable: false, size: "30px" },
-                ]
-            });
-
-            //$("#splitter-horizontal").kendoSplitter({
-            //    panes: [
-            //        { collapsible: true, size: "300px" },
-            //        { collapsible: false },
-            //    ]
-            //});
-        });
-    </script>
-
+    @RenderBody()
     @RenderSection("bottom", false)
 </body>
 <!-- END BODY -->

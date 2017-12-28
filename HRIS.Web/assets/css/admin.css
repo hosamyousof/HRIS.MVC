@@ -9,7 +9,7 @@ body {
     padding: 0;
     overflow: hidden;
     font-size: 85% !important;
-    min-width: 320px;
+    min-width: 1360px;
 }
 
 #splitter-vertical,
@@ -412,6 +412,7 @@ header .container h1.visible-sm {
         padding-top: 10px;
         overflow: auto;
         height: 100%;
+        float: right;
     }
 
 div.panelBarMenuVertical-container {
@@ -437,6 +438,7 @@ div.panelBarMenuVertical-container {
 .hris-header {
     background-color: #2a2730;
     color: white;
+    overflow: hidden !important;
 }
 
     .hris-header a {

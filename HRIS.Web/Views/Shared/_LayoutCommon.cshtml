@@ -1,7 +1,6 @@
 ﻿@{ 
     Layout = "_LayoutMain.cshtml";
 }
-
 <div id="splitter-vertical">
     <div class="hris-header">
         <div class="logo">
@@ -18,7 +17,7 @@
                 var profile = userService.GetCurrentAccountProfile();
 
                 <p>Hello, <strong>@(profile.username.ToUpper() + " [" + profile.company + "]")</strong></p>
-                    <p><a href="@Url.Content("~/MyProfile")">My Profile</a> | <a href="@Url.Content("~/LogOff")">Log off</a></p>
+                <p><a href="@Url.Content("~/MyProfile")">My Profile</a> | <a href="@Url.Content("~/LogOff")">Log off</a></p>
             }
         </div>
 
@@ -26,16 +25,7 @@
     </div>
     <div style="background-color: #f1f1f1;">
         <div class="main-container-vertical">
-            <div class="col-md-2 panelBarMenuVertical-container">
-                <div class="row">
-                    @Html.Action("GetRoleMenu", new { isVertical = true })
-                </div>
-                <div class="clearfix"></div>
-            </div>
-            <div class="col-md-10 render-body" style="padding-bottom: 10px;">
-                @RenderBody()
-                <div class="clearfix"></div>
-            </div>
+            @RenderBody()
             <div class="clearfix"></div>
         </div>
     </div>
@@ -55,12 +45,5 @@
                 { collapsible: false, resizable: false, size: "30px" },
             ]
         });
-
-        //$("#splitter-horizontal").kendoSplitter({
-        //    panes: [
-        //        { collapsible: true, size: "300px" },
-        //        { collapsible: false },
-        //    ]
-        //});
     });
 </script>
