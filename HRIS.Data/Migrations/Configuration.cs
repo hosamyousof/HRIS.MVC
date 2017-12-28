@@ -169,11 +169,11 @@ namespace HRIS.Data.Migrations
                             c_employee.Add(CreateRoleMenu(roleId, identificationDoc.id, "Identification Document", 6, adminUserId));
                             c_employee.Add(CreateRoleMenu(roleId, deduction.id, "Deduction", 7, adminUserId));
                             c_employee.AddListReturnValue(CreateRoleMenu(roleId, freeMenu.id, "Offense Configuration", 8, adminUserId))
-                                     .AddChild(repoRoleMenu, c_offenseConfig =>
-                                     {
-                                         c_offenseConfig.Add(CreateRoleMenu(roleId, offence.id, "Offense", 1, adminUserId));
-                                         c_offenseConfig.Add(CreateRoleMenu(roleId, penaltyType.id, "Penalty Type", 2, adminUserId));
-                                     });
+                                .AddChild(repoRoleMenu, c_offenseConfig =>
+                                {
+                                    c_offenseConfig.Add(CreateRoleMenu(roleId, offence.id, "Offense", 1, adminUserId));
+                                    c_offenseConfig.Add(CreateRoleMenu(roleId, penaltyType.id, "Penalty Type", 2, adminUserId));
+                                });
 
                             c_employee.AddListReturnValue(CreateRoleMenu(roleId, freeMenu.id, "Department Configuration", 9, adminUserId))
                                 .AddChild(repoRoleMenu, c_departmentConfig =>

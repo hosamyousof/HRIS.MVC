@@ -149,7 +149,6 @@
     <Compile Include="Entity\ta_CutOffAttendanceSummary.cs" />
     <Compile Include="Entity\ta_CutOffAttendanceSummaryDetail.cs" />
     <Compile Include="Entity\ta_EmployeeAttendance.cs" />
-    <Compile Include="HRISDBInitializer.cs" />
     <Compile Include="Mapping\mf_AgencyConfiguration.cs" />
     <Compile Include="Mapping\mf_AllowanceConfiguration.cs" />
     <Compile Include="Mapping\mf_ApplicationRequestTypeConfiguration.cs" />
@@ -208,9 +207,9 @@
     <Compile Include="Mapping\ta_CutOffAttendanceSummaryConfiguration.cs" />
     <Compile Include="Mapping\ta_CutOffAttendanceSummaryDetailConfiguration.cs" />
     <Compile Include="Mapping\ta_EmployeeAttendanceConfiguration.cs" />
-    <Compile Include="Migrations\201711260314027_init.cs" />
-    <Compile Include="Migrations\201711260314027_init.Designer.cs">
-      <DependentUpon>201711260314027_init.cs</DependentUpon>
+    <Compile Include="Migrations\201712281200410_init.cs" />
+    <Compile Include="Migrations\201712281200410_init.Designer.cs">
+      <DependentUpon>201712281200410_init.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\MigrationExtentions.cs" />
@@ -234,14 +233,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711260314027_init.resx">
-      <DependentUpon>201711260314027_init.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="DatabaseBackup\temporaryAttendance.sql" />
     <None Include="DatabaseBackup\toolScript.sql" />
     <None Include="DatabaseBackup\toolScriptRemoveNonAlphaCharacters.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201712281200410_init.resx">
+      <DependentUpon>201712281200410_init.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
