@@ -5,7 +5,8 @@ Tools VS Extensions: Go to https://visualstudiogallery.msdn.microsoft.com/ or in
   - AttachTo-Next
   - SlowCheetah
   
-Create Database
-Go to "Package Manager Console" and input "Update-Database"
-It will create database, tables and seed database
+To Generate Database
+1. Update App.Config ConnectionStrings base on your database.
+2. Go to "Package Manager Console" and input "Update-Database", It will create database, tables and seed database
+
 Note: Please make sure your default project is HRIS.Data just incase Update-Database is not working
