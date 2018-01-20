@@ -62,10 +62,9 @@ namespace HRIS.Web.Controllers
             }, successMsg: "Employee Basic Information successfully saved.");
         }
 
-        public ActionResult Create(bool confidential)
+        public ActionResult Create()
         {
             var model = new EmployeeBasicInfoModel();
-            model.confidential = confidential;
             this.PrepareEmployeeBasicInfoModel(model);
             return View(model);
         }
@@ -97,24 +96,10 @@ namespace HRIS.Web.Controllers
             return View(id);
         }
 
-        public ActionResult EmployeeConfi()
+        public ActionResult Index()
         {
             ViewBag.confidential = true;
-            return View("Index");
-        }
-
-        public ActionResult EmployeeNonConfi()
-        {
-            ViewBag.confidential = false;
-            return View("Index");
-        }
-
-        [HttpPost]
-        public ActionResult EmployeeNonConfidentialGetQuery([DataSourceRequest] DataSourceRequest request)
-        {
-            var data = this._employeeService.EmployeeNonConfidentialGetQuery();
-            var result = data.ToDataSourceResult(request);
-            return Json(result, JsonRequestBehavior.AllowGet);
+            return View();
         }
 
         public ActionResult GetEmployeeBasicInfo(Guid id)
@@ -125,9 +110,9 @@ namespace HRIS.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult GetEmployeeConfidentialGetQuery([DataSourceRequest] DataSourceRequest request)
+        public ActionResult GetEmployeeList([DataSourceRequest] DataSourceRequest request)
         {
-            var data = this._employeeService.EmployeeConfidentialGetQuery();
+            var data = this._employeeService.EmployeeGetQuery();
             var result = data.ToDataSourceResult(request);
             return Json(result, JsonRequestBehavior.AllowGet);
         }

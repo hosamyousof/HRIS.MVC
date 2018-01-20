@@ -1,66 +1,77 @@
-﻿@{ 
+﻿@{
     Layout = "_LayoutMain.cshtml";
 }
+@section script_plugins{
+    @RenderSection("script_plugins", false)
+}
+@section header{
+    @RenderSection("header", false)
+}
+@section bottom{
+    @RenderSection("bottom", false)
+}
+@section css_plugins{
+    @RenderSection("css_plugins", false)
+}
 
-<div id="splitter-vertical">
-    <div class="hris-header">
-        <div class="logo">
-            <a href="@Url.Content("~/")">
-                <img src="@Html.GetFileUrl("~/assets/images/logo.tran.gif")" class="logo-img" />
-                Web HRIS
-            </a>
-        </div>
-        <div style="width: 30%; float: right; text-align: right; padding: 10px;">
-            @if (User.Identity.IsAuthenticated)
-            {
+@*<div id="splitter-vertical">
+        <div class="hris-header">
+            <div class="logo">
+                <a href="@Url.Content("~/")">
+                    <img src="@Html.GetFileUrl("~/assets/images/logo.tran.gif")" class="logo-img" />
+                    Web HRIS
+                </a>
+            </div>
+            <div style="width: 30%; float: right; text-align: right; padding: 10px;">
+                @if (User.Identity.IsAuthenticated)
+                {
 
-                var userService = DependencyResolver.Current.GetService<HRIS.Service.Sys.IUserService>();
-                var profile = userService.GetCurrentAccountProfile();
+                    var userService = DependencyResolver.Current.GetService<HRIS.Service.Sys.IUserService>();
+                    var profile = userService.GetCurrentAccountProfile();
 
-                <p>Hello, <strong>@(profile.username.ToUpper() + " [" + profile.company + "]")</strong></p>
+                    <p>Hello, <strong>@(profile.username.ToUpper() + " [" + profile.company + "]")</strong></p>
                     <p><a href="@Url.Content("~/MyProfile")">My Profile</a> | <a href="@Url.Content("~/LogOff")">Log off</a></p>
-            }
-        </div>
+                }
+            </div>
 
-        <div class="clearfix"></div>
-    </div>
-    <div style="background-color: #f1f1f1;">
-        <div class="main-container-vertical">
-            <div class="col-md-2 panelBarMenuVertical-container">
-                <div class="row">
+            <div class="clearfix"></div>
+        </div>
+        <div class="row" style="background-color: #f1f1f1;">
+            <div class="main-container-vertical">
+                <div class="col-md-3 panelBarMenuVertical-container">
                     @Html.Action("GetRoleMenu", new { isVertical = true })
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-md-9 render-body">
+                    @RenderBody()
+                    <div class="clearfix"></div>
                 </div>
                 <div class="clearfix"></div>
             </div>
-            <div class="col-md-10 render-body" style="padding-bottom: 10px;">
-                @RenderBody()
-                <div class="clearfix"></div>
+        </div>
+        <div class="hris-footer">
+            <p>
+                HRIS @@ mynrd @DateTime.Now.Year (<strong>Ver: @ViewContext.Controller.GetType().Assembly.GetName().Version</strong>)
+            </p>
+        </div>
+    </div>*@
+
+    <header></header>
+    <section class="main-container">
+        <div class="row" style="height:100%">
+            <div class="col-md-2 hris-menu">
+                @Html.Action("GetRoleMenu", new { isVertical = true })
+            </div>
+            <div class="col-md-10 hris-body ">
+                <div class="content">
+                    @RenderBody()
+                </div>
             </div>
             <div class="clearfix"></div>
         </div>
-    </div>
-    <div class="hris-footer">
-        <p>
-            HRIS @@ Active Apps @DateTime.Now.Year (<strong>Ver: @ViewContext.Controller.GetType().Assembly.GetName().Version</strong>)
-        </p>
-    </div>
-</div>
-<script>
-    $(function () {
-        $("#splitter-vertical").kendoSplitter({
-            orientation: "vertical",
-            panes: [
-                { collapsible: false, resizable: false, size: "75px" },
-                { collapsible: false },
-                { collapsible: false, resizable: false, size: "30px" },
-            ]
-        });
-
-        //$("#splitter-horizontal").kendoSplitter({
-        //    panes: [
-        //        { collapsible: true, size: "300px" },
-        //        { collapsible: false },
-        //    ]
-        //});
-    });
-</script>
+        <div class="clearfix"></div>
+    </section>
+    <div class="clearfix"></div>
+    <footer>
+        HRIS @@ mynrd @DateTime.Now.Year (<strong>Ver: @ViewContext.Controller.GetType().Assembly.GetName().Version</strong>)
+    </footer>

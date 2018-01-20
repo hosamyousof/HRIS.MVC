@@ -400,11 +400,11 @@ namespace HRIS.Service.MasterFile
             return data;
         }
 
-        public IQueryable<EmployeeListModel> EmployeeConfidentialGetQuery()
+        public IQueryable<EmployeeListModel> EmployeeGetQuery()
         {
             var companyId = this.GetCurrentCompanyId();
             var data = this._repoEmployee
-                .Query().Filter(x => x.deleted == false && x.companyId == companyId && x.mf_Employee201.confidential)
+                .Query().Filter(x => x.deleted == false && x.companyId == companyId)
                 .Get()
                 .Select(x => new EmployeeListModel()
                 {
@@ -424,25 +424,6 @@ namespace HRIS.Service.MasterFile
             var data = this._repoEmployee.Query().Filter(x => x.id == id).Get().Select(x => x.mf_Employee201).FirstOrDefault();
             if (data == null) return false;
             return data.confidential;
-        }
-
-        public IQueryable<EmployeeListModel> EmployeeNonConfidentialGetQuery()
-        {
-            var companyId = this.GetCurrentCompanyId();
-            var data = this._repoEmployee
-                .Query().Filter(x => x.deleted == false && x.companyId == companyId && x.mf_Employee201.confidential == false)
-                .Get()
-                .Select(x => new EmployeeListModel()
-                {
-                    id = x.id,
-                    name = x.lastName + ", " + x.firstName,
-                    employeeCode = x.mf_Employee201.employeeCode,
-                    department = x.mf_Employee201.mf_Department.description,
-                    position = x.mf_Employee201.mf_Position.description,
-                    updatedBy = x.sys_User_updatedBy.username,
-                    updatedDate = x.updatedDate,
-                });
-            return data;
         }
 
         #region Work Days

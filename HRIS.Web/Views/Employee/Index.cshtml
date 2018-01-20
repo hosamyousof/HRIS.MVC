@@ -7,15 +7,8 @@
 @Html.AdminHeader("Employee Maintenance", @<text>
         @if (this.HasPermission(RoleAccessType.Create, PermissionList.EMPLOYEE_MAINTENANCE))
         {
-            <a href="@Url.Action("Create", "Employee", new { confidential=confidential })" class="k-button pull-right">
-                @if (confidential)
-                {
-                    <span>New Confidential Employee</span>
-                }
-                else
-                {
-                    <span>New Employee</span>
-                }
+            <a href="@Url.Action("Create", "Employee")" class="k-button pull-right">
+                <span>New Employee</span>
             </a>
         }
 </text>)
@@ -99,7 +92,7 @@
                 .Read(read =>
                 {
 
-                    read.Action(confidential ? "GetEmployeeConfidentialGetQuery" : "EmployeeNonConfidentialGetQuery", "Employee");
+                    read.Action("GetEmployeeList", "Employee");
                 })
             ;
         })

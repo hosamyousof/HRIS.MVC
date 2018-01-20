@@ -10,7 +10,13 @@
                 var chlds = childs;
                 foreach (var c in chlds)
                 {
-                    var m = menu.Add().Text(c.description).Action(c.actionName, c.controllerName);
+                    object param = null;
+                    try
+                    {
+                        param = Newtonsoft.Json.JsonConvert.DeserializeObject(c.parameter);
+                    }
+                    catch { }
+                    var m = menu.Add().Text(c.description).Action(c.actionName, c.controllerName, param);
                     renderChild(c.Childs, m);
                 }
             });

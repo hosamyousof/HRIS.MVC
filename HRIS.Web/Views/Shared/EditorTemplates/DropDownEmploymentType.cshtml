@@ -2,7 +2,7 @@
 @using HRIS.Service.MasterFile;
 @model ReferenceModel
 @{
-    var data = DependencyResolver.Current.GetService<IEmploymentTypeService>().GetQuery().Select(x => new ReferenceModel()
+    var data = DependencyResolver.Current.GetService<IEmploymentTypeService>().GetQuery().Select(x => new DataReference()
     {
         value = x.id.Value,
         description = x.description,

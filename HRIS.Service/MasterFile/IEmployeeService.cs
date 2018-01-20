@@ -45,11 +45,9 @@ namespace HRIS.Service.MasterFile
 
         IQueryable<EmployeeListModel> EmployeeAllGetQuery();
 
-        IQueryable<EmployeeListModel> EmployeeConfidentialGetQuery();
+        IQueryable<EmployeeListModel> EmployeeGetQuery();
 
         bool EmployeeIsConfidential(Guid id);
-
-        IQueryable<EmployeeListModel> EmployeeNonConfidentialGetQuery();
 
         void IdentificationDocumentDelete(Guid employeeIdentificationDocumentId);
 

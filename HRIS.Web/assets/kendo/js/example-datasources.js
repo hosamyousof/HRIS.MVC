@@ -120,7 +120,7 @@ function searchExamplesFor(value, product) {
             var text = "";
 
             if (title) {
-                text = title[product] || title["kendo-ui"];
+                text = title[product] || title["kendo-ui"] || title["aspnet-mvc"];
             }
 
             return text.indexOf(value) >= 0;

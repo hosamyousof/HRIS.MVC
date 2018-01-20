@@ -12,6 +12,11 @@
             //culture.numberFormat.currency.symbol = "$"; 
             $.ajaxSetup({ cache: false });
             jQuery.validator.addMethod('date', function (value, element, params) { if (this.optional(element)) { return true; }; var result = false; try { var date = kendo.parseDate(value, "MM/dd/yyyy"); result = true; if (!date) { result = false; } } catch (err) { result = false; } return result; }, '');
+
+
+            //$("span.k-widget.k-dropdown").addClass("form-control");
+            //$("input.k-textbox").addClass("form-control");
+
         },
         centerKendoWindow: function (e) {
             var wrapper = $(e.sender.wrapper);

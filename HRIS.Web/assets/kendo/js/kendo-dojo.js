@@ -20,14 +20,22 @@
         },
         replaceCommon: function(code, common) {
             if (common) {
-                code = code.replace(/common\.min\.css/, common + ".min.css");
+                if (/-empty/.test(common)) {
+                    code = code.replace(/&#10;\s*<link[^>]*common\.min\.css[^>]*>/, "");
+                } else {
+                    code = code.replace(/common\.min\.css/, common + ".min.css");
+                }
             }
 
             return code;
         },
         replaceTheme: function(code, theme) {
             if (theme) {
-                code = code.replace(/default\.min\.css/g, theme + ".min.css");
+                if (/(default-v2|bootstrap-v4)/.test(theme)) {
+                    code = code.replace(/&#10;\s*<link[^>]*default\.mobile\.min\.css[^>]*>/, "");
+                }
+
+                code = code.replace(/default(\.mobile)?\.min\.css/g, theme + "$1.min.css");
             }
 
             return code;
@@ -55,7 +63,7 @@
         fixCDNReferences: function (code) {
             return code.replace(/<head>[\s\S]*<\/head>/, function (match) {
                 return match
-                    .replace(/src="\/?/g, "src=\"" + dojo.configuration.cdnRoot + "/")
+                    .replace(/src="js\//g, "src=\"" + dojo.configuration.cdnRoot + "/js/")
                     .replace(/href="\/?/g, "href=\"" + dojo.configuration.cdnRoot + "/");
             });
         }

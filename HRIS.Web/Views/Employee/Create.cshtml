@@ -6,12 +6,13 @@
     bool confidential = Model.confidential;
 
 }
-@Html.AdminHeader("New Employee", @<text><a href="@Url.Action(confidential ? "EmployeeConfi" : "EmployeeNonConfi")" class="k-button pull-right">Back to list</a></text>)
 <div class="row">
     <div class="col-md-12">
+
         @using (Html.BeginForm())
         {
-            <div class="form-horizontal" role="form">
+            @Html.AdminHeader("New Employee", @<text><a href="@Url.Action(confidential ? "EmployeeConfi" : "EmployeeNonConfi")" class="k-button pull-right">Back to list</a></text>)
+            <div class="form-horizontal wide-controls" role="form">
                 @if (!ViewData.ModelState.IsValid)
                 {
                     <div class="alert alert-warning">
@@ -41,13 +42,13 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.birthDate, new { @class = "control-label col-md-2" })
                     <div class="col-md-4">
-                        @Html.Kendo().DatePickerFor(model => model.birthDate).HtmlAttributes(new { @class= "form-control" })
+                        @Html.Kendo().DatePickerFor(model => model.birthDate).HtmlAttributes(new { @class = "form-control" })
                     </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(model => model.gender, new { @class = "control-label col-md-2" })
                     <div class="col-md-4">
-                        @Html.Kendo().DropDownListFor(model => model.gender).BindTo(Model.GenderList).SetReferenceSettings().OptionLabel("select").HtmlAttributes(new { @class = "form-control" })
+                        @Html.Kendo().DropDownListFor(model => model.gender).BindTo(Model.GenderList).SetReferenceSettings().OptionLabel("select")
                     </div>
                 </div>
                 <div class="form-group">

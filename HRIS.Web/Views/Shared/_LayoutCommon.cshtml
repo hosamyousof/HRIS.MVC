@@ -1,6 +1,20 @@
 ﻿@{ 
     Layout = "_LayoutMain.cshtml";
 }
+
+@section script_plugins{
+    @RenderSection("script_plugins", false)
+}
+@section header{
+    @RenderSection("header", false)
+}
+@section bottom{
+    @RenderSection("bottom", false)
+}
+@section css_plugins{
+    @RenderSection("css_plugins", false)
+}
+
 <div id="splitter-vertical">
     <div class="hris-header">
         <div class="logo">
@@ -31,7 +45,7 @@
     </div>
     <div class="hris-footer">
         <p>
-            HRIS @@ Active Apps @DateTime.Now.Year (<strong>Ver: @ViewContext.Controller.GetType().Assembly.GetName().Version</strong>)
+            HRIS @@ mynrd @DateTime.Now.Year (<strong>Ver: @ViewContext.Controller.GetType().Assembly.GetName().Version</strong>)
         </p>
     </div>
 </div>

@@ -93,8 +93,8 @@ namespace HRIS.Data.Migrations
 
             var freeMenu = repoMenu.Insert(CreateMenu("-- Free Text Menu --", null, null, adminUserId));
             var home = repoMenu.Insert(CreateMenu("Home", "Home", "Index", adminUserId));
-            var empQuickUpdate = repoMenu.Insert(CreateMenu("Employee Quick update", "Employee", "QuickUpdate", adminUserId));
-            var empListConfi = repoMenu.Insert(CreateMenu("Employee List", "Employee", "EmployeeConfi", adminUserId));
+            var empQuickUpdate = repoMenu.Insert(CreateMenu("Quick update", "Employee", "QuickUpdate", adminUserId));
+            var empList = repoMenu.Insert(CreateMenu("List", "Employee", "Index", adminUserId));
             var empAttendance = repoMenu.Insert(CreateMenu("Employee Attendance", "Attendance", "Index", adminUserId));
             var user = repoMenu.Insert(CreateMenu("User", "Account", "UserMaintenance", adminUserId));
             var role = repoMenu.Insert(CreateMenu("Role", "Role", "Index", adminUserId));
@@ -127,8 +127,8 @@ namespace HRIS.Data.Migrations
             repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Employees", 2, adminUserId))
                 .AddChild(repoRoleMenu, c_employees =>
                 {
-                    c_employees.AddListReturnValue(CreateRoleMenu(roleId, empListConfi.id, "Employee Entry", 1, adminUserId));
-                    c_employees.AddListReturnValue(CreateRoleMenu(roleId, empQuickUpdate.id, "Employee Quick Update", 1, adminUserId));
+                    c_employees.AddListReturnValue(CreateRoleMenu(roleId, empList.id, "List", 1, adminUserId));
+                    c_employees.AddListReturnValue(CreateRoleMenu(roleId, empQuickUpdate.id, "Quick Update", 1, adminUserId));
                 });
 
             repoRoleMenu.Insert(CreateRoleMenu(roleId, freeMenu.id, "Time and Attendance", 3, adminUserId))
