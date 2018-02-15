@@ -34,7 +34,7 @@
                 {
                     m.Id(f => f.id);
 
-                    m.Field(f => f.leaveType).DefaultValue(new ReferenceModel());
+                    m.Field(f => f.leaveType).DefaultValue(new DataReference());
                     m.Field(f => f.balance).DefaultValue(0);
                     m.Field(f => f.updatedBy).Editable(false).DefaultValue(this.GetCurrentUsername());
                     m.Field(f => f.updatedDate).Editable(false);

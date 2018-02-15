@@ -1,6 +1,6 @@
 ﻿@using HRIS.Model.Sys;
 @using HRIS.Service.Sys;
-@model ReferenceModel
+@model DataReference
 @{
     var data = DependencyResolver.Current.GetService<HRIS.Service.Configuration.IApplicationRequestTypeService>().GetLeaveTypeList();
     Html.Kendo().DropDownListFor(model => model)

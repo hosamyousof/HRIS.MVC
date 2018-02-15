@@ -1,9 +1,9 @@
 ﻿@using HRIS.Model.Sys;
 @using HRIS.Service.Configuration;
-@model ReferenceModel
+@model DataReference
 @{
     var data = DependencyResolver.Current.GetService<IDeductionService>().GetQuery()
-        .Select(x => new ReferenceModel()
+        .Select(x => new DataReference()
         {
              value = x.id.Value,
              description = x.description,

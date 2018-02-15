@@ -5,12 +5,12 @@
 <div class="col-md-12">
     @using (Html.BeginForm("AjaxUpdateEmployeeBasicInfo", "Employee", new { employeeId = Model.id }, FormMethod.Post, new { enctype = "multipart/form-data", id = "form_employee_basic_info" }))
     {
-        @Html.HiddenFor(model=> model.id)
-        <div class="form-horizontal" role="form">
+        @Html.HiddenFor(model => model.id)
+        <div class="form-horizontal wide-controls" role="form">
             @Html.ValidationSummary(true)
             <br />
-            @Html.HiddenFor(model=> model.clearImage)
-            @Html.AdminHeader("Employee Name",@<text>
+            @Html.HiddenFor(model => model.clearImage)
+            @Html.AdminHeader("Employee Name", @<text>
                 @if (this.HasPermission(RoleAccessType.Update, PermissionList.EMPLOYEE_MAINTENANCE))
                 {
                     <button type="button" class="k-button pull-right" onclick="Employee.employeeBasicInfoSaveChanges()">Update Personal Details</button>
@@ -73,6 +73,12 @@
                             <div class="hris-margin-top-10">
                                 <input type="file" name="image" class="k-button" />
                             </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-4 col-md-8 employeeImage">
+
                             <div class="hris-margin-top-10">
                                 <button class="k-button" type="button" onclick="removePicture()">Clear Image</button>
                             </div>

@@ -11,7 +11,7 @@
 
         @using (Html.BeginForm())
         {
-            @Html.AdminHeader("New Employee", @<text><a href="@Url.Action(confidential ? "EmployeeConfi" : "EmployeeNonConfi")" class="k-button pull-right">Back to list</a></text>)
+            @Html.AdminHeader("New Employee", @<text><a href="@Url.Action("Index")" class="k-button pull-right">Back to list</a></text>)
             <div class="form-horizontal wide-controls" role="form">
                 @if (!ViewData.ModelState.IsValid)
                 {
